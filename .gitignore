@@ -1,0 +1,10 @@
+node_modules/
+.DS_Store
+*.log
+# scan bulk: keep fold.png per device and the markdown/json summaries only
+design/reports/scan/**/screens/**/*.png
+!design/reports/scan/**/screens/**/fold.png
+design/reports/scan/**/trace/trace.json
+design/reports/scan/**/psi/*-mobile.json
+design/reports/scan/**/psi/*-desktop.json
+design/reports/scan/example.invalid/
