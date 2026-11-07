@@ -1,17 +1,19 @@
 #!/usr/bin/env node
-// Usage: node deep-scan.mjs <url> [--pages 10] [--devices all|mobile|desktop] [--monkey 60]
+// Usage: node deep-scan.mjs <url> [--pages 10] [--devices all|mobile|desktop] [--monkey 60] [--no-forms]
 // Requires: npm i -D playwright gremlins.js && npx playwright install chromium
+// --no-forms: safe for production; monkey test will not type into or submit forms, and all form submissions are blocked.
 import { chromium, devices as pwDevices } from 'playwright';
 import { mkdirSync, writeFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 
 const args = process.argv.slice(2);
 const url = args[0];
-if (!url) { console.error('Usage: node deep-scan.mjs <url> [--pages N] [--devices all|mobile|desktop] [--monkey SECONDS]'); process.exit(1); }
+if (!url) { console.error('Usage: node deep-scan.mjs <url> [--pages N] [--devices all|mobile|desktop] [--monkey SECONDS] [--no-forms]'); process.exit(1); }
 const opt = (k, d) => { const i = args.indexOf(`--${k}`); return i > -1 ? args[i + 1] : d; };
 const maxPages = Number(opt('pages', 10));
 const monkeySeconds = Number(opt('monkey', 60));
 const deviceSel = opt('devices', 'all');
+const noForms = args.includes('--no-forms');
 
 const origin = new URL(url).origin;
 const site = new URL(url).hostname.replace(/[^a-z0-9.-]/gi, '_');
@@ -29,7 +31,7 @@ const matrix = {
 const chosen = deviceSel === 'mobile' ? ['pixel-7', 'iphone-14'] : deviceSel === 'desktop' ? ['laptop', 'desktop'] : Object.keys(matrix);
 
 const browser = await chromium.launch();
-const report = { url, stamp, pages: [], devices: chosen, errors: [], flows: [], monkey: [], perf: {} };
+const report = { url, stamp, noForms, pages: [], devices: chosen, errors: [], flows: [], monkey: [], perf: {} };
 
 async function discoverPages() {
   const ctx = await browser.newContext();
@@ -91,10 +93,11 @@ async function flowWalk(pageUrl, devKey, keyLinks) {
   for (const l of keyLinks.filter(k => k.href.startsWith(origin)).slice(0, 8)) {
     const t = Date.now(); let status = 'ok';
     try { const r = await page.goto(l.href, { waitUntil: 'domcontentloaded', timeout: 30000 }); if (!r || r.status() >= 400) status = `http ${r && r.status()}`; } catch (e) { status = 'fail: ' + e.message.slice(0, 80); }
-    steps.push({ from: pageUrl, text: l.text, href: l.href, ms: Date.now() - t, status });
+    const afterClick = await page.evaluate(() => ({ h1: document.querySelector('h1')?.textContent.trim().slice(0, 80) || null, hasForm: !!document.querySelector('form'), hasCta: !!document.querySelector('a[class*=btn],a[class*=button],button'), telLinks: document.querySelectorAll('a[href^="tel:"]').length, external: [...document.querySelectorAll('a[href]')].filter(a => !a.href.startsWith(location.origin) && /book|reserve|pay|inquire/i.test(a.textContent)).length }));
+    steps.push({ from: pageUrl, text: l.text, href: l.href, ms: Date.now() - t, status, afterClick });
   }
   await page.goto(pageUrl, { waitUntil: 'domcontentloaded' }).catch(() => {});
-  const forms = await page.evaluate(() => [...document.querySelectorAll('form')].map(f => ({ fields: f.querySelectorAll('input,select,textarea').length, required: f.querySelectorAll('[required]').length, hasLabels: [...f.querySelectorAll('input')].every(i => i.labels?.length || i.getAttribute('aria-label') || i.placeholder) })));
+  const forms = await page.evaluate(() => [...document.querySelectorAll('form')].map(f => ({ action: f.action, method: f.method, fields: f.querySelectorAll('input,select,textarea').length, required: f.querySelectorAll('[required]').length, hasLabels: [...f.querySelectorAll('input')].every(i => i.labels?.length || i.getAttribute('aria-label') || i.placeholder), inputTypes: [...f.querySelectorAll('input')].map(i => i.type), hasConsent: !!f.querySelector('input[type=checkbox]'), hasHoneypotOrCaptcha: !!(f.querySelector('[name*=captcha],[class*=captcha],[name*=honey],[class*=g-recaptcha],[data-sitekey]')) })));
   await ctx.close();
   return { url: pageUrl, device: devKey, steps, forms };
 }
@@ -103,17 +106,17 @@ async function monkey(pageUrl, devKey) {
   const gpath = 'node_modules/gremlins.js/dist/gremlins.min.js';
   if (!existsSync(gpath)) return { url: pageUrl, device: devKey, skipped: 'gremlins.js not installed (npm i gremlins.js)' };
   const ctx = await browser.newContext({ ...matrix[devKey] }); const page = await ctx.newPage();
-  const errs = []; const failed = []; const clicks = [];
+  const errs = []; const failed = [];
   page.on('pageerror', e => errs.push(String(e))); page.on('console', m => m.type() === 'error' && errs.push(m.text())); page.on('requestfailed', r => failed.push(r.url()));
+  if (noForms) await page.route('**/*', route => { const r = route.request(); if (r.method() !== 'GET' && r.method() !== 'HEAD' && r.resourceType() !== 'xhr' && r.resourceType() !== 'fetch') return route.abort(); if ((r.method() === 'POST') && /wp-admin\/admin-ajax|wpforms|elementor|gravity|contact-form|fluent|cf7|booking|checkout|submit/i.test(r.url())) return route.abort(); return route.continue(); });
   await page.addInitScript({ path: gpath });
-  await page.addInitScript(() => { addEventListener('click', e => { window.__clicks = window.__clicks || []; window.__clicks.push([e.clientX, e.clientY + scrollY]); const a = e.target.closest('a'); if (a && (a.target === '_blank' || !a.href.startsWith(location.origin))) e.preventDefault(); }, true); });
+  await page.addInitScript(nf => { addEventListener('click', e => { window.__clicks = window.__clicks || []; window.__clicks.push([e.clientX, e.clientY + scrollY]); const a = e.target.closest('a'); if (a && (a.target === '_blank' || !a.href.startsWith(location.origin))) e.preventDefault(); if (nf && e.target.closest('button[type=submit],input[type=submit],form button')) e.preventDefault(); }, true); if (nf) addEventListener('submit', e => e.preventDefault(), true); }, noForms);
   await page.goto(pageUrl, { waitUntil: 'networkidle', timeout: 60000 }).catch(() => {});
-  const clsBefore = await page.evaluate(() => 0);
-  await page.evaluate(sec => new Promise(res => { const h = gremlins.createHorde({ species: [gremlins.species.clicker(), gremlins.species.toucher(), gremlins.species.formFiller(), gremlins.species.scroller(), gremlins.species.typer()], mogwais: [gremlins.mogwais.fps(), gremlins.mogwais.gizmo({ maxErrors: 50 })], strategies: [gremlins.strategies.distribution({ delay: 20 })] }); h.unleash(); setTimeout(res, sec * 1000); }), monkeySeconds).catch(e => errs.push('horde: ' + e.message));
+  await page.evaluate(({ sec, nf }) => new Promise(res => { const species = [gremlins.species.clicker(), gremlins.species.toucher(), gremlins.species.scroller()]; if (!nf) species.push(gremlins.species.formFiller(), gremlins.species.typer()); const h = gremlins.createHorde({ species, mogwais: [gremlins.mogwais.fps(), gremlins.mogwais.gizmo({ maxErrors: 50 })], strategies: [gremlins.strategies.distribution({ delay: 20 })] }); h.unleash(); setTimeout(res, sec * 1000); }), { sec: monkeySeconds, nf: noForms }).catch(e => errs.push('horde: ' + e.message));
   const pts = await page.evaluate(() => window.__clicks || []);
   const dims = await page.evaluate(() => ({ w: document.documentElement.scrollWidth, h: document.documentElement.scrollHeight }));
   await ctx.close();
-  return { url: pageUrl, device: devKey, seconds: monkeySeconds, errors: errs, failedRequests: failed, clickPoints: pts.length, clicks: pts, pageDims: dims };
+  return { url: pageUrl, device: devKey, seconds: monkeySeconds, noForms, errors: errs, failedRequests: failed, clickPoints: pts.length, clicks: pts, pageDims: dims };
 }
 
 function heatmapSVG(points, dims, w = 600) {
@@ -137,7 +140,7 @@ for (const p of pages) {
     const r = await scanPage(p, d); report.perf[`${r.slug}|${d}`] = r;
     const dims = { w: matrix[d].viewport.width, h: r.sections.length ? r.sections.at(-1).top + r.sections.at(-1).height : matrix[d].viewport.height, vh: matrix[d].viewport.height };
     writeFileSync(join(out, 'heatmaps', `${r.slug}-${d}-attention-PREDICTED.svg`), attentionSVG(r.sections, dims));
-    if (p === pages[0] || pages.indexOf(p) < 3) {
+    if (pages.indexOf(p) < 3) {
       report.flows.push(await flowWalk(p, d, r.keyLinks));
       if (d === 'pixel-7' || d === 'desktop') { const m = await monkey(p, d); report.monkey.push({ ...m, clicks: undefined }); if (m.clicks) writeFileSync(join(out, 'heatmaps', `${r.slug}-${d}-click-MONKEY.svg`), heatmapSVG(m.clicks, m.pageDims)); }
     }
@@ -149,7 +152,7 @@ const all = Object.values(report.perf);
 const flat = all.flatMap(r => r.sections.map(s => ({ ...s, device: r.device, page: r.slug })));
 const onScale = flat.filter(s => !s.flags.paddingOffScale).length / Math.max(1, flat.length);
 const summary = {
-  pagesScanned: pages.length, devices: chosen,
+  pagesScanned: pages.length, devices: chosen, noForms,
   overflowPages: all.filter(r => r.overflow).map(r => `${r.slug}@${r.device}`),
   avgLoadMs: Math.round(all.reduce((a, r) => a + r.loadMs, 0) / Math.max(1, all.length)),
   worstLcp: all.map(r => ({ p: `${r.slug}@${r.device}`, lcp: r.vitals.lcp })).filter(x => x.lcp).sort((a, b) => b.lcp - a.lcp).slice(0, 5),
@@ -160,12 +163,13 @@ const summary = {
   flaggedSections: flat.filter(s => Object.values(s.flags).some(Boolean)).length,
   runtimeErrors: all.reduce((a, r) => a + r.errors.length, 0),
   flowFailures: report.flows.flatMap(f => f.steps).filter(s => s.status !== 'ok'),
+  deadEndsAfterClick: report.flows.flatMap(f => f.steps).filter(s => s.afterClick && !s.afterClick.hasCta && !s.afterClick.hasForm).map(s => s.href),
   monkeyErrors: report.monkey.reduce((a, m) => a + (m.errors ? m.errors.length : 0), 0)
 };
 report.summary = summary;
 writeFileSync(join(out, 'scan.json'), JSON.stringify(report, null, 2));
 writeFileSync(join(out, 'sections.json'), JSON.stringify(flat, null, 2));
-const md = [`# Deep scan: ${url} (${stamp})`, '', '## Summary', '```json', JSON.stringify(summary, null, 2), '```', '', '## Sections (flagged)', '| page | device | section | height | padding | heading | flags |', '|---|---|---|---|---|---|---|', ...flat.filter(s => Object.values(s.flags).some(Boolean)).map(s => `| ${s.page} | ${s.device} | ${s.tag}${s.id ? '#' + s.id : ''} | ${s.height} | ${s.padding.join('/')} | ${s.heading ? s.heading.level + ' ' + s.heading.size + 'px' : '-'} | ${Object.entries(s.flags).filter(([, v]) => v).map(([k]) => k).join(', ')} |`), '', '## Flow log', '| from | link | ms | status |', '|---|---|---|---|', ...report.flows.flatMap(f => f.steps.map(s => `| ${f.device} ${new URL(f.url).pathname} | ${s.text} | ${s.ms} | ${s.status} |`)), '', '## Monkey test', ...report.monkey.map(m => `- ${m.device} ${new URL(m.url).pathname}: ${m.skipped || `${m.seconds}s, ${m.clickPoints} clicks, ${m.errors.length} errors, ${m.failedRequests.length} failed requests`}`), '', `Artifacts: screens/, heatmaps/ (PREDICTED attention, MONKEY click), scan.json, sections.json. Run scripts/psi.mjs for Lighthouse + CrUX.`].join('\n');
+const md = [`# Deep scan: ${url} (${stamp})${noForms ? ' [no-forms mode]' : ''}`, '', '## Summary', '```json', JSON.stringify(summary, null, 2), '```', '', '## Sections (flagged)', '| page | device | section | height | padding | heading | flags |', '|---|---|---|---|---|---|---|', ...flat.filter(s => Object.values(s.flags).some(Boolean)).map(s => `| ${s.page} | ${s.device} | ${s.tag}${s.id ? '#' + s.id : ''} | ${s.height} | ${s.padding.join('/')} | ${s.heading ? s.heading.level + ' ' + s.heading.size + 'px' : '-'} | ${Object.entries(s.flags).filter(([, v]) => v).map(([k]) => k).join(', ')} |`), '', '## Flow log (what happens after the click)', '| from | link | ms | status | lands on H1 | next step available |', '|---|---|---|---|---|---|', ...report.flows.flatMap(f => f.steps.map(s => `| ${f.device} ${new URL(f.url).pathname} | ${s.text} | ${s.ms} | ${s.status} | ${s.afterClick?.h1 || '-'} | ${s.afterClick ? (s.afterClick.hasForm ? 'form' : s.afterClick.hasCta ? 'cta' : 'DEAD END') : '-'} |`)), '', '## Forms', ...report.flows.flatMap(f => f.forms.map(fm => `- ${f.device} ${new URL(f.url).pathname}: ${fm.fields} fields (${fm.required} required), types ${[...new Set(fm.inputTypes)].join('/')}, labels ${fm.hasLabels}, consent ${fm.hasConsent}, spam protection ${fm.hasHoneypotOrCaptcha}, action ${fm.action}`)), '', '## Monkey test', ...report.monkey.map(m => `- ${m.device} ${new URL(m.url).pathname}: ${m.skipped || `${m.seconds}s${m.noForms ? ' (forms protected)' : ''}, ${m.clickPoints} clicks, ${m.errors.length} errors, ${m.failedRequests.length} failed requests`}`), '', `Artifacts: screens/, heatmaps/ (PREDICTED attention, MONKEY click), scan.json, sections.json. Next: elements.mjs, trace.mjs, seo-hygiene.mjs, psi.mjs.`].join('\n');
 writeFileSync(join(out, 'report.md'), md);
 console.log(JSON.stringify(summary, null, 2));
 console.log(`\nWrote ${out}/report.md`);
