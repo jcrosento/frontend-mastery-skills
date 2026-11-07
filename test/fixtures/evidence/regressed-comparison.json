@@ -12,7 +12,7 @@
   },
   "metrics": [
     {
-      "key": "lcp_ms", "unit": "ms", "direction": "lower-is-better",
+      "key": "lcp_ms", "unit": "ms", "aggregation": "single", "direction": "lower-is-better",
       "before": { "value": 2400, "status": "measured" },
       "after": { "value": 2800, "status": "measured" },
       "delta": { "absolute": 400, "percent": 16.67, "verdict": "regressed" },

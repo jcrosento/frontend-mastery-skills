@@ -23,17 +23,25 @@
   },
   "metrics": [
     {
-      "key": "lcp_ms", "unit": "ms", "direction": "lower-is-better",
+      "key": "lcp_ms", "unit": "ms", "aggregation": "median", "direction": "lower-is-better",
       "before": { "value": 3200, "status": "measured" },
       "after": { "value": 2200, "status": "measured" },
       "delta": { "absolute": -1000, "percent": -31.25, "verdict": "improved" },
       "evidence": {
-        "before": [{ "file": "test/fixtures/scans/before/trace.json", "pointer": "/summary/lcp/time" }],
-        "after": [{ "file": "test/fixtures/scans/after/trace.json", "pointer": "/summary/lcp/time" }]
+        "before": [
+          { "file": "test/fixtures/scans/before/lcp-run-1.json", "pointer": "/summary/lcp/time" },
+          { "file": "test/fixtures/scans/before/lcp-run-2.json", "pointer": "/summary/lcp/time" },
+          { "file": "test/fixtures/scans/before/lcp-run-3.json", "pointer": "/summary/lcp/time" }
+        ],
+        "after": [
+          { "file": "test/fixtures/scans/after/lcp-run-1.json", "pointer": "/summary/lcp/time" },
+          { "file": "test/fixtures/scans/after/lcp-run-2.json", "pointer": "/summary/lcp/time" },
+          { "file": "test/fixtures/scans/after/lcp-run-3.json", "pointer": "/summary/lcp/time" }
+        ]
       }
     },
     {
-      "key": "cls", "unit": "score", "direction": "lower-is-better",
+      "key": "cls", "unit": "score", "aggregation": "single", "direction": "lower-is-better",
       "before": { "value": 0.18, "status": "measured" },
       "after": { "value": 0.07, "status": "measured" },
       "delta": { "absolute": -0.11, "percent": -61.11, "verdict": "improved" },
@@ -43,7 +51,7 @@
       }
     },
     {
-      "key": "dead_end_count", "unit": "count", "direction": "lower-is-better",
+      "key": "dead_end_count", "unit": "count", "aggregation": "single", "direction": "lower-is-better",
       "before": { "value": 1, "status": "measured" },
       "after": { "value": 0, "status": "measured" },
       "delta": { "absolute": -1, "percent": -100, "verdict": "improved" },
