@@ -1,0 +1,61 @@
+{
+  "url": "https://elnidophotography.com",
+  "robots": {
+    "status": 200,
+    "hasSitemap": false,
+    "disallows": [],
+    "blocksAssets": false
+  },
+  "sitemap": {
+    "url": "https://elnidophotography.com/sitemap.xml",
+    "count": 0,
+    "errors": [
+      "https://elnidophotography.com/sitemap.xml -> 404"
+    ],
+    "hasLastmod": false,
+    "sameDayLastmod": false,
+    "offOrigin": 0
+  },
+  "pages": [
+    {
+      "url": "https://elnidophotography.com",
+      "status": 200,
+      "issues": [
+        "missing title",
+        "missing meta description",
+        "3 H1",
+        "no canonical",
+        "no JSON-LD",
+        "no og:image"
+      ],
+      "title": "",
+      "titleLen": 0,
+      "desc": "",
+      "descLen": 0,
+      "canonical": null,
+      "charset": "utf-8",
+      "lang": "en",
+      "h1Count": 3,
+      "h1": "Inquire &amp; Book",
+      "h2Count": 6,
+      "ldTypes": [],
+      "ldErrors": 0,
+      "ogImage": false,
+      "hreflang": 0,
+      "noindex": false,
+      "words": 498
+    }
+  ],
+  "issues": [
+    "robots.txt does not reference a sitemap",
+    "sitemap missing or empty"
+  ],
+  "longTail": {
+    "inquire amp book": {
+      "total": 0,
+      "longTail": [],
+      "questions": [],
+      "all": []
+    }
+  }
+}

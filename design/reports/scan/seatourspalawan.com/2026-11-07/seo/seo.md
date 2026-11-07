@@ -35,77 +35,36 @@
 
 ## Long-tail keyword opportunities (Google Suggest, gl=ph)
 
-### coron to el nido expedition (53 suggestions)
+### seatours palawan expeditions speedboats (0 suggestions)
 **Questions (FAQ/H2 candidates):**
-- how to get from coron to el nido
-- how many days in el nido and coron
-- how many hours from el nido to coron
-- what to do in coron aside from island hopping
-- how to get to el nido from coron palawan
-- how to get to coron palawan
-- how far is coron from el nido
-- can you fly from coron to el nido
 **Long-tail (4+ words):**
-- coron to el nido expedition 3d2n
-- coron to el nido expedition 4d3n
-- coron to el nido expedition price
-- coron to el nido expedition best company
-- el nido to coron expedition companies
-- coron to el nido expedition 4 days
-- coron to el nido expedition sea quest
-- coron to el nido expedition outpost
-- coron to el nido expedition keelooma
-- coron to el nido expedition reddit
-- coron to el nido expedition castaway
-- coron to el nido expedition tao
-- el nido to coron boat expedition price
-- el nido to coron ferry price
-- how to get from coron to el nido
-- island hopping el nido price
-- how many days in el nido and coron
-- how many hours from el nido to coron
-- coron to el nido expedition itinerary
-- what to do in coron aside from island hopping
-- coron to el nido expedition tour
-- how to get to el nido from coron palawan
-- how to get to coron palawan
-- how far is coron from el nido
-- arlyn expedition coron to el nido
 
-### el nido to coron boat trip (67 suggestions)
+### palawan tours by seatours (0 suggestions)
 **Questions (FAQ/H2 candidates):**
-- how many hours from el nido to coron
-- how far is coron from el nido
-- how much is the fare from manila to coron palawan
-- how to get from el nido to coron
+**Long-tail (4+ words):**
+
+### palawan expedition 3d2n el (0 suggestions)
+**Questions (FAQ/H2 candidates):**
+**Long-tail (4+ words):**
+
+### el nido speedboat tours (12 suggestions)
+**Questions (FAQ/H2 candidates):**
+- is el nido worth visiting
 - what would be best for a day trip in el nido palawan
 **Long-tail (4+ words):**
-- el nido to coron boat trip 3 days
-- el nido to coron boat trip reddit
-- el nido to coron boat trip keelooma
-- el nido to coron boat trip castaway
-- el nido to coron boat trip 4 days
-- el nido to coron boat trip tao
-- el nido to coron boat trip price
-- el nido to coron boat trip 3d2n
-- el nido to coron boat trip luxury
-- el nido to coron boat price
-- el nido to coron boat expedition price
-- el nido to coron ferry price
-- el nido to coron ferry price philippines
-- el nido to coron ferry schedule price
-- how many hours from el nido to coron
-- how far is coron from el nido
-- how much is the fare from manila to coron palawan
-- el nido to coron ferry schedule
-- how to get from el nido to coron
+- el nido speedboat tour price
+- el nido private speedboat tours
+- el nido speedboat joiner tour
+- apartments el nido speed boat tour
+- el nido tour package price
+- is el nido worth visiting
 - what would be best for a day trip in el nido palawan
-- coron to el nido boat trip itinerary
-- el nido to coron boat schedule
-- el nido to coron boat tour
-- el nido to coron boat tour reddit
-- el nido to coron boat tour luxury
+- private boat tour el nido price
+- tour a el nido price
+- el nido tour c price
+- el nido tour a speed boat
+- speed boat tours in el nido
 
-### el nido node boat tour (0 suggestions)
+### private 3d2n palawan expedition (0 suggestions)
 **Questions (FAQ/H2 candidates):**
 **Long-tail (4+ words):**

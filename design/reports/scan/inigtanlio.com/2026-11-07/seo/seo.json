@@ -1,0 +1,62 @@
+{
+  "url": "https://inigtanlio.com",
+  "robots": {
+    "status": 200,
+    "hasSitemap": true,
+    "disallows": [
+      "Sitemap:"
+    ],
+    "blocksAssets": false
+  },
+  "sitemap": {
+    "url": "https://www.inigtanlio.com/sitemap_index.xml",
+    "count": 54,
+    "errors": [],
+    "hasLastmod": false,
+    "sameDayLastmod": false,
+    "offOrigin": 54
+  },
+  "pages": [
+    {
+      "url": "https://inigtanlio.com",
+      "status": 200,
+      "issues": [
+        "redirects to https://www.inigtanlio.com/",
+        "no og:image"
+      ],
+      "title": "Inigtan Lio - Bamboo Cottages in El Nido, Palawan",
+      "titleLen": 49,
+      "desc": "Immerse yourself in luxurious tranquility surrounded by breathtaking natural beauty and authentic cultural experiences in El Nido, Palawan.",
+      "descLen": 139,
+      "canonical": "https://www.inigtanlio.com/",
+      "charset": "UTF-8",
+      "lang": "en-US",
+      "h1Count": 1,
+      "h1": "Escape to Inigtan Lio and immerse yourself in sustainable tranquility surrounded by breathtaking natural beauty and authentic cultural experiences. Your eco-conscious paradise awaits.",
+      "h2Count": 46,
+      "ldTypes": [
+        "WebPage",
+        "ImageObject",
+        "BreadcrumbList",
+        "WebSite",
+        "Organization"
+      ],
+      "ldErrors": 0,
+      "ogImage": false,
+      "hreflang": 0,
+      "noindex": false,
+      "words": 1268
+    }
+  ],
+  "issues": [
+    "54 sitemap URLs on another origin"
+  ],
+  "longTail": {
+    "escape to inigtan lio": {
+      "total": 0,
+      "longTail": [],
+      "questions": [],
+      "all": []
+    }
+  }
+}

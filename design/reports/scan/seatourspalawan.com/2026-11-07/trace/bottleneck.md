@@ -16,22 +16,22 @@ Fix: Reserve space for: MAIN#main (0.6134), DIV.hi-inner (0.0799). Set width/hei
 ```json
 {
   "nav": {
-    "ttfb": 335,
-    "domContentLoaded": 1006,
-    "load": 2451,
+    "ttfb": 333,
+    "domContentLoaded": 1262,
+    "load": 2473,
     "transferKB": 23
   },
   "paint": {
     "first-paint": 400,
-    "first-contentful-paint": 676
+    "first-contentful-paint": 660
   },
   "lcp": {
-    "time": 2472,
+    "time": 2488,
     "size": 301584,
     "url": "https://seatourspalawan.com/assets/video/hero/hero-loop-poster-mobile-720.webp?v=202605311023",
     "el": "IMG.hero-video-poster"
   },
-  "tbt": 6,
+  "tbt": 7,
   "cls": 0.693,
   "byType": {
     "Document": {
@@ -40,11 +40,11 @@ Fix: Reserve space for: MAIN#main (0.6134), DIV.hi-inner (0.0799). Set width/hei
     },
     "Script": {
       "n": 10,
-      "kb": 207
+      "kb": 208
     },
     "Stylesheet": {
       "n": 2,
-      "kb": 35
+      "kb": 34
     },
     "Image": {
       "n": 5,

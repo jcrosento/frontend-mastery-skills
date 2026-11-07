@@ -3,7 +3,7 @@
 ## Summary
 ```json
 {
-  "pagesScanned": 12,
+  "pagesScanned": 8,
   "devices": [
     "pixel-7",
     "iphone-14",
@@ -13,49 +13,49 @@
   ],
   "noForms": true,
   "overflowPages": [],
-  "avgLoadMs": 5718,
+  "avgLoadMs": 8593,
   "worstLcp": [
     {
-      "p": "destinations-el-nido@laptop",
-      "lcp": 8200
+      "p": "home@laptop",
+      "lcp": 1044
     },
     {
-      "p": "home@iphone-14",
-      "lcp": 1100
-    },
-    {
-      "p": "3d2n-palawan-expedition@laptop",
-      "lcp": 1016
-    },
-    {
-      "p": "destinations-coron@pixel-7",
-      "lcp": 956
+      "p": "private-3d2n-expedition@iphone-14",
+      "lcp": 1044
     },
     {
       "p": "home@desktop",
-      "lcp": 940
+      "lcp": 980
+    },
+    {
+      "p": "palawan-tours@ipad",
+      "lcp": 960
+    },
+    {
+      "p": "3-days-2-nights-coron-to-el-nido-expedition@desktop",
+      "lcp": 828
     }
   ],
   "worstCls": [
     {
-      "p": "3-days-2-nights-el-nido-to-coron-expedition@ipad",
-      "cls": 0.172
-    },
-    {
-      "p": "3-days-2-nights-el-nido-to-coron-expedition@iphone-14",
-      "cls": 0.129
+      "p": "private-3d2n-expedition@iphone-14",
+      "cls": 0.14
     },
     {
       "p": "home@laptop",
-      "cls": 0.111
+      "cls": 0.1
     },
     {
-      "p": "destinations-coron@desktop",
-      "cls": 0.086
+      "p": "home@desktop",
+      "cls": 0.059
     },
     {
-      "p": "destinations-el-nido@desktop",
-      "cls": 0.065
+      "p": "private-3d2n-expedition@desktop",
+      "cls": 0.04
+    },
+    {
+      "p": "3-days-2-nights-coron-to-el-nido-expedition@desktop",
+      "cls": 0.035
     }
   ],
   "longTaskHotspots": [
@@ -89,7 +89,7 @@
     {
       "p": "home@ipad",
       "kb": 1784,
-      "requests": 50
+      "requests": 51
     },
     {
       "p": "home@iphone-14",
@@ -98,8 +98,8 @@
     },
     {
       "p": "home@pixel-7",
-      "kb": 1445,
-      "requests": 47
+      "kb": 1551,
+      "requests": 48
     },
     {
       "p": "private-3d2n-expedition@pixel-7",
@@ -109,15 +109,15 @@
     {
       "p": "private-3d2n-expedition@iphone-14",
       "kb": 1361,
-      "requests": 72
+      "requests": 73
     }
   ],
-  "paddingOnScaleRatio": 0.81,
-  "flaggedSections": 439,
-  "runtimeErrors": 59,
+  "paddingOnScaleRatio": 0.82,
+  "flaggedSections": 311,
+  "runtimeErrors": 40,
   "flowFailures": [],
   "deadEndsAfterClick": [],
-  "monkeyErrors": 95,
+  "monkeyErrors": 91,
   "scriptErrors": 8
 }
 ```
@@ -219,7 +219,7 @@
 | el-nido-speedboat-tours | pixel-7 | section#keywords | 1213 | 40/0/40/0 | H2 25.6px | smallText |
 | el-nido-speedboat-tours | pixel-7 | section#stops | 616 | 40/0/40/0 | H2 25.6px | smallText |
 | el-nido-speedboat-tours | pixel-7 | section#included | 802 | 40/0/40/0 | H2 25.6px | smallText |
-| el-nido-speedboat-tours | pixel-7 | section#timing | 907 | 40/0/40/0 | H2 25.6px | smallText |
+| el-nido-speedboat-tours | pixel-7 | section#timing | 980 | 40/0/40/0 | H2 25.6px | smallText |
 | el-nido-speedboat-tours | pixel-7 | section#why-direct | 980 | 40/0/40/0 | H2 20px | smallText |
 | el-nido-speedboat-tours | pixel-7 | section | 997 | 48/0/48/0 | H2 24px | smallText |
 | el-nido-speedboat-tours | pixel-7 | footer | 1472 | 64/0/64/0 | H3 16px | smallText |
@@ -436,268 +436,140 @@
 | 3-days-2-nights-coron-to-el-nido-expedition | desktop | header#topbar | 64 | 0/0/0/0 | - | smallTap |
 | 3-days-2-nights-coron-to-el-nido-expedition | desktop | section | 2251 | 148/0/56/0 | H1 41.6px | smallTap, upscaledImage |
 | 3-days-2-nights-coron-to-el-nido-expedition | desktop | section#itinerary | 1552 | 96/0/96/0 | H2 36px | smallTap |
-| premium-private-boat | pixel-7 | header#topbar | 56 | 0/0/0/0 | - | smallText, smallTap |
-| premium-private-boat | pixel-7 | section | 1229 | 106.36/0/16.48/0 | H1 28.8px | paddingOffScale, smallText, smallTap |
-| premium-private-boat | pixel-7 | div | 225 | 12.36/0/12.36/0 | - | paddingOffScale, smallText |
-| premium-private-boat | pixel-7 | section#guest-reviews | 947 | 40/0/40/0 | H2 24px | smallText |
-| premium-private-boat | pixel-7 | section#book | 76 | 36/0/40/0 | - | smallText |
-| premium-private-boat | pixel-7 | section#itinerary | 1785 | 36/0/40/0 | H2 24px | tallOnMobile, smallText |
-| premium-private-boat | pixel-7 | section#included | 1293 | 36/0/40/0 | H2 24px | smallText |
-| premium-private-boat | pixel-7 | section#fleet | 1176 | 36/0/40/0 | H2 24px | smallText |
-| premium-private-boat | pixel-7 | section | 1180 | 40/0/40/0 | H2 24px | smallText |
-| premium-private-boat | pixel-7 | section | 1177 | 36/0/40/0 | H2 24px | smallText |
-| premium-private-boat | pixel-7 | footer | 1490 | 64/0/64/0 | H3 16px | smallText |
-| premium-private-boat | iphone-14 | header#topbar | 56 | 0/0/0/0 | - | smallText, smallTap |
-| premium-private-boat | iphone-14 | section | 1230 | 105.7/0/16/0 | H1 27.3px | paddingOffScale, smallText, smallTap |
-| premium-private-boat | iphone-14 | div | 224 | 11.7/0/11.7/0 | - | paddingOffScale, smallText |
-| premium-private-boat | iphone-14 | section#guest-reviews | 855 | 40/0/40/0 | H2 24px | smallText |
-| premium-private-boat | iphone-14 | section#book | 76 | 36/0/40/0 | - | smallText |
-| premium-private-boat | iphone-14 | section#itinerary | 1877 | 36/0/40/0 | H2 24px | tallOnMobile, smallText |
-| premium-private-boat | iphone-14 | section#included | 1293 | 36/0/40/0 | H2 24px | smallText |
-| premium-private-boat | iphone-14 | section#fleet | 1176 | 36/0/40/0 | H2 24px | smallText |
-| premium-private-boat | iphone-14 | section | 1180 | 40/0/40/0 | H2 24px | smallText |
-| premium-private-boat | iphone-14 | section | 1177 | 36/0/40/0 | H2 24px | smallText |
-| premium-private-boat | iphone-14 | footer | 1537 | 64/0/64/0 | H3 16px | tallOnMobile, smallText |
-| premium-private-boat | ipad | header#topbar | 56 | 0/0/0/0 | - | smallTap |
-| premium-private-boat | ipad | section | 1450 | 114/0/28/0 | H1 33.6px | paddingOffScale, smallTap, upscaledImage |
-| premium-private-boat | ipad | div | 130 | 18/0/18/0 | - | paddingOffScale |
-| premium-private-boat | ipad | section#guest-reviews | 957 | 64.8/0/64.8/0 | H2 25.92px | paddingOffScale |
-| premium-private-boat | ipad | section#book | 121 | 56.7/0/64.8/0 | - | paddingOffScale |
-| premium-private-boat | ipad | section#philosophy | 636 | 56.7/0/64.8/0 | H2 25.92px | paddingOffScale |
-| premium-private-boat | ipad | section#itinerary | 1495 | 56.7/0/64.8/0 | H2 24.3px | paddingOffScale |
-| premium-private-boat | ipad | section#included | 843 | 56.7/0/64.8/0 | H2 25.92px | paddingOffScale |
-| premium-private-boat | ipad | section#fleet | 647 | 56.7/0/64.8/0 | H2 25.92px | paddingOffScale |
-| premium-private-boat | ipad | section#accord | 1221 | 56.7/0/64.8/0 | H2 25.92px | paddingOffScale |
-| premium-private-boat | ipad | section#faq | 1221 | 56.7/0/64.8/0 | H2 25.92px | paddingOffScale |
-| premium-private-boat | ipad | section | 1230 | 64.8/0/64.8/0 | H2 25.92px | paddingOffScale |
-| premium-private-boat | ipad | section | 1222 | 56.7/0/64.8/0 | H2 24.3px | paddingOffScale |
-| premium-private-boat | laptop | header#topbar | 64 | 0/0/0/0 | - | smallTap |
-| premium-private-boat | laptop | section | 1624 | 148/0/54.64/0 | H1 40.98px | paddingOffScale, smallTap, upscaledImage |
-| premium-private-boat | laptop | div | 157 | 21.856/0/21.856/0 | - | paddingOffScale |
-| premium-private-boat | laptop | section#guest-reviews | 942 | 68.3/0/68.3/0 | H2 36px | paddingOffScale |
-| premium-private-boat | laptop | section#book | 137 | 68.3/0/68.3/0 | - | paddingOffScale |
-| premium-private-boat | laptop | section#philosophy | 663 | 68.3/0/68.3/0 | H2 36px | paddingOffScale |
-| premium-private-boat | laptop | section#itinerary | 1136 | 68.3/0/68.3/0 | H2 36px | paddingOffScale |
-| premium-private-boat | laptop | section#included | 737 | 68.3/0/68.3/0 | H2 36px | paddingOffScale |
-| premium-private-boat | laptop | section#fleet | 1237 | 68.3/0/68.3/0 | H2 36px | paddingOffScale |
-| premium-private-boat | laptop | section#accord | 1237 | 68.3/0/68.3/0 | H2 36px | paddingOffScale |
-| premium-private-boat | laptop | section#faq | 1237 | 68.3/0/68.3/0 | H2 36px | paddingOffScale |
-| premium-private-boat | laptop | section | 760 | 68.3/0/68.3/0 | H2 36px | paddingOffScale |
-| premium-private-boat | laptop | section | 1238 | 68.3/0/68.3/0 | H2 36px | paddingOffScale |
-| premium-private-boat | desktop | header#topbar | 64 | 0/0/0/0 | - | smallTap |
-| premium-private-boat | desktop | section | 1627 | 148/0/56/0 | H1 41.6px | smallTap, upscaledImage |
-| shared-speedboat | pixel-7 | header#topbar | 56 | 0/0/0/0 | - | smallText, smallTap |
-| shared-speedboat | pixel-7 | section | 1170 | 106.36/0/16.48/0 | H1 28.8px | paddingOffScale, smallText, smallTap |
-| shared-speedboat | pixel-7 | div | 225 | 12.36/0/12.36/0 | - | paddingOffScale, smallText |
-| shared-speedboat | pixel-7 | section#guest-reviews | 947 | 40/0/40/0 | H2 24px | smallText |
-| shared-speedboat | pixel-7 | section#book | 76 | 36/0/40/0 | - | smallText |
-| shared-speedboat | pixel-7 | section#itinerary | 1510 | 36/0/40/0 | H2 24px | smallText |
-| shared-speedboat | pixel-7 | section#included | 856 | 36/0/40/0 | H2 24px | smallText |
-| shared-speedboat | pixel-7 | section#promises | 605 | 36/0/40/0 | H2 24px | smallText |
-| shared-speedboat | pixel-7 | section#faq | 2002 | 36/0/40/0 | H2 24px | tallOnMobile |
-| shared-speedboat | pixel-7 | section#operator | 1176 | 36/0/40/0 | H2 20.8px | smallText |
-| shared-speedboat | pixel-7 | section | 1180 | 40/0/40/0 | H2 24px | smallText |
-| shared-speedboat | pixel-7 | section | 1177 | 36/0/40/0 | H2 24px | smallText |
-| shared-speedboat | pixel-7 | footer | 1490 | 64/0/64/0 | H3 16px | smallText |
-| shared-speedboat | iphone-14 | header#topbar | 56 | 0/0/0/0 | - | smallText, smallTap |
-| shared-speedboat | iphone-14 | section | 1145 | 105.7/0/16/0 | H1 27.3px | paddingOffScale, smallText, smallTap |
-| shared-speedboat | iphone-14 | div | 224 | 11.7/0/11.7/0 | - | paddingOffScale, smallText |
-| shared-speedboat | iphone-14 | section#guest-reviews | 856 | 40/0/40/0 | H2 24px | smallText |
-| shared-speedboat | iphone-14 | section#book | 76 | 36/0/40/0 | - | smallText |
-| shared-speedboat | iphone-14 | section#itinerary | 1626 | 36/0/40/0 | H2 24px | tallOnMobile, smallText |
-| shared-speedboat | iphone-14 | section#included | 881 | 36/0/40/0 | H2 24px | smallText |
-| shared-speedboat | iphone-14 | section#promises | 605 | 36/0/40/0 | H2 24px | smallText |
-| shared-speedboat | iphone-14 | section#faq | 2089 | 36/0/40/0 | H2 24px | tallOnMobile |
-| shared-speedboat | iphone-14 | section#operator | 1176 | 36/0/40/0 | H2 20.8px | smallText |
-| shared-speedboat | iphone-14 | section | 1180 | 40/0/40/0 | H2 24px | smallText |
-| shared-speedboat | iphone-14 | section | 1177 | 36/0/40/0 | H2 24px | smallText |
-| shared-speedboat | iphone-14 | footer | 1537 | 64/0/64/0 | H3 16px | tallOnMobile, smallText |
-| shared-speedboat | ipad | header#topbar | 56 | 0/0/0/0 | - | smallTap |
-| shared-speedboat | ipad | section | 1392 | 114/0/28/0 | H1 33.6px | paddingOffScale, smallTap, upscaledImage |
-| shared-speedboat | ipad | div | 130 | 18/0/18/0 | - | paddingOffScale |
-| shared-speedboat | ipad | section#guest-reviews | 957 | 64.8/0/64.8/0 | H2 25.92px | paddingOffScale |
-| shared-speedboat | ipad | section#book | 121 | 56.7/0/64.8/0 | - | paddingOffScale |
-| shared-speedboat | ipad | section#itinerary | 1375 | 56.7/0/64.8/0 | H2 24.3px | paddingOffScale |
-| shared-speedboat | ipad | section#included | 638 | 56.7/0/64.8/0 | H2 25.92px | paddingOffScale |
-| shared-speedboat | ipad | section#promises | 434 | 56.7/0/64.8/0 | H2 25.92px | paddingOffScale |
-| shared-speedboat | ipad | section#faq | 1643 | 56.7/0/64.8/0 | H2 25.92px | paddingOffScale |
-| shared-speedboat | ipad | section#operator | 1221 | 56.7/0/64.8/0 | H2 25.92px | paddingOffScale |
-| shared-speedboat | ipad | section | 1230 | 64.8/0/64.8/0 | H2 25.92px | paddingOffScale |
-| shared-speedboat | ipad | section | 1222 | 56.7/0/64.8/0 | H2 24.3px | paddingOffScale |
-| shared-speedboat | laptop | header#topbar | 64 | 0/0/0/0 | - | smallTap |
-| shared-speedboat | laptop | section | 1545 | 148/0/54.64/0 | H1 40.98px | paddingOffScale, smallTap, upscaledImage |
-| shared-speedboat | laptop | div | 157 | 21.856/0/21.856/0 | - | paddingOffScale |
-| shared-speedboat | laptop | section#guest-reviews | 942 | 68.3/0/68.3/0 | H2 36px | paddingOffScale |
-| shared-speedboat | laptop | section#book | 137 | 68.3/0/68.3/0 | - | paddingOffScale |
-| shared-speedboat | laptop | section#itinerary | 1029 | 68.3/0/68.3/0 | H2 36px | paddingOffScale |
-| shared-speedboat | laptop | section#included | 588 | 68.3/0/68.3/0 | H2 36px | paddingOffScale |
-| shared-speedboat | laptop | section#promises | 480 | 68.3/0/68.3/0 | H2 36px | paddingOffScale |
-| shared-speedboat | laptop | section#faq | 1237 | 68.3/0/68.3/0 | H2 36px | paddingOffScale |
-| shared-speedboat | laptop | section#operator | 1237 | 68.3/0/68.3/0 | H2 28px | paddingOffScale |
-| shared-speedboat | laptop | section | 760 | 68.3/0/68.3/0 | H2 36px | paddingOffScale |
-| shared-speedboat | laptop | section | 1238 | 68.3/0/68.3/0 | H2 36px | paddingOffScale |
-| shared-speedboat | desktop | header#topbar | 64 | 0/0/0/0 | - | smallTap |
-| shared-speedboat | desktop | section | 1548 | 148/0/56/0 | H1 41.6px | smallTap, upscaledImage |
-| destinations-el-nido | pixel-7 | header#topbar | 64 | 0/0/0/0 | - | smallText, smallTap |
-| destinations-el-nido | pixel-7 | section | 497 | 40/0/32/0 | H1 36px | smallText |
-| destinations-el-nido | pixel-7 | div | 6201 | 48/20/48/20 | H2 24px | tallOnMobile |
-| destinations-el-nido | pixel-7 | footer | 1600 | 64/0/64/0 | H3 16px | smallText |
-| destinations-el-nido | iphone-14 | header#topbar | 64 | 0/0/0/0 | - | smallText, smallTap |
-| destinations-el-nido | iphone-14 | section | 521 | 40/0/32/0 | H1 36px | smallText |
-| destinations-el-nido | iphone-14 | div | 6461 | 48/20/48/20 | H2 24px | tallOnMobile |
-| destinations-el-nido | iphone-14 | footer | 1618 | 64/0/64/0 | H3 16px | tallOnMobile, smallText |
-| destinations-el-nido | ipad | header#topbar | 64 | 0/0/0/0 | - | smallTap |
-| destinations-el-nido | ipad | section | 907 | 81/0/81/0 | H1 48.6px | paddingOffScale |
-| destinations-el-nido | ipad | div | 4398 | 48.6/20/48.6/20 | H2 24.3px | paddingOffScale |
-| destinations-el-nido | laptop | header#topbar | 64 | 0/0/0/0 | - | smallTap |
-| destinations-el-nido | desktop | header#topbar | 64 | 0/0/0/0 | - | smallTap |
-| destinations-coron | pixel-7 | header#topbar | 64 | 0/0/0/0 | - | smallText, smallTap |
-| destinations-coron | pixel-7 | section | 497 | 40/0/32/0 | H1 36px | smallText |
-| destinations-coron | pixel-7 | div | 5183 | 48/20/48/20 | H2 24px | tallOnMobile, smallText |
-| destinations-coron | pixel-7 | footer | 1600 | 64/0/64/0 | H3 16px | smallText |
-| destinations-coron | iphone-14 | header#topbar | 64 | 0/0/0/0 | - | smallText, smallTap |
-| destinations-coron | iphone-14 | section | 560 | 40/0/32/0 | H1 36px | smallText |
-| destinations-coron | iphone-14 | div | 5476 | 48/20/48/20 | H2 24px | tallOnMobile, smallText |
-| destinations-coron | iphone-14 | footer | 1618 | 64/0/64/0 | H3 16px | tallOnMobile, smallText |
-| destinations-coron | ipad | header#topbar | 64 | 0/0/0/0 | - | smallTap |
-| destinations-coron | ipad | section | 907 | 81/0/81/0 | H1 48.6px | paddingOffScale |
-| destinations-coron | ipad | div | 3556 | 48.6/20/48.6/20 | H2 24.3px | paddingOffScale |
-| destinations-coron | laptop | header#topbar | 64 | 0/0/0/0 | - | smallTap |
-| destinations-coron | desktop | header#topbar | 64 | 0/0/0/0 | - | smallTap |
 
 ## Flow log (what happens after the click)
 | from | link | ms | status | lands on H1 | next step available |
 |---|---|---|---|---|---|
-| pixel-7 / | Seatours Palawan | 833 | ok | Seatours Palawan: Expeditions, Speedboats & Private Charters | cta |
-| pixel-7 / | Palawan tours | 516 | ok | Palawan Tours by Seatours: Expeditions, Speedboats and Private Charters | cta |
-| pixel-7 / | Read about expeditions | 561 | ok | Palawan Expedition 3D2N: El Nido Coron, Either Direction | cta |
-| pixel-7 / | El Nido to Coron expedition | 967 | ok | El Nido to Coron Expedition: 3 Days, 2 Nights | cta |
-| pixel-7 / | Coron to El Nido expedition | 225 | ok | Coron to El Nido Expedition: 3 Days, 2 Nights | cta |
-| pixel-7 / | Private 3D2N charter | 190 | ok | Private 3D2N Palawan Expedition — Your Boat, Your Group | cta |
-| pixel-7 / | Linapacan Premium Expedition | 203 | ok | Linapacan Premium Expedition | cta |
-| pixel-7 / | Speedboat Tours | 277 | ok | El Nido Speedboat Tours — Semi-Private & Private | cta |
-| iphone-14 / | Seatours Palawan | 677 | ok | Seatours Palawan: Expeditions, Speedboats & Private Charters | cta |
-| iphone-14 / | Palawan tours | 430 | ok | Palawan Tours by Seatours: Expeditions, Speedboats and Private Charters | cta |
-| iphone-14 / | Read about expeditions | 389 | ok | Palawan Expedition 3D2N: El Nido Coron, Either Direction | cta |
-| iphone-14 / | El Nido to Coron expedition | 420 | ok | El Nido to Coron Expedition: 3 Days, 2 Nights | cta |
-| iphone-14 / | Coron to El Nido expedition | 217 | ok | Coron to El Nido Expedition: 3 Days, 2 Nights | cta |
-| iphone-14 / | Private 3D2N charter | 230 | ok | Private 3D2N Palawan Expedition — Your Boat, Your Group | cta |
-| iphone-14 / | Linapacan Premium Expedition | 219 | ok | Linapacan Premium Expedition | cta |
-| iphone-14 / | Speedboat Tours | 292 | ok | El Nido Speedboat Tours — Semi-Private & Private | cta |
-| ipad / | Seatours Palawan | 1065 | ok | Seatours Palawan: Expeditions, Speedboats & Private Charters | cta |
-| ipad / | Palawan tours | 338 | ok | Palawan Tours by Seatours: Expeditions, Speedboats and Private Charters | cta |
-| ipad / | Read about expeditions | 311 | ok | Palawan Expedition 3D2N: El Nido Coron, Either Direction | cta |
-| ipad / | El Nido to Coron expedition | 342 | ok | El Nido to Coron Expedition: 3 Days, 2 Nights | cta |
-| ipad / | Coron to El Nido expedition | 221 | ok | Coron to El Nido Expedition: 3 Days, 2 Nights | cta |
-| ipad / | Private 3D2N charter | 220 | ok | Private 3D2N Palawan Expedition — Your Boat, Your Group | cta |
-| ipad / | Linapacan Premium Expedition | 200 | ok | Linapacan Premium Expedition | cta |
-| ipad / | Speedboat Tours | 267 | ok | El Nido Speedboat Tours — Semi-Private & Private | cta |
-| laptop / | Seatours Palawan | 1021 | ok | Seatours Palawan: Expeditions, Speedboats & Private Charters | cta |
-| laptop / | Palawan tours | 310 | ok | Palawan Tours by Seatours: Expeditions, Speedboats and Private Charters | cta |
-| laptop / | Read about expeditions | 265 | ok | Palawan Expedition 3D2N: El Nido Coron, Either Direction | cta |
-| laptop / | El Nido to Coron expedition | 271 | ok | El Nido to Coron Expedition: 3 Days, 2 Nights | cta |
-| laptop / | Coron to El Nido expedition | 173 | ok | Coron to El Nido Expedition: 3 Days, 2 Nights | cta |
-| laptop / | Private 3D2N charter | 180 | ok | Private 3D2N Palawan Expedition — Your Boat, Your Group | cta |
-| laptop / | Linapacan Premium Expedition | 145 | ok | Linapacan Premium Expedition | cta |
-| laptop / | Speedboat Tours | 212 | ok | El Nido Speedboat Tours — Semi-Private & Private | cta |
-| desktop / | Seatours Palawan | 705 | ok | Seatours Palawan: Expeditions, Speedboats & Private Charters | cta |
-| desktop / | Palawan tours | 393 | ok | Palawan Tours by Seatours: Expeditions, Speedboats and Private Charters | cta |
-| desktop / | Read about expeditions | 336 | ok | Palawan Expedition 3D2N: El Nido Coron, Either Direction | cta |
-| desktop / | El Nido to Coron expedition | 340 | ok | El Nido to Coron Expedition: 3 Days, 2 Nights | cta |
-| desktop / | Coron to El Nido expedition | 218 | ok | Coron to El Nido Expedition: 3 Days, 2 Nights | cta |
-| desktop / | Private 3D2N charter | 220 | ok | Private 3D2N Palawan Expedition — Your Boat, Your Group | cta |
-| desktop / | Linapacan Premium Expedition | 228 | ok | Linapacan Premium Expedition | cta |
-| desktop / | Speedboat Tours | 265 | ok | El Nido Speedboat Tours — Semi-Private & Private | cta |
-| pixel-7 / | Seatours Palawan | 763 | ok | Seatours Palawan: Expeditions, Speedboats & Private Charters | cta |
-| pixel-7 / | Palawan tours | 367 | ok | Palawan Tours by Seatours: Expeditions, Speedboats and Private Charters | cta |
-| pixel-7 / | Read about expeditions | 306 | ok | Palawan Expedition 3D2N: El Nido Coron, Either Direction | cta |
-| pixel-7 / | El Nido to Coron expedition | 310 | ok | El Nido to Coron Expedition: 3 Days, 2 Nights | cta |
-| pixel-7 / | Coron to El Nido expedition | 230 | ok | Coron to El Nido Expedition: 3 Days, 2 Nights | cta |
-| pixel-7 / | Private 3D2N charter | 207 | ok | Private 3D2N Palawan Expedition — Your Boat, Your Group | cta |
-| pixel-7 / | Linapacan Premium Expedition | 189 | ok | Linapacan Premium Expedition | cta |
-| pixel-7 / | Speedboat Tours | 252 | ok | El Nido Speedboat Tours — Semi-Private & Private | cta |
-| iphone-14 / | Seatours Palawan | 1037 | ok | Seatours Palawan: Expeditions, Speedboats & Private Charters | cta |
-| iphone-14 / | Palawan tours | 365 | ok | Palawan Tours by Seatours: Expeditions, Speedboats and Private Charters | cta |
-| iphone-14 / | Read about expeditions | 315 | ok | Palawan Expedition 3D2N: El Nido Coron, Either Direction | cta |
-| iphone-14 / | El Nido to Coron expedition | 336 | ok | El Nido to Coron Expedition: 3 Days, 2 Nights | cta |
-| iphone-14 / | Coron to El Nido expedition | 214 | ok | Coron to El Nido Expedition: 3 Days, 2 Nights | cta |
+| pixel-7 / | Seatours Palawan | 737 | ok | Seatours Palawan: Expeditions, Speedboats & Private Charters | cta |
+| pixel-7 / | Palawan tours | 377 | ok | Palawan Tours by Seatours: Expeditions, Speedboats and Private Charters | cta |
+| pixel-7 / | Read about expeditions | 333 | ok | Palawan Expedition 3D2N: El Nido Coron, Either Direction | cta |
+| pixel-7 / | El Nido to Coron expedition | 357 | ok | El Nido to Coron Expedition: 3 Days, 2 Nights | cta |
+| pixel-7 / | Coron to El Nido expedition | 221 | ok | Coron to El Nido Expedition: 3 Days, 2 Nights | cta |
+| pixel-7 / | Private 3D2N charter | 220 | ok | Private 3D2N Palawan Expedition — Your Boat, Your Group | cta |
+| pixel-7 / | Linapacan Premium Expedition | 218 | ok | Linapacan Premium Expedition | cta |
+| pixel-7 / | Speedboat Tours | 273 | ok | El Nido Speedboat Tours — Semi-Private & Private | cta |
+| iphone-14 / | Seatours Palawan | 1021 | ok | Seatours Palawan: Expeditions, Speedboats & Private Charters | cta |
+| iphone-14 / | Palawan tours | 413 | ok | Palawan Tours by Seatours: Expeditions, Speedboats and Private Charters | cta |
+| iphone-14 / | Read about expeditions | 261 | ok | Palawan Expedition 3D2N: El Nido Coron, Either Direction | cta |
+| iphone-14 / | El Nido to Coron expedition | 304 | ok | El Nido to Coron Expedition: 3 Days, 2 Nights | cta |
+| iphone-14 / | Coron to El Nido expedition | 180 | ok | Coron to El Nido Expedition: 3 Days, 2 Nights | cta |
 | iphone-14 / | Private 3D2N charter | 189 | ok | Private 3D2N Palawan Expedition — Your Boat, Your Group | cta |
-| iphone-14 / | Linapacan Premium Expedition | 190 | ok | Linapacan Premium Expedition | cta |
+| iphone-14 / | Linapacan Premium Expedition | 182 | ok | Linapacan Premium Expedition | cta |
 | iphone-14 / | Speedboat Tours | 243 | ok | El Nido Speedboat Tours — Semi-Private & Private | cta |
-| ipad / | Seatours Palawan | 1029 | ok | Seatours Palawan: Expeditions, Speedboats & Private Charters | cta |
-| ipad / | Palawan tours | 379 | ok | Palawan Tours by Seatours: Expeditions, Speedboats and Private Charters | cta |
-| ipad / | Read about expeditions | 280 | ok | Palawan Expedition 3D2N: El Nido Coron, Either Direction | cta |
-| ipad / | El Nido to Coron expedition | 297 | ok | El Nido to Coron Expedition: 3 Days, 2 Nights | cta |
-| ipad / | Coron to El Nido expedition | 197 | ok | Coron to El Nido Expedition: 3 Days, 2 Nights | cta |
-| ipad / | Private 3D2N charter | 192 | ok | Private 3D2N Palawan Expedition — Your Boat, Your Group | cta |
-| ipad / | Linapacan Premium Expedition | 186 | ok | Linapacan Premium Expedition | cta |
-| ipad / | Speedboat Tours | 264 | ok | El Nido Speedboat Tours — Semi-Private & Private | cta |
-| laptop / | Seatours Palawan | 759 | ok | Seatours Palawan: Expeditions, Speedboats & Private Charters | cta |
-| laptop / | Palawan tours | 303 | ok | Palawan Tours by Seatours: Expeditions, Speedboats and Private Charters | cta |
-| laptop / | Read about expeditions | 312 | ok | Palawan Expedition 3D2N: El Nido Coron, Either Direction | cta |
-| laptop / | El Nido to Coron expedition | 321 | ok | El Nido to Coron Expedition: 3 Days, 2 Nights | cta |
-| laptop / | Coron to El Nido expedition | 192 | ok | Coron to El Nido Expedition: 3 Days, 2 Nights | cta |
-| laptop / | Private 3D2N charter | 214 | ok | Private 3D2N Palawan Expedition — Your Boat, Your Group | cta |
-| laptop / | Linapacan Premium Expedition | 218 | ok | Linapacan Premium Expedition | cta |
-| laptop / | Speedboat Tours | 241 | ok | El Nido Speedboat Tours — Semi-Private & Private | cta |
-| desktop / | Seatours Palawan | 709 | ok | Seatours Palawan: Expeditions, Speedboats & Private Charters | cta |
-| desktop / | Palawan tours | 497 | ok | Palawan Tours by Seatours: Expeditions, Speedboats and Private Charters | cta |
-| desktop / | Read about expeditions | 360 | ok | Palawan Expedition 3D2N: El Nido Coron, Either Direction | cta |
-| desktop / | El Nido to Coron expedition | 382 | ok | El Nido to Coron Expedition: 3 Days, 2 Nights | cta |
-| desktop / | Coron to El Nido expedition | 228 | ok | Coron to El Nido Expedition: 3 Days, 2 Nights | cta |
-| desktop / | Private 3D2N charter | 269 | ok | Private 3D2N Palawan Expedition — Your Boat, Your Group | cta |
-| desktop / | Linapacan Premium Expedition | 232 | ok | Linapacan Premium Expedition | cta |
-| desktop / | Speedboat Tours | 315 | ok | El Nido Speedboat Tours — Semi-Private & Private | cta |
-| pixel-7 /palawan-tours/ | Seatours Palawan | 698 | ok | Seatours Palawan: Expeditions, Speedboats & Private Charters | cta |
-| pixel-7 /palawan-tours/ | Palawan tours | 281 | ok | Palawan Tours by Seatours: Expeditions, Speedboats and Private Charters | cta |
-| pixel-7 /palawan-tours/ | Read about expeditions | 229 | ok | Palawan Expedition 3D2N: El Nido Coron, Either Direction | cta |
-| pixel-7 /palawan-tours/ | El Nido to Coron expedition | 299 | ok | El Nido to Coron Expedition: 3 Days, 2 Nights | cta |
-| pixel-7 /palawan-tours/ | Coron to El Nido expedition | 188 | ok | Coron to El Nido Expedition: 3 Days, 2 Nights | cta |
-| pixel-7 /palawan-tours/ | Private 3D2N charter | 167 | ok | Private 3D2N Palawan Expedition — Your Boat, Your Group | cta |
-| pixel-7 /palawan-tours/ | Linapacan Premium Expedition | 166 | ok | Linapacan Premium Expedition | cta |
-| pixel-7 /palawan-tours/ | Speedboat Tours | 213 | ok | El Nido Speedboat Tours — Semi-Private & Private | cta |
-| iphone-14 /palawan-tours/ | Seatours Palawan | 698 | ok | Seatours Palawan: Expeditions, Speedboats & Private Charters | cta |
-| iphone-14 /palawan-tours/ | Palawan tours | 296 | ok | Palawan Tours by Seatours: Expeditions, Speedboats and Private Charters | cta |
-| iphone-14 /palawan-tours/ | Read about expeditions | 280 | ok | Palawan Expedition 3D2N: El Nido Coron, Either Direction | cta |
-| iphone-14 /palawan-tours/ | El Nido to Coron expedition | 294 | ok | El Nido to Coron Expedition: 3 Days, 2 Nights | cta |
-| iphone-14 /palawan-tours/ | Coron to El Nido expedition | 186 | ok | Coron to El Nido Expedition: 3 Days, 2 Nights | cta |
-| iphone-14 /palawan-tours/ | Private 3D2N charter | 166 | ok | Private 3D2N Palawan Expedition — Your Boat, Your Group | cta |
-| iphone-14 /palawan-tours/ | Linapacan Premium Expedition | 181 | ok | Linapacan Premium Expedition | cta |
-| iphone-14 /palawan-tours/ | Speedboat Tours | 242 | ok | El Nido Speedboat Tours — Semi-Private & Private | cta |
-| ipad /palawan-tours/ | Seatours Palawan | 957 | ok | Seatours Palawan: Expeditions, Speedboats & Private Charters | cta |
-| ipad /palawan-tours/ | Palawan tours | 313 | ok | Palawan Tours by Seatours: Expeditions, Speedboats and Private Charters | cta |
-| ipad /palawan-tours/ | Read about expeditions | 255 | ok | Palawan Expedition 3D2N: El Nido Coron, Either Direction | cta |
-| ipad /palawan-tours/ | El Nido to Coron expedition | 315 | ok | El Nido to Coron Expedition: 3 Days, 2 Nights | cta |
-| ipad /palawan-tours/ | Coron to El Nido expedition | 208 | ok | Coron to El Nido Expedition: 3 Days, 2 Nights | cta |
-| ipad /palawan-tours/ | Private 3D2N charter | 153 | ok | Private 3D2N Palawan Expedition — Your Boat, Your Group | cta |
-| ipad /palawan-tours/ | Linapacan Premium Expedition | 171 | ok | Linapacan Premium Expedition | cta |
-| ipad /palawan-tours/ | Speedboat Tours | 242 | ok | El Nido Speedboat Tours — Semi-Private & Private | cta |
-| laptop /palawan-tours/ | Seatours Palawan | 677 | ok | Seatours Palawan: Expeditions, Speedboats & Private Charters | cta |
-| laptop /palawan-tours/ | Palawan tours | 299 | ok | Palawan Tours by Seatours: Expeditions, Speedboats and Private Charters | cta |
-| laptop /palawan-tours/ | Read about expeditions | 282 | ok | Palawan Expedition 3D2N: El Nido Coron, Either Direction | cta |
-| laptop /palawan-tours/ | El Nido to Coron expedition | 314 | ok | El Nido to Coron Expedition: 3 Days, 2 Nights | cta |
-| laptop /palawan-tours/ | Coron to El Nido expedition | 174 | ok | Coron to El Nido Expedition: 3 Days, 2 Nights | cta |
-| laptop /palawan-tours/ | Private 3D2N charter | 197 | ok | Private 3D2N Palawan Expedition — Your Boat, Your Group | cta |
-| laptop /palawan-tours/ | Linapacan Premium Expedition | 175 | ok | Linapacan Premium Expedition | cta |
-| laptop /palawan-tours/ | Speedboat Tours | 248 | ok | El Nido Speedboat Tours — Semi-Private & Private | cta |
-| desktop /palawan-tours/ | Seatours Palawan | 1016 | ok | Seatours Palawan: Expeditions, Speedboats & Private Charters | cta |
-| desktop /palawan-tours/ | Palawan tours | 309 | ok | Palawan Tours by Seatours: Expeditions, Speedboats and Private Charters | cta |
+| ipad / | Seatours Palawan | 1018 | ok | Seatours Palawan: Expeditions, Speedboats & Private Charters | cta |
+| ipad / | Palawan tours | 408 | ok | Palawan Tours by Seatours: Expeditions, Speedboats and Private Charters | cta |
+| ipad / | Read about expeditions | 321 | ok | Palawan Expedition 3D2N: El Nido Coron, Either Direction | cta |
+| ipad / | El Nido to Coron expedition | 318 | ok | El Nido to Coron Expedition: 3 Days, 2 Nights | cta |
+| ipad / | Coron to El Nido expedition | 219 | ok | Coron to El Nido Expedition: 3 Days, 2 Nights | cta |
+| ipad / | Private 3D2N charter | 216 | ok | Private 3D2N Palawan Expedition — Your Boat, Your Group | cta |
+| ipad / | Linapacan Premium Expedition | 194 | ok | Linapacan Premium Expedition | cta |
+| ipad / | Speedboat Tours | 279 | ok | El Nido Speedboat Tours — Semi-Private & Private | cta |
+| laptop / | Seatours Palawan | 753 | ok | Seatours Palawan: Expeditions, Speedboats & Private Charters | cta |
+| laptop / | Palawan tours | 339 | ok | Palawan Tours by Seatours: Expeditions, Speedboats and Private Charters | cta |
+| laptop / | Read about expeditions | 278 | ok | Palawan Expedition 3D2N: El Nido Coron, Either Direction | cta |
+| laptop / | El Nido to Coron expedition | 316 | ok | El Nido to Coron Expedition: 3 Days, 2 Nights | cta |
+| laptop / | Coron to El Nido expedition | 183 | ok | Coron to El Nido Expedition: 3 Days, 2 Nights | cta |
+| laptop / | Private 3D2N charter | 190 | ok | Private 3D2N Palawan Expedition — Your Boat, Your Group | cta |
+| laptop / | Linapacan Premium Expedition | 191 | ok | Linapacan Premium Expedition | cta |
+| laptop / | Speedboat Tours | 245 | ok | El Nido Speedboat Tours — Semi-Private & Private | cta |
+| desktop / | Seatours Palawan | 1074 | ok | Seatours Palawan: Expeditions, Speedboats & Private Charters | cta |
+| desktop / | Palawan tours | 316 | ok | Palawan Tours by Seatours: Expeditions, Speedboats and Private Charters | cta |
+| desktop / | Read about expeditions | 298 | ok | Palawan Expedition 3D2N: El Nido Coron, Either Direction | cta |
+| desktop / | El Nido to Coron expedition | 285 | ok | El Nido to Coron Expedition: 3 Days, 2 Nights | cta |
+| desktop / | Coron to El Nido expedition | 205 | ok | Coron to El Nido Expedition: 3 Days, 2 Nights | cta |
+| desktop / | Private 3D2N charter | 188 | ok | Private 3D2N Palawan Expedition — Your Boat, Your Group | cta |
+| desktop / | Linapacan Premium Expedition | 180 | ok | Linapacan Premium Expedition | cta |
+| desktop / | Speedboat Tours | 259 | ok | El Nido Speedboat Tours — Semi-Private & Private | cta |
+| pixel-7 / | Seatours Palawan | 1013 | ok | Seatours Palawan: Expeditions, Speedboats & Private Charters | cta |
+| pixel-7 / | Palawan tours | 381 | ok | Palawan Tours by Seatours: Expeditions, Speedboats and Private Charters | cta |
+| pixel-7 / | Read about expeditions | 336 | ok | Palawan Expedition 3D2N: El Nido Coron, Either Direction | cta |
+| pixel-7 / | El Nido to Coron expedition | 332 | ok | El Nido to Coron Expedition: 3 Days, 2 Nights | cta |
+| pixel-7 / | Coron to El Nido expedition | 192 | ok | Coron to El Nido Expedition: 3 Days, 2 Nights | cta |
+| pixel-7 / | Private 3D2N charter | 216 | ok | Private 3D2N Palawan Expedition — Your Boat, Your Group | cta |
+| pixel-7 / | Linapacan Premium Expedition | 227 | ok | Linapacan Premium Expedition | cta |
+| pixel-7 / | Speedboat Tours | 295 | ok | El Nido Speedboat Tours — Semi-Private & Private | cta |
+| iphone-14 / | Seatours Palawan | 701 | ok | Seatours Palawan: Expeditions, Speedboats & Private Charters | cta |
+| iphone-14 / | Palawan tours | 364 | ok | Palawan Tours by Seatours: Expeditions, Speedboats and Private Charters | cta |
+| iphone-14 / | Read about expeditions | 308 | ok | Palawan Expedition 3D2N: El Nido Coron, Either Direction | cta |
+| iphone-14 / | El Nido to Coron expedition | 333 | ok | El Nido to Coron Expedition: 3 Days, 2 Nights | cta |
+| iphone-14 / | Coron to El Nido expedition | 210 | ok | Coron to El Nido Expedition: 3 Days, 2 Nights | cta |
+| iphone-14 / | Private 3D2N charter | 182 | ok | Private 3D2N Palawan Expedition — Your Boat, Your Group | cta |
+| iphone-14 / | Linapacan Premium Expedition | 198 | ok | Linapacan Premium Expedition | cta |
+| iphone-14 / | Speedboat Tours | 238 | ok | El Nido Speedboat Tours — Semi-Private & Private | cta |
+| ipad / | Seatours Palawan | 733 | ok | Seatours Palawan: Expeditions, Speedboats & Private Charters | cta |
+| ipad / | Palawan tours | 274 | ok | Palawan Tours by Seatours: Expeditions, Speedboats and Private Charters | cta |
+| ipad / | Read about expeditions | 274 | ok | Palawan Expedition 3D2N: El Nido Coron, Either Direction | cta |
+| ipad / | El Nido to Coron expedition | 334 | ok | El Nido to Coron Expedition: 3 Days, 2 Nights | cta |
+| ipad / | Coron to El Nido expedition | 203 | ok | Coron to El Nido Expedition: 3 Days, 2 Nights | cta |
+| ipad / | Private 3D2N charter | 218 | ok | Private 3D2N Palawan Expedition — Your Boat, Your Group | cta |
+| ipad / | Linapacan Premium Expedition | 207 | ok | Linapacan Premium Expedition | cta |
+| ipad / | Speedboat Tours | 290 | ok | El Nido Speedboat Tours — Semi-Private & Private | cta |
+| laptop / | Seatours Palawan | 1013 | ok | Seatours Palawan: Expeditions, Speedboats & Private Charters | cta |
+| laptop / | Palawan tours | 590 | ok | Palawan Tours by Seatours: Expeditions, Speedboats and Private Charters | cta |
+| laptop / | Read about expeditions | 271 | ok | Palawan Expedition 3D2N: El Nido Coron, Either Direction | cta |
+| laptop / | El Nido to Coron expedition | 343 | ok | El Nido to Coron Expedition: 3 Days, 2 Nights | cta |
+| laptop / | Coron to El Nido expedition | 187 | ok | Coron to El Nido Expedition: 3 Days, 2 Nights | cta |
+| laptop / | Private 3D2N charter | 180 | ok | Private 3D2N Palawan Expedition — Your Boat, Your Group | cta |
+| laptop / | Linapacan Premium Expedition | 167 | ok | Linapacan Premium Expedition | cta |
+| laptop / | Speedboat Tours | 243 | ok | El Nido Speedboat Tours — Semi-Private & Private | cta |
+| desktop / | Seatours Palawan | 701 | ok | Seatours Palawan: Expeditions, Speedboats & Private Charters | cta |
+| desktop / | Palawan tours | 606 | ok | Palawan Tours by Seatours: Expeditions, Speedboats and Private Charters | cta |
+| desktop / | Read about expeditions | 427 | ok | Palawan Expedition 3D2N: El Nido Coron, Either Direction | cta |
+| desktop / | El Nido to Coron expedition | 504 | ok | El Nido to Coron Expedition: 3 Days, 2 Nights | cta |
+| desktop / | Coron to El Nido expedition | 181 | ok | Coron to El Nido Expedition: 3 Days, 2 Nights | cta |
+| desktop / | Private 3D2N charter | 173 | ok | Private 3D2N Palawan Expedition — Your Boat, Your Group | cta |
+| desktop / | Linapacan Premium Expedition | 174 | ok | Linapacan Premium Expedition | cta |
+| desktop / | Speedboat Tours | 261 | ok | El Nido Speedboat Tours — Semi-Private & Private | cta |
+| pixel-7 /palawan-tours/ | Seatours Palawan | 809 | ok | Seatours Palawan: Expeditions, Speedboats & Private Charters | cta |
+| pixel-7 /palawan-tours/ | Palawan tours | 291 | ok | Palawan Tours by Seatours: Expeditions, Speedboats and Private Charters | cta |
+| pixel-7 /palawan-tours/ | Read about expeditions | 276 | ok | Palawan Expedition 3D2N: El Nido Coron, Either Direction | cta |
+| pixel-7 /palawan-tours/ | El Nido to Coron expedition | 338 | ok | El Nido to Coron Expedition: 3 Days, 2 Nights | cta |
+| pixel-7 /palawan-tours/ | Coron to El Nido expedition | 171 | ok | Coron to El Nido Expedition: 3 Days, 2 Nights | cta |
+| pixel-7 /palawan-tours/ | Private 3D2N charter | 169 | ok | Private 3D2N Palawan Expedition — Your Boat, Your Group | cta |
+| pixel-7 /palawan-tours/ | Linapacan Premium Expedition | 161 | ok | Linapacan Premium Expedition | cta |
+| pixel-7 /palawan-tours/ | Speedboat Tours | 216 | ok | El Nido Speedboat Tours — Semi-Private & Private | cta |
+| iphone-14 /palawan-tours/ | Seatours Palawan | 834 | ok | Seatours Palawan: Expeditions, Speedboats & Private Charters | cta |
+| iphone-14 /palawan-tours/ | Palawan tours | 475 | ok | Palawan Tours by Seatours: Expeditions, Speedboats and Private Charters | cta |
+| iphone-14 /palawan-tours/ | Read about expeditions | 360 | ok | Palawan Expedition 3D2N: El Nido Coron, Either Direction | cta |
+| iphone-14 /palawan-tours/ | El Nido to Coron expedition | 361 | ok | El Nido to Coron Expedition: 3 Days, 2 Nights | cta |
+| iphone-14 /palawan-tours/ | Coron to El Nido expedition | 231 | ok | Coron to El Nido Expedition: 3 Days, 2 Nights | cta |
+| iphone-14 /palawan-tours/ | Private 3D2N charter | 222 | ok | Private 3D2N Palawan Expedition — Your Boat, Your Group | cta |
+| iphone-14 /palawan-tours/ | Linapacan Premium Expedition | 218 | ok | Linapacan Premium Expedition | cta |
+| iphone-14 /palawan-tours/ | Speedboat Tours | 300 | ok | El Nido Speedboat Tours — Semi-Private & Private | cta |
+| ipad /palawan-tours/ | Seatours Palawan | 660 | ok | Seatours Palawan: Expeditions, Speedboats & Private Charters | cta |
+| ipad /palawan-tours/ | Palawan tours | 380 | ok | Palawan Tours by Seatours: Expeditions, Speedboats and Private Charters | cta |
+| ipad /palawan-tours/ | Read about expeditions | 344 | ok | Palawan Expedition 3D2N: El Nido Coron, Either Direction | cta |
+| ipad /palawan-tours/ | El Nido to Coron expedition | 365 | ok | El Nido to Coron Expedition: 3 Days, 2 Nights | cta |
+| ipad /palawan-tours/ | Coron to El Nido expedition | 225 | ok | Coron to El Nido Expedition: 3 Days, 2 Nights | cta |
+| ipad /palawan-tours/ | Private 3D2N charter | 234 | ok | Private 3D2N Palawan Expedition — Your Boat, Your Group | cta |
+| ipad /palawan-tours/ | Linapacan Premium Expedition | 223 | ok | Linapacan Premium Expedition | cta |
+| ipad /palawan-tours/ | Speedboat Tours | 304 | ok | El Nido Speedboat Tours — Semi-Private & Private | cta |
+| laptop /palawan-tours/ | Seatours Palawan | 1001 | ok | Seatours Palawan: Expeditions, Speedboats & Private Charters | cta |
+| laptop /palawan-tours/ | Palawan tours | 305 | ok | Palawan Tours by Seatours: Expeditions, Speedboats and Private Charters | cta |
+| laptop /palawan-tours/ | Read about expeditions | 275 | ok | Palawan Expedition 3D2N: El Nido Coron, Either Direction | cta |
+| laptop /palawan-tours/ | El Nido to Coron expedition | 336 | ok | El Nido to Coron Expedition: 3 Days, 2 Nights | cta |
+| laptop /palawan-tours/ | Coron to El Nido expedition | 175 | ok | Coron to El Nido Expedition: 3 Days, 2 Nights | cta |
+| laptop /palawan-tours/ | Private 3D2N charter | 216 | ok | Private 3D2N Palawan Expedition — Your Boat, Your Group | cta |
+| laptop /palawan-tours/ | Linapacan Premium Expedition | 187 | ok | Linapacan Premium Expedition | cta |
+| laptop /palawan-tours/ | Speedboat Tours | 252 | ok | El Nido Speedboat Tours — Semi-Private & Private | cta |
+| desktop /palawan-tours/ | Seatours Palawan | 704 | ok | Seatours Palawan: Expeditions, Speedboats & Private Charters | cta |
+| desktop /palawan-tours/ | Palawan tours | 332 | ok | Palawan Tours by Seatours: Expeditions, Speedboats and Private Charters | cta |
 | desktop /palawan-tours/ | Read about expeditions | 281 | ok | Palawan Expedition 3D2N: El Nido Coron, Either Direction | cta |
-| desktop /palawan-tours/ | El Nido to Coron expedition | 281 | ok | El Nido to Coron Expedition: 3 Days, 2 Nights | cta |
-| desktop /palawan-tours/ | Coron to El Nido expedition | 169 | ok | Coron to El Nido Expedition: 3 Days, 2 Nights | cta |
-| desktop /palawan-tours/ | Private 3D2N charter | 180 | ok | Private 3D2N Palawan Expedition — Your Boat, Your Group | cta |
-| desktop /palawan-tours/ | Linapacan Premium Expedition | 158 | ok | Linapacan Premium Expedition | cta |
-| desktop /palawan-tours/ | Speedboat Tours | 261 | ok | El Nido Speedboat Tours — Semi-Private & Private | cta |
+| desktop /palawan-tours/ | El Nido to Coron expedition | 324 | ok | El Nido to Coron Expedition: 3 Days, 2 Nights | cta |
+| desktop /palawan-tours/ | Coron to El Nido expedition | 186 | ok | Coron to El Nido Expedition: 3 Days, 2 Nights | cta |
+| desktop /palawan-tours/ | Private 3D2N charter | 184 | ok | Private 3D2N Palawan Expedition — Your Boat, Your Group | cta |
+| desktop /palawan-tours/ | Linapacan Premium Expedition | 165 | ok | Linapacan Premium Expedition | cta |
+| desktop /palawan-tours/ | Speedboat Tours | 244 | ok | El Nido Speedboat Tours — Semi-Private & Private | cta |
 
 ## Forms
 
 ## Monkey test
-- pixel-7 /: 45s (forms protected), 135 clicks, 13 errors, 13 failed requests, 0 navigations blocked
-- desktop /: 45s (forms protected), 129 clicks, 17 errors, 17 failed requests, 0 navigations blocked
-- pixel-7 /: 45s (forms protected), 123 clicks, 13 errors, 13 failed requests, 0 navigations blocked
-- desktop /: 45s (forms protected), 121 clicks, 13 errors, 13 failed requests, 0 navigations blocked
-- pixel-7 /palawan-tours/: 45s (forms protected), 110 clicks, 24 errors, 24 failed requests, 0 navigations blocked
-- desktop /palawan-tours/: 45s (forms protected), 136 clicks, 15 errors, 15 failed requests, 0 navigations blocked
+- pixel-7 /: 30s (forms protected), 112 clicks, 13 errors, 13 failed requests, 0 navigations blocked
+- desktop /: 30s (forms protected), 144 clicks, 13 errors, 13 failed requests, 0 navigations blocked
+- pixel-7 /: 30s (forms protected), 125 clicks, 14 errors, 14 failed requests, 0 navigations blocked
+- desktop /: 30s (forms protected), 114 clicks, 13 errors, 13 failed requests, 0 navigations blocked
+- pixel-7 /palawan-tours/: 30s (forms protected), 148 clicks, 22 errors, 22 failed requests, 0 navigations blocked
+- desktop /palawan-tours/: 30s (forms protected), 121 clicks, 16 errors, 16 failed requests, 0 navigations blocked
 
 ## Script warnings (8)
 - page.screenshot: Clipped area is either empty or outside the resulting image
