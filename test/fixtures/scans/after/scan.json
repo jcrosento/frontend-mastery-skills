@@ -1,0 +1,15 @@
+{
+  "url": "https://example.invalid/",
+  "stamp": "fixture-after",
+  "noForms": true,
+  "summary": {
+    "pagesScanned": 1,
+    "devices": ["fixture-mobile"],
+    "overflowPages": [],
+    "deadEndsAfterClick": [],
+    "flowFailures": [],
+    "runtimeErrors": 0,
+    "monkeyErrors": 0,
+    "scriptErrors": 0
+  }
+}

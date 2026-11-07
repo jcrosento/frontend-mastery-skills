@@ -1,0 +1,4 @@
+{
+  "summary": { "lcp": { "time": 2200 }, "cls": 0.07, "tbt": 180 },
+  "conditions": { "profile": "fixture-mobile", "fixture": true }
+}
