@@ -3,6 +3,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import test from "node:test";
 import { validateAgainstSchema } from "../scripts/contract-validator.mjs";
+import { aggregate, validateEvidence } from "../scripts/evidence-validation.mjs";
 
 const root = resolve(import.meta.dirname, "..");
 const schema = JSON.parse(readFileSync(resolve(root, "schemas/evidence-comparison.schema.json"), "utf8"));
@@ -33,6 +34,10 @@ function sourceValue(reference) {
   return value;
 }
 
+function citedAggregate(metric, side) {
+  return aggregate(metric.evidence[side].map(sourceValue), metric.aggregation);
+}
+
 function roundedPercent(before, after) {
   return before === 0 ? null : Math.round(((after - before) / Math.abs(before)) * 10_000) / 100;
 }
@@ -56,18 +61,32 @@ test("before/after deltas are recomputable from cited source artifacts", () => {
     const after = metric.after.value;
     assert.equal(metric.before.status, "measured");
     assert.equal(metric.after.status, "measured");
-    assert.equal(sourceValue(metric.evidence.before[0]), before, `${metric.key} baseline evidence`);
-    assert.equal(sourceValue(metric.evidence.after[0]), after, `${metric.key} candidate evidence`);
+    assert.equal(citedAggregate(metric, "before"), before, `${metric.key} baseline evidence`);
+    assert.equal(citedAggregate(metric, "after"), after, `${metric.key} candidate evidence`);
     assert.ok(Math.abs(metric.delta.absolute - (after - before)) < 1e-9, `${metric.key} absolute delta`);
     assert.equal(metric.delta.percent, roundedPercent(before, after), `${metric.key} percentage delta`);
     assert.equal(metric.delta.verdict, verdict(metric.direction, before, after), `${metric.key} direction verdict`);
   }
-  const regression = regressed.metrics[0];
-  assert.equal(sourceValue(regression.evidence.before[0]), regression.before.value);
-  assert.equal(sourceValue(regression.evidence.after[0]), regression.after.value);
-  assert.equal(regression.delta.absolute, regression.after.value - regression.before.value);
-  assert.equal(regression.delta.percent, roundedPercent(regression.before.value, regression.after.value));
-  assert.equal(regression.delta.verdict, verdict(regression.direction, regression.before.value, regression.after.value));
+});
+
+test("validator recomputes median from three seeded independent runs", () => {
+  const metric = improved.metrics.find(item => item.key === "lcp_ms");
+  assert.equal(metric.aggregation, "median");
+  assert.equal(metric.evidence.before.length, 3);
+  assert.equal(metric.evidence.after.length, 3);
+  assert.equal(citedAggregate(metric, "before"), 3200);
+  assert.equal(citedAggregate(metric, "after"), 2200);
+  assert.equal(aggregate([8, 2, 4, 6], "median"), 5);
+  assert.deepEqual(validateEvidence(improved, schema, root), []);
+});
+
+test("semantic validator catches missing evidence and invented deltas", () => {
+  const forged = structuredClone(improved);
+  forged.metrics[0].evidence.after[1].file = "test/fixtures/scans/after/absent.json";
+  forged.metrics[1].delta.absolute = 999;
+  const errors = validateEvidence(forged, schema, root);
+  assert.ok(errors.some(error => error.includes("missing evidence source")));
+  assert.ok(errors.some(error => error.includes("absolute delta must be")));
 });
 
 test("fixture coverage exposes skipped live device runs instead of implying they ran", () => {

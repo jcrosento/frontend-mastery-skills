@@ -2,7 +2,7 @@
 import { readFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { dirname, resolve } from "node:path";
-import { validateAgainstSchema } from "./contract-validator.mjs";
+import { validateEvidence } from "./evidence-validation.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const file = process.argv[2];
@@ -15,7 +15,7 @@ try {
     readFile(resolve(root, "schemas/evidence-comparison.schema.json"), "utf8").then(JSON.parse),
     readFile(resolve(process.cwd(), file), "utf8").then(JSON.parse)
   ]);
-  const errors = validateAgainstSchema(value, schema);
+  const errors = validateEvidence(value, schema, root);
   if (errors.length) {
     console.error(`Evidence invalid (${errors.length} issue(s)):`);
     for (const error of errors) console.error(`- ${error}`);
