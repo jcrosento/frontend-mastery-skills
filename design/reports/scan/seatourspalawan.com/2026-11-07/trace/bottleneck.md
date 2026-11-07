@@ -9,31 +9,29 @@ Fix: Reserve space for: MAIN#main (0.6134), DIV.hi-inner (0.0799). Set width/hei
 ## Ranked fixes
 1. CLS 0.693
    - Reserve space for: MAIN#main (0.6134), DIV.hi-inner (0.0799). Set width/height on images and embeds, font size-adjust fallback.
-2. LCP 2512 ms on IMG.hero-video-poster (130 KB, priority High, initiator https://seatourspalawan.com/)
-   - Preload the LCP image with fetchpriority=high, serve AVIF/WebP at rendered size, do not lazy-load it, remove any overlay/animation delaying paint.
-3. 1 render-blocking resources (1 KB)
+2. 1 render-blocking resources (1 KB)
    - Inline critical CSS, defer non-critical CSS/JS, remove unused plugin assets on this template.
 
 ## Numbers
 ```json
 {
   "nav": {
-    "ttfb": 359,
-    "domContentLoaded": 998,
-    "load": 2488,
+    "ttfb": 335,
+    "domContentLoaded": 1006,
+    "load": 2451,
     "transferKB": 23
   },
   "paint": {
-    "first-paint": 424,
-    "first-contentful-paint": 700
+    "first-paint": 400,
+    "first-contentful-paint": 676
   },
   "lcp": {
-    "time": 2512,
+    "time": 2472,
     "size": 301584,
     "url": "https://seatourspalawan.com/assets/video/hero/hero-loop-poster-mobile-720.webp?v=202605311023",
     "el": "IMG.hero-video-poster"
   },
-  "tbt": 8,
+  "tbt": 6,
   "cls": 0.693,
   "byType": {
     "Document": {

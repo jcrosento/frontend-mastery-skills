@@ -106,23 +106,6 @@
 - el nido to coron boat tour reddit
 - el nido to coron boat tour luxury
 
-### el nido speedboat tour (15 suggestions)
+### el nido node boat tour (0 suggestions)
 **Questions (FAQ/H2 candidates):**
-- is el nido worth visiting
-- what would be best for a day trip in el nido palawan
 **Long-tail (4+ words):**
-- el nido speedboat tour price
-- el nido private speedboat tour
-- el nido speedboat joiner tour
-- apartments el nido speed boat tour
-- speed boat tour el nido palawan
-- speedboat tour el nido reddit
-- el nido tour package price
-- is el nido worth visiting
-- tour a el nido price
-- private boat tour el nido price
-- el nido tour c price
-- el nido tour a speed boat
-- speedboat tour in el nido
-- what would be best for a day trip in el nido palawan
-- speed boat joiner tour el nido
