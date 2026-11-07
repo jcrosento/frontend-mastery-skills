@@ -1,6 +1,6 @@
 # frontend-mastery-skills
 
-A **master front-end agent** that learns how to learn. It watches tutorials, studies inspirations and competitors pixel by pixel, extracts design systems, audits WordPress builders (Elementor, Bricks) for consistency, builds in Astro / React / Bricks, keeps everything editable like a builder, and refuses to ship anything that fails responsiveness, performance, schema or an award-style jury.
+A **master front-end agent** that learns how to learn. It watches tutorials, studies inspirations and competitors pixel by pixel, deep-scans live sites on real device profiles (flows, monkey tests, heatmaps, bottlenecks), extracts design systems, audits WordPress builders (Elementor, Bricks) for consistency, builds in Astro / React / Bricks, keeps everything editable like a builder, and refuses to ship anything that fails responsiveness, performance, schema or an award-style jury.
 
 Built on the open [Agent Skills spec](https://agentskills.io/specification). Works in Cursor, Claude Code, Codex, Copilot, Gemini CLI, Perplexity Computer and any client that reads `SKILL.md`. Pairs with [Impeccable](https://github.com/pbakaus/impeccable) (design vocabulary) and [claude-video](https://github.com/bradautomates/claude-video) (`/watch`).
 
@@ -10,8 +10,9 @@ Built on the open [Agent Skills spec](https://agentskills.io/specification). Wor
 npx skills add jcrosento/frontend-mastery-skills
 npx skills add bradautomates/claude-video -g --skill watch   # video learning
 npx skills add pbakaus/impeccable                            # design vocabulary
+npm i -D playwright gremlins.js lighthouse && npx playwright install chromium   # for fe-scan / fe-perf scripts
 ```
-In Cursor also run `/add-plugin figma` and point a rule at `AGENTS.md`. For WordPress sites install the **MCP Adapter** plugin (see `fe-wp-audit`).
+In Cursor also run `/add-plugin figma` and point a rule at `AGENTS.md`. For WordPress sites install the **MCP Adapter** plugin (see `fe-wp-audit`). Set `PSI_API_KEY` for PageSpeed Insights.
 
 ## Skill map
 
@@ -19,6 +20,7 @@ In Cursor also run `/add-plugin figma` and point a rule at `AGENTS.md`. For Word
 |-------|-------|-----------|
 | Orchestrate | `fe-master` | Decides which skills to run, keeps the knowledge base, compounds what it learns |
 | Learn | `fe-learn` | Turns tutorials, courses, articles and videos into reusable technique cards |
+| Observe | `fe-scan` | Deep scan of a live URL: 5 device profiles, section-by-section screenshots + box-model measurements, flow walk, monkey test, predicted/measured heatmaps, performance trace bottleneck, PSI + CrUX, graded report |
 | Observe | `fe-inspect` | Pixel / element / device teardown of any URL, screenshot, photo or Figma frame |
 | Observe | `fe-competitor` | Deep competitor analysis: UX flows, conversion patterns, SEO, speed, gaps to exploit |
 | Observe | `fe-wp-audit` | Connects to WordPress (MCP Adapter / REST / export ZIP) and audits Elementor + Bricks globals, templates, media, meta, icons, headers |
@@ -39,13 +41,21 @@ In Cursor also run `/add-plugin figma` and point a rule at `AGENTS.md`. For Word
 ## The loop
 
 ```
-LEARN  -> fe-learn (tutorials) + fe-inspect (inspirations) + fe-competitor (market) + fe-wp-audit (own sites) + fe-keywords (demand)
+LEARN  -> fe-learn (tutorials) + fe-scan (own/any live site) + fe-inspect (inspirations) + fe-competitor (market) + fe-wp-audit (WordPress) + fe-keywords (demand)
 THINK  -> fe-concept picks a point of view and signature move
 SYSTEM -> fe-extract -> fe-system -> fe-consistency -> fe-schema -> fe-figma-sync
 BUILD  -> fe-build + fe-editable + fe-motion
-GATE   -> fe-responsive -> fe-perf -> fe-judge
+GATE   -> fe-responsive -> fe-perf -> fe-judge (fe-scan re-run as the final proof)
 REFLECT-> fe-master writes what worked into design/knowledge/ so the next site starts smarter
 ```
+
+## Paste a URL, get a scan
+
+```bash
+node skills/fe-scan/scripts/deep-scan.mjs https://your-site.com --pages 10 --monkey 60
+PSI_API_KEY=... node skills/fe-scan/scripts/psi.mjs https://your-site.com --strategy both
+```
+Produces `design/reports/scan/<site>/<date>/report.md` with score inputs, flagged sections (padding off-scale, small text, small tap targets, upscaled images, overflow), flow log, monkey-test errors, predicted attention and click heatmaps, worst LCP/CLS/long-task pages, and the biggest PSI bottleneck.
 
 ## Knowledge base layout (per project)
 
@@ -61,7 +71,7 @@ design/
   DESIGN.md       point of view, rules, component inventory
   components/     component schemas
   schema/         JSON-LD templates per page type
-  reports/        responsive / perf / judge / consistency outputs
+  reports/        scan / responsive / perf / judge / consistency outputs
   LESSONS.md      fe-master retrospective log
 ```
 
