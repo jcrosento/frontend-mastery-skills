@@ -1,3 +1,5 @@
 node_modules/
-design/reports/
+.DS_Store
+*.log
+# Local scan output may contain private business/site data; never add scan artifacts to the public repo.
 design/reports/
