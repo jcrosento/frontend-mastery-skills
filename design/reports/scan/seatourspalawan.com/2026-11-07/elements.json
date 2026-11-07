@@ -1,0 +1,2401 @@
+{
+  "url": "https://seatourspalawan.com",
+  "mobile": {
+    "census": {
+      "families": [
+        [
+          "Inter",
+          82
+        ],
+        [
+          "Fraunces",
+          57
+        ],
+        [
+          "-apple-system",
+          42
+        ]
+      ],
+      "weights": [
+        [
+          "Inter 400",
+          44
+        ],
+        [
+          "Fraunces 600",
+          31
+        ],
+        [
+          "Inter 500",
+          25
+        ],
+        [
+          "Fraunces 500",
+          21
+        ],
+        [
+          "-apple-system 600",
+          13
+        ],
+        [
+          "-apple-system 400",
+          12
+        ],
+        [
+          "Inter 600",
+          11
+        ],
+        [
+          "-apple-system 500",
+          11
+        ],
+        [
+          "-apple-system 700",
+          6
+        ],
+        [
+          "Fraunces 400",
+          5
+        ],
+        [
+          "Inter 700",
+          2
+        ]
+      ],
+      "sizes": [
+        [
+          "14px",
+          41
+        ],
+        [
+          "16px",
+          22
+        ],
+        [
+          "12px",
+          15
+        ],
+        [
+          "20px",
+          13
+        ],
+        [
+          "16.8px",
+          9
+        ],
+        [
+          "12.48px",
+          8
+        ],
+        [
+          "16.32px",
+          8
+        ],
+        [
+          "11.2px",
+          8
+        ],
+        [
+          "14.72px",
+          6
+        ],
+        [
+          "24px",
+          6
+        ],
+        [
+          "14.4px",
+          6
+        ],
+        [
+          "10.5px",
+          5
+        ],
+        [
+          "12.16px",
+          4
+        ],
+        [
+          "22.4px",
+          4
+        ],
+        [
+          "21.6px",
+          4
+        ],
+        [
+          "11px",
+          4
+        ],
+        [
+          "15.2px",
+          4
+        ],
+        [
+          "18.4px",
+          4
+        ],
+        [
+          "17.6px",
+          4
+        ],
+        [
+          "13.6px",
+          4
+        ],
+        [
+          "36px",
+          1
+        ],
+        [
+          "0px",
+          1
+        ]
+      ],
+      "lineHeights": [
+        [
+          "14px/23.1px",
+          41
+        ],
+        [
+          "16px/26.4px",
+          18
+        ],
+        [
+          "12px/19.8px",
+          15
+        ],
+        [
+          "20px/24px",
+          10
+        ],
+        [
+          "16.32px/20.4px",
+          8
+        ],
+        [
+          "11.2px/18.48px",
+          8
+        ],
+        [
+          "24px/26.88px",
+          6
+        ],
+        [
+          "14.4px/21.6px",
+          6
+        ],
+        [
+          "16.8px/21.84px",
+          6
+        ],
+        [
+          "10.5px/17.325px",
+          5
+        ],
+        [
+          "12.48px/18.72px",
+          4
+        ],
+        [
+          "14.72px/18.4px",
+          4
+        ],
+        [
+          "12.16px/16.416px",
+          4
+        ],
+        [
+          "22.4px/24.64px",
+          4
+        ],
+        [
+          "21.6px/23.76px",
+          4
+        ],
+        [
+          "11px/12.1px",
+          4
+        ],
+        [
+          "15.2px/25.08px",
+          4
+        ],
+        [
+          "18.4px/22.08px",
+          4
+        ],
+        [
+          "17.6px/24.64px",
+          4
+        ],
+        [
+          "13.6px/22.44px",
+          4
+        ],
+        [
+          "16.8px/27.72px",
+          3
+        ],
+        [
+          "16px/19.2px",
+          3
+        ],
+        [
+          "20px/20px",
+          2
+        ],
+        [
+          "12.48px/17.472px",
+          2
+        ],
+        [
+          "12.48px/20.592px",
+          2
+        ]
+      ],
+      "textColors": [
+        [
+          "rgb(10, 31, 44)",
+          59
+        ],
+        [
+          "rgb(90, 111, 124)",
+          32
+        ],
+        [
+          "rgb(42, 63, 76)",
+          26
+        ],
+        [
+          "rgba(245, 239, 230, 0.85)",
+          24
+        ],
+        [
+          "rgb(245, 239, 230)",
+          14
+        ],
+        [
+          "rgb(10, 110, 124)",
+          10
+        ],
+        [
+          "rgb(232, 183, 90)",
+          5
+        ],
+        [
+          "rgb(90, 74, 42)",
+          2
+        ],
+        [
+          "rgb(255, 255, 255)",
+          2
+        ],
+        [
+          "rgba(245, 239, 230, 0.78)",
+          2
+        ],
+        [
+          "rgba(245, 239, 230, 0.82)",
+          2
+        ],
+        [
+          "rgb(138, 115, 64)",
+          1
+        ],
+        [
+          "rgba(255, 255, 255, 0.88)",
+          1
+        ],
+        [
+          "rgba(245, 239, 230, 0.75)",
+          1
+        ]
+      ],
+      "backgrounds": [
+        [
+          "rgb(236, 228, 211)",
+          19
+        ],
+        [
+          "rgb(10, 110, 124)",
+          16
+        ],
+        [
+          "rgb(255, 255, 255)",
+          13
+        ],
+        [
+          "rgb(232, 183, 90)",
+          6
+        ],
+        [
+          "rgb(251, 250, 247)",
+          5
+        ],
+        [
+          "rgb(245, 239, 230)",
+          4
+        ],
+        [
+          "rgb(10, 31, 44)",
+          4
+        ],
+        [
+          "rgba(10, 31, 44, 0.85)",
+          4
+        ],
+        [
+          "rgba(255, 247, 220, 0.96)",
+          1
+        ],
+        [
+          "rgba(10, 31, 44, 0.92)",
+          1
+        ],
+        [
+          "rgb(37, 211, 102)",
+          1
+        ],
+        [
+          "rgba(255, 255, 255, 0.35)",
+          1
+        ]
+      ],
+      "radii": [
+        [
+          "8px",
+          16
+        ],
+        [
+          "22px",
+          15
+        ],
+        [
+          "14px",
+          9
+        ],
+        [
+          "11px",
+          8
+        ],
+        [
+          "50%",
+          7
+        ],
+        [
+          "9px",
+          4
+        ],
+        [
+          "2px",
+          2
+        ],
+        [
+          "6px",
+          1
+        ],
+        [
+          "10px",
+          1
+        ],
+        [
+          "0px 0px 14px 14px",
+          1
+        ],
+        [
+          "1px",
+          1
+        ]
+      ],
+      "shadows": [
+        [
+          "rgba(10, 31, 44, 0.04) 0px 2px 4px 0px, rgba(10, 31, 44, 0.07) 0px 12px 32px 0px",
+          4
+        ],
+        [
+          "rgba(0, 0, 0, 0.55) 0px 1px 3px 0px",
+          2
+        ],
+        [
+          "rgba(10, 31, 44, 0.1) 0px 12px 36px 0px",
+          2
+        ],
+        [
+          "rgba(10, 31, 44, 0.22) -20px 0px 60px 0px",
+          1
+        ],
+        [
+          "rgba(10, 31, 44, 0.08) 0px 4px 16px 0px",
+          1
+        ]
+      ],
+      "headings": [
+        {
+          "tag": "H2",
+          "text": "Seatours Palawan: Expeditions, Speedboats & Private Charters",
+          "size": "36px",
+          "weight": "600",
+          "family": "Fraunces"
+        },
+        {
+          "tag": "H1",
+          "text": "Seatours Palawan: Expeditions, Speedboats & Private Charters",
+          "size": "36px",
+          "weight": "600",
+          "family": "Fraunces"
+        },
+        {
+          "tag": "H2",
+          "text": "Four ways to see Palawan.",
+          "size": "24px",
+          "weight": "600",
+          "family": "Fraunces"
+        },
+        {
+          "tag": "H3",
+          "text": "El Nido to Coron Expedition",
+          "size": "20px",
+          "weight": "500",
+          "family": "Fraunces"
+        },
+        {
+          "tag": "H3",
+          "text": "Coron to El Nido Expedition",
+          "size": "20px",
+          "weight": "500",
+          "family": "Fraunces"
+        },
+        {
+          "tag": "H3",
+          "text": "Shared Speedboat El Nido",
+          "size": "20px",
+          "weight": "500",
+          "family": "Fraunces"
+        },
+        {
+          "tag": "H3",
+          "text": "Private Speedboat El Nido",
+          "size": "20px",
+          "weight": "500",
+          "family": "Fraunces"
+        },
+        {
+          "tag": "H2",
+          "text": "Every photo. Every meal. Every reef. Real.",
+          "size": "24px",
+          "weight": "600",
+          "family": "Fraunces"
+        },
+        {
+          "tag": "H3",
+          "text": "El Nido to Coron Expedition",
+          "size": "20px",
+          "weight": "600",
+          "family": "Fraunces"
+        },
+        {
+          "tag": "H3",
+          "text": "Premium Private Boat Charter",
+          "size": "20px",
+          "weight": "600",
+          "family": "Fraunces"
+        },
+        {
+          "tag": "H3",
+          "text": "Semi-Private Day",
+          "size": "20px",
+          "weight": "600",
+          "family": "Fraunces"
+        },
+        {
+          "tag": "H3",
+          "text": "Real Filipino Food",
+          "size": "20px",
+          "weight": "600",
+          "family": "Fraunces"
+        },
+        {
+          "tag": "H3",
+          "text": "Linapacan Campsite",
+          "size": "20px",
+          "weight": "600",
+          "family": "Fraunces"
+        },
+        {
+          "tag": "H3",
+          "text": "Locally Owned",
+          "size": "20px",
+          "weight": "600",
+          "family": "Fraunces"
+        },
+        {
+          "tag": "H2",
+          "text": "Locally owned, instantly bookable.",
+          "size": "24px",
+          "weight": "600",
+          "family": "Fraunces"
+        },
+        {
+          "tag": "H2",
+          "text": "From browse to boat in 4 steps.",
+          "size": "24px",
+          "weight": "600",
+          "family": "Fraunces"
+        },
+        {
+          "tag": "H3",
+          "text": "Pick a tour and date",
+          "size": "18.4px",
+          "weight": "600",
+          "family": "Fraunces"
+        },
+        {
+          "tag": "H3",
+          "text": "Pay 50% deposit",
+          "size": "18.4px",
+          "weight": "600",
+          "family": "Fraunces"
+        },
+        {
+          "tag": "H3",
+          "text": "We WhatsApp you the day before",
+          "size": "18.4px",
+          "weight": "600",
+          "family": "Fraunces"
+        },
+        {
+          "tag": "H3",
+          "text": "Show up and sail",
+          "size": "18.4px",
+          "weight": "600",
+          "family": "Fraunces"
+        },
+        {
+          "tag": "H2",
+          "text": "What guests say.",
+          "size": "24px",
+          "weight": "600",
+          "family": "Fraunces"
+        },
+        {
+          "tag": "H2",
+          "text": "Pick a tour. Pick a date. Go.",
+          "size": "24px",
+          "weight": "600",
+          "family": "Fraunces"
+        },
+        {
+          "tag": "H3",
+          "text": "Tours",
+          "size": "16px",
+          "weight": "600",
+          "family": "Inter"
+        },
+        {
+          "tag": "H3",
+          "text": "Company",
+          "size": "16px",
+          "weight": "600",
+          "family": "Inter"
+        },
+        {
+          "tag": "H3",
+          "text": "Support",
+          "size": "16px",
+          "weight": "600",
+          "family": "Inter"
+        },
+        {
+          "tag": "H4",
+          "text": "Captain Kael",
+          "size": "16.8px",
+          "weight": "600",
+          "family": "Fraunces"
+        }
+      ],
+      "buttons": [
+        {
+          "idx": 0,
+          "text": "×",
+          "w": 29,
+          "h": 28,
+          "padding": "4px 8px",
+          "radius": "6px",
+          "bg": "rgba(0, 0, 0, 0)",
+          "color": "rgb(138, 115, 64)",
+          "weight": "400",
+          "size": "20px",
+          "cursor": "pointer",
+          "transition": "0s",
+          "outlineNone": true,
+          "top": 79,
+          "foldPct": 1
+        },
+        {
+          "idx": 1,
+          "text": "",
+          "w": 44,
+          "h": 44,
+          "padding": "8px",
+          "radius": "10px",
+          "bg": "rgba(0, 0, 0, 0)",
+          "color": "rgb(255, 255, 255)",
+          "weight": "400",
+          "size": "16px",
+          "cursor": "pointer",
+          "transition": "0.12s",
+          "outlineNone": true,
+          "top": 8,
+          "foldPct": 0
+        },
+        {
+          "idx": 2,
+          "text": "Book 3D2N expedition",
+          "w": 323,
+          "h": 56,
+          "padding": "15px 30px",
+          "radius": "14px",
+          "bg": "rgb(232, 183, 90)",
+          "color": "rgb(10, 31, 44)",
+          "weight": "600",
+          "size": "16px",
+          "cursor": "pointer",
+          "transition": "0.16s, 0.16s, 0.16s",
+          "outlineNone": true,
+          "top": 527,
+          "foldPct": 6
+        },
+        {
+          "idx": 3,
+          "text": "Chat on WhatsApp",
+          "w": 323,
+          "h": 52,
+          "padding": "13px 26px",
+          "radius": "14px",
+          "bg": "rgb(37, 211, 102)",
+          "color": "rgb(255, 255, 255)",
+          "weight": "600",
+          "size": "16px",
+          "cursor": "pointer",
+          "transition": "0.16s, 0.16s, 0.16s",
+          "outlineNone": true,
+          "top": 594,
+          "foldPct": 6
+        },
+        {
+          "idx": 4,
+          "text": "×",
+          "w": 32,
+          "h": 32,
+          "padding": "0px",
+          "radius": "50%",
+          "bg": "rgba(255, 255, 255, 0.35)",
+          "color": "rgb(10, 31, 44)",
+          "weight": "500",
+          "size": "20px",
+          "cursor": "pointer",
+          "transition": "0s",
+          "outlineNone": true,
+          "top": 123,
+          "foldPct": 1
+        },
+        {
+          "idx": 5,
+          "text": "Book the 3D2N expedition",
+          "w": 350,
+          "h": 56,
+          "padding": "15px 30px",
+          "radius": "14px",
+          "bg": "rgb(232, 183, 90)",
+          "color": "rgb(10, 31, 44)",
+          "weight": "600",
+          "size": "16px",
+          "cursor": "pointer",
+          "transition": "0.16s, 0.16s, 0.16s",
+          "outlineNone": true,
+          "top": 1067,
+          "foldPct": 12
+        },
+        {
+          "idx": 6,
+          "text": "All tours",
+          "w": 350,
+          "h": 58,
+          "padding": "15px 30px",
+          "radius": "14px",
+          "bg": "rgba(0, 0, 0, 0)",
+          "color": "rgb(10, 31, 44)",
+          "weight": "600",
+          "size": "16px",
+          "cursor": "pointer",
+          "transition": "0.16s, 0.16s, 0.16s",
+          "outlineNone": true,
+          "top": 1139,
+          "foldPct": 12
+        },
+        {
+          "idx": 7,
+          "text": "Read all 2,156 reviews",
+          "w": 225,
+          "h": 54,
+          "padding": "13px 26px",
+          "radius": "14px",
+          "bg": "rgba(0, 0, 0, 0)",
+          "color": "rgb(10, 31, 44)",
+          "weight": "600",
+          "size": "16px",
+          "cursor": "pointer",
+          "transition": "0.16s, 0.16s, 0.16s",
+          "outlineNone": true,
+          "top": 6812,
+          "foldPct": 74
+        },
+        {
+          "idx": 8,
+          "text": "Book the 3D2N",
+          "w": 176,
+          "h": 56,
+          "padding": "15px 30px",
+          "radius": "14px",
+          "bg": "rgb(232, 183, 90)",
+          "color": "rgb(10, 31, 44)",
+          "weight": "600",
+          "size": "16px",
+          "cursor": "pointer",
+          "transition": "0.16s, 0.16s, 0.16s",
+          "outlineNone": true,
+          "top": 6853,
+          "foldPct": 74
+        },
+        {
+          "idx": 9,
+          "text": "Ask Captain Kael",
+          "w": 48,
+          "h": 48,
+          "padding": "0px",
+          "radius": "50%",
+          "bg": "rgb(10, 31, 44)",
+          "color": "rgb(245, 239, 230)",
+          "weight": "700",
+          "size": "0px",
+          "cursor": "pointer",
+          "transition": "0.12s, 0.12s, 0.12s",
+          "outlineNone": true,
+          "top": 602,
+          "foldPct": 7
+        },
+        {
+          "idx": 10,
+          "text": "Accept all",
+          "w": 156,
+          "h": 38,
+          "padding": "7px 14px",
+          "radius": "14px",
+          "bg": "rgb(232, 183, 90)",
+          "color": "rgb(10, 31, 44)",
+          "weight": "600",
+          "size": "12.48px",
+          "cursor": "pointer",
+          "transition": "0.16s, 0.16s, 0.16s",
+          "outlineNone": true,
+          "top": 745,
+          "foldPct": 8
+        },
+        {
+          "idx": 11,
+          "text": "Essential only",
+          "w": 182,
+          "h": 38,
+          "padding": "7px 14px",
+          "radius": "14px",
+          "bg": "rgba(0, 0, 0, 0)",
+          "color": "rgb(10, 31, 44)",
+          "weight": "600",
+          "size": "12.48px",
+          "cursor": "pointer",
+          "transition": "0.16s, 0.16s, 0.16s",
+          "outlineNone": true,
+          "top": 745,
+          "foldPct": 8
+        }
+      ],
+      "taps": {
+        "total": 60,
+        "under44": 27,
+        "pairsCloserThan8px": 31
+      },
+      "inputs": [
+        {
+          "type": "text",
+          "fontSize": "16px",
+          "hasLabel": true,
+          "autocomplete": "off"
+        }
+      ],
+      "viewportUnits": {
+        "inlineVh": 0,
+        "css100vhRules": 0,
+        "cssDvhSvhRules": 11
+      },
+      "syntheticBoldCandidates": 0,
+      "iosZoomRiskInputs": 0
+    },
+    "buttonStates": [
+      {
+        "text": "×",
+        "hoverChanges": [
+          "bg"
+        ],
+        "focusVisible": true,
+        "base": {
+          "bg": "rgba(0, 0, 0, 0)",
+          "color": "rgb(138, 115, 64)",
+          "border": "rgb(138, 115, 64)",
+          "shadow": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, -14)",
+          "outline": "none 3px rgb(138, 115, 64)",
+          "textDecoration": "none"
+        },
+        "hover": {
+          "bg": "rgba(10, 31, 44, 0.06)",
+          "color": "rgb(138, 115, 64)",
+          "border": "rgb(138, 115, 64)",
+          "shadow": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, -14)",
+          "outline": "none 3px rgb(138, 115, 64)",
+          "textDecoration": "none"
+        },
+        "focus": {
+          "bg": "rgba(10, 31, 44, 0.06)",
+          "color": "rgb(138, 115, 64)",
+          "border": "rgb(138, 115, 64)",
+          "shadow": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, -14)",
+          "outline": "solid 2px rgb(10, 110, 124)",
+          "textDecoration": "none"
+        }
+      },
+      {
+        "text": "",
+        "hoverChanges": [
+          "bg"
+        ],
+        "focusVisible": true,
+        "base": {
+          "bg": "rgba(0, 0, 0, 0)",
+          "color": "rgb(255, 255, 255)",
+          "border": "rgb(255, 255, 255)",
+          "shadow": "none",
+          "transform": "none",
+          "outline": "none 3px rgb(255, 255, 255)",
+          "textDecoration": "none"
+        },
+        "hover": {
+          "bg": "rgba(255, 255, 255, 0.12)",
+          "color": "rgb(255, 255, 255)",
+          "border": "rgb(255, 255, 255)",
+          "shadow": "none",
+          "transform": "none",
+          "outline": "none 3px rgb(255, 255, 255)",
+          "textDecoration": "none"
+        },
+        "focus": {
+          "bg": "rgba(255, 255, 255, 0.12)",
+          "color": "rgb(255, 255, 255)",
+          "border": "rgb(255, 255, 255)",
+          "shadow": "none",
+          "transform": "none",
+          "outline": "solid 2px rgb(10, 110, 124)",
+          "textDecoration": "none"
+        }
+      },
+      {
+        "text": "Book 3D2N expedition",
+        "error": "locator.hover: Timeout 2000ms exceeded.\nCall log:\n\u001b[2m  - wa"
+      },
+      {
+        "text": "Chat on WhatsApp",
+        "error": "locator.hover: Timeout 2000ms exceeded.\nCall log:\n\u001b[2m  - wa"
+      },
+      {
+        "text": "×",
+        "hoverChanges": [],
+        "focusVisible": true,
+        "base": {
+          "bg": "rgba(255, 255, 255, 0.35)",
+          "color": "rgb(10, 31, 44)",
+          "border": "rgb(10, 31, 44)",
+          "shadow": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, -16)",
+          "outline": "none 3px rgb(10, 31, 44)",
+          "textDecoration": "none"
+        },
+        "hover": {
+          "bg": "rgba(255, 255, 255, 0.35)",
+          "color": "rgb(10, 31, 44)",
+          "border": "rgb(10, 31, 44)",
+          "shadow": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, -16)",
+          "outline": "none 3px rgb(10, 31, 44)",
+          "textDecoration": "none"
+        },
+        "focus": {
+          "bg": "rgba(255, 255, 255, 0.35)",
+          "color": "rgb(10, 31, 44)",
+          "border": "rgb(10, 31, 44)",
+          "shadow": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, -16)",
+          "outline": "solid 2px rgb(10, 110, 124)",
+          "textDecoration": "none"
+        }
+      },
+      {
+        "text": "Book the 3D2N expedition",
+        "hoverChanges": [
+          "bg",
+          "transform"
+        ],
+        "focusVisible": true,
+        "base": {
+          "bg": "rgb(232, 183, 90)",
+          "color": "rgb(10, 31, 44)",
+          "border": "rgb(10, 31, 44)",
+          "shadow": "none",
+          "transform": "none",
+          "outline": "none 3px rgb(10, 31, 44)",
+          "textDecoration": "none"
+        },
+        "hover": {
+          "bg": "rgb(217, 168, 73)",
+          "color": "rgb(10, 31, 44)",
+          "border": "rgb(10, 31, 44)",
+          "shadow": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, -1)",
+          "outline": "none 3px rgb(10, 31, 44)",
+          "textDecoration": "none"
+        },
+        "focus": {
+          "bg": "rgb(217, 168, 73)",
+          "color": "rgb(10, 31, 44)",
+          "border": "rgb(10, 31, 44)",
+          "shadow": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, -1)",
+          "outline": "solid 2px rgb(10, 110, 124)",
+          "textDecoration": "none"
+        }
+      },
+      {
+        "text": "All tours",
+        "hoverChanges": [
+          "bg",
+          "color",
+          "transform",
+          "outline"
+        ],
+        "focusVisible": true,
+        "base": {
+          "bg": "rgba(0, 0, 0, 0)",
+          "color": "rgb(10, 31, 44)",
+          "border": "rgb(10, 31, 44)",
+          "shadow": "none",
+          "transform": "none",
+          "outline": "none 3px rgb(10, 31, 44)",
+          "textDecoration": "none"
+        },
+        "hover": {
+          "bg": "rgb(10, 31, 44)",
+          "color": "rgb(245, 239, 230)",
+          "border": "rgb(10, 31, 44)",
+          "shadow": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, -1)",
+          "outline": "none 3px rgb(245, 239, 230)",
+          "textDecoration": "none"
+        },
+        "focus": {
+          "bg": "rgb(10, 31, 44)",
+          "color": "rgb(245, 239, 230)",
+          "border": "rgb(10, 31, 44)",
+          "shadow": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, -1)",
+          "outline": "solid 2px rgb(10, 110, 124)",
+          "textDecoration": "none"
+        }
+      },
+      {
+        "text": "Read all 2,156 reviews",
+        "hoverChanges": [
+          "bg",
+          "color",
+          "transform",
+          "outline"
+        ],
+        "focusVisible": true,
+        "base": {
+          "bg": "rgba(0, 0, 0, 0)",
+          "color": "rgb(10, 31, 44)",
+          "border": "rgb(10, 31, 44)",
+          "shadow": "none",
+          "transform": "none",
+          "outline": "none 3px rgb(10, 31, 44)",
+          "textDecoration": "none"
+        },
+        "hover": {
+          "bg": "rgb(10, 31, 44)",
+          "color": "rgb(245, 239, 230)",
+          "border": "rgb(10, 31, 44)",
+          "shadow": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, -1)",
+          "outline": "none 3px rgb(245, 239, 230)",
+          "textDecoration": "none"
+        },
+        "focus": {
+          "bg": "rgb(10, 31, 44)",
+          "color": "rgb(245, 239, 230)",
+          "border": "rgb(10, 31, 44)",
+          "shadow": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, -1)",
+          "outline": "solid 2px rgb(10, 110, 124)",
+          "textDecoration": "none"
+        }
+      },
+      {
+        "text": "Book the 3D2N",
+        "hoverChanges": [
+          "bg",
+          "transform"
+        ],
+        "focusVisible": true,
+        "base": {
+          "bg": "rgb(232, 183, 90)",
+          "color": "rgb(10, 31, 44)",
+          "border": "rgb(10, 31, 44)",
+          "shadow": "none",
+          "transform": "none",
+          "outline": "none 3px rgb(10, 31, 44)",
+          "textDecoration": "none"
+        },
+        "hover": {
+          "bg": "rgb(217, 168, 73)",
+          "color": "rgb(10, 31, 44)",
+          "border": "rgb(10, 31, 44)",
+          "shadow": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, -1)",
+          "outline": "none 3px rgb(10, 31, 44)",
+          "textDecoration": "none"
+        },
+        "focus": {
+          "bg": "rgb(217, 168, 73)",
+          "color": "rgb(10, 31, 44)",
+          "border": "rgb(10, 31, 44)",
+          "shadow": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, -1)",
+          "outline": "solid 2px rgb(10, 110, 124)",
+          "textDecoration": "none"
+        }
+      },
+      {
+        "text": "Ask Captain Kael",
+        "hoverChanges": [
+          "bg",
+          "shadow",
+          "transform"
+        ],
+        "focusVisible": true,
+        "base": {
+          "bg": "rgb(10, 31, 44)",
+          "color": "rgb(245, 239, 230)",
+          "border": "rgb(245, 239, 230)",
+          "shadow": "rgba(10, 31, 44, 0.1) 0px 12px 36px 0px",
+          "transform": "none",
+          "outline": "none 3px rgb(245, 239, 230)",
+          "textDecoration": "none"
+        },
+        "hover": {
+          "bg": "rgb(42, 63, 76)",
+          "color": "rgb(245, 239, 230)",
+          "border": "rgb(245, 239, 230)",
+          "shadow": "rgba(10, 31, 44, 0.4) 0px 14px 32px -8px, rgba(10, 31, 44, 0.25) 0px 6px 12px -4px",
+          "transform": "matrix(1, 0, 0, 1, 0, -1)",
+          "outline": "none 3px rgb(245, 239, 230)",
+          "textDecoration": "none"
+        },
+        "focus": {
+          "bg": "rgb(42, 63, 76)",
+          "color": "rgb(245, 239, 230)",
+          "border": "rgb(245, 239, 230)",
+          "shadow": "rgba(10, 31, 44, 0.4) 0px 14px 32px -8px, rgba(10, 31, 44, 0.25) 0px 6px 12px -4px",
+          "transform": "matrix(1, 0, 0, 1, 0, -1)",
+          "outline": "solid 2px rgb(10, 110, 124)",
+          "textDecoration": "none"
+        }
+      },
+      {
+        "text": "Accept all",
+        "error": "locator.hover: Timeout 2000ms exceeded.\nCall log:\n\u001b[2m  - wa"
+      },
+      {
+        "text": "Essential only",
+        "error": "locator.hover: Timeout 2000ms exceeded.\nCall log:\n\u001b[2m  - wa"
+      }
+    ],
+    "findings": [
+      "11 family/weight combos (target <= 6)",
+      "22 distinct font sizes (target <= 12 for a scale)",
+      "11 distinct border radii (target <= 3)",
+      "14 distinct text colors",
+      "27 tap targets under 44px",
+      "31 tap-target pairs closer than 8px",
+      "1/12 buttons have no hover change"
+    ]
+  },
+  "desktop": {
+    "census": {
+      "families": [
+        [
+          "Inter",
+          83
+        ],
+        [
+          "Fraunces",
+          59
+        ],
+        [
+          "-apple-system",
+          48
+        ]
+      ],
+      "weights": [
+        [
+          "Inter 400",
+          44
+        ],
+        [
+          "Fraunces 600",
+          32
+        ],
+        [
+          "Inter 500",
+          26
+        ],
+        [
+          "Fraunces 500",
+          21
+        ],
+        [
+          "-apple-system 500",
+          16
+        ],
+        [
+          "-apple-system 600",
+          14
+        ],
+        [
+          "-apple-system 400",
+          12
+        ],
+        [
+          "Inter 600",
+          11
+        ],
+        [
+          "Fraunces 400",
+          6
+        ],
+        [
+          "-apple-system 700",
+          6
+        ],
+        [
+          "Inter 700",
+          2
+        ]
+      ],
+      "sizes": [
+        [
+          "14px",
+          60
+        ],
+        [
+          "16px",
+          19
+        ],
+        [
+          "22.4px",
+          10
+        ],
+        [
+          "12px",
+          10
+        ],
+        [
+          "16.8px",
+          9
+        ],
+        [
+          "16.32px",
+          8
+        ],
+        [
+          "11.2px",
+          8
+        ],
+        [
+          "18.4px",
+          6
+        ],
+        [
+          "14.72px",
+          6
+        ],
+        [
+          "36px",
+          6
+        ],
+        [
+          "14.4px",
+          6
+        ],
+        [
+          "13.12px",
+          5
+        ],
+        [
+          "13.76px",
+          4
+        ],
+        [
+          "24px",
+          4
+        ],
+        [
+          "21.6px",
+          4
+        ],
+        [
+          "11px",
+          4
+        ],
+        [
+          "15.2px",
+          4
+        ],
+        [
+          "17.6px",
+          4
+        ],
+        [
+          "13.6px",
+          4
+        ],
+        [
+          "20px",
+          3
+        ],
+        [
+          "12.48px",
+          3
+        ],
+        [
+          "64px",
+          1
+        ],
+        [
+          "18px",
+          1
+        ],
+        [
+          "13px",
+          1
+        ]
+      ],
+      "lineHeights": [
+        [
+          "14px/23.1px",
+          52
+        ],
+        [
+          "16px/26.4px",
+          16
+        ],
+        [
+          "12px/19.8px",
+          10
+        ],
+        [
+          "16.32px/20.4px",
+          8
+        ],
+        [
+          "11.2px/18.48px",
+          8
+        ],
+        [
+          "14px/14px",
+          6
+        ],
+        [
+          "36px/40.32px",
+          6
+        ],
+        [
+          "22.4px/26.88px",
+          6
+        ],
+        [
+          "14.4px/21.6px",
+          6
+        ],
+        [
+          "16.8px/21.84px",
+          6
+        ],
+        [
+          "14.72px/18.4px",
+          4
+        ],
+        [
+          "13.76px/18.576px",
+          4
+        ],
+        [
+          "22.4px/24.64px",
+          4
+        ],
+        [
+          "24px/28.8px",
+          4
+        ],
+        [
+          "21.6px/23.76px",
+          4
+        ],
+        [
+          "11px/12.1px",
+          4
+        ],
+        [
+          "15.2px/25.08px",
+          4
+        ],
+        [
+          "18.4px/22.08px",
+          4
+        ],
+        [
+          "17.6px/24.64px",
+          4
+        ],
+        [
+          "13.6px/22.44px",
+          4
+        ],
+        [
+          "13.12px/19.024px",
+          3
+        ],
+        [
+          "16.8px/27.72px",
+          3
+        ],
+        [
+          "16px/19.2px",
+          3
+        ],
+        [
+          "20px/20px",
+          2
+        ],
+        [
+          "18.4px/30.36px",
+          2
+        ]
+      ],
+      "textColors": [
+        [
+          "rgb(10, 31, 44)",
+          55
+        ],
+        [
+          "rgb(42, 63, 76)",
+          32
+        ],
+        [
+          "rgb(90, 111, 124)",
+          28
+        ],
+        [
+          "rgba(245, 239, 230, 0.85)",
+          25
+        ],
+        [
+          "rgb(245, 239, 230)",
+          19
+        ],
+        [
+          "rgb(10, 110, 124)",
+          10
+        ],
+        [
+          "rgba(245, 239, 230, 0.78)",
+          6
+        ],
+        [
+          "rgb(232, 183, 90)",
+          5
+        ],
+        [
+          "rgb(255, 255, 255)",
+          3
+        ],
+        [
+          "rgb(90, 74, 42)",
+          2
+        ],
+        [
+          "rgba(245, 239, 230, 0.82)",
+          2
+        ],
+        [
+          "rgb(138, 115, 64)",
+          1
+        ],
+        [
+          "rgba(245, 239, 230, 0.9)",
+          1
+        ],
+        [
+          "rgba(245, 239, 230, 0.75)",
+          1
+        ]
+      ],
+      "backgrounds": [
+        [
+          "rgb(236, 228, 211)",
+          19
+        ],
+        [
+          "rgb(10, 110, 124)",
+          16
+        ],
+        [
+          "rgb(255, 255, 255)",
+          11
+        ],
+        [
+          "rgb(232, 183, 90)",
+          7
+        ],
+        [
+          "rgb(251, 250, 247)",
+          5
+        ],
+        [
+          "rgb(10, 31, 44)",
+          4
+        ],
+        [
+          "rgba(10, 31, 44, 0.85)",
+          4
+        ],
+        [
+          "rgb(245, 239, 230)",
+          3
+        ],
+        [
+          "rgba(255, 247, 220, 0.96)",
+          1
+        ],
+        [
+          "rgba(10, 31, 44, 0.92)",
+          1
+        ],
+        [
+          "rgb(37, 211, 102)",
+          1
+        ],
+        [
+          "rgba(255, 255, 255, 0.35)",
+          1
+        ],
+        [
+          "rgba(255, 255, 255, 0.1)",
+          1
+        ]
+      ],
+      "radii": [
+        [
+          "8px",
+          16
+        ],
+        [
+          "22px",
+          15
+        ],
+        [
+          "14px",
+          10
+        ],
+        [
+          "11px",
+          8
+        ],
+        [
+          "50%",
+          6
+        ],
+        [
+          "9px",
+          4
+        ],
+        [
+          "6px",
+          1
+        ],
+        [
+          "0px 0px 14px 14px",
+          1
+        ],
+        [
+          "999px",
+          1
+        ]
+      ],
+      "shadows": [
+        [
+          "rgba(10, 31, 44, 0.04) 0px 2px 4px 0px, rgba(10, 31, 44, 0.07) 0px 12px 32px 0px",
+          4
+        ],
+        [
+          "rgba(10, 31, 44, 0.1) 0px 12px 36px 0px",
+          2
+        ],
+        [
+          "rgba(10, 31, 44, 0.22) -20px 0px 60px 0px",
+          1
+        ],
+        [
+          "rgba(10, 31, 44, 0.08) 0px 4px 16px 0px",
+          1
+        ]
+      ],
+      "headings": [
+        {
+          "tag": "H2",
+          "text": "Seatours Palawan: Expeditions, Speedboats & Private Charters",
+          "size": "64px",
+          "weight": "600",
+          "family": "Fraunces"
+        },
+        {
+          "tag": "H1",
+          "text": "Seatours Palawan: Expeditions, Speedboats & Private Charters",
+          "size": "64px",
+          "weight": "600",
+          "family": "Fraunces"
+        },
+        {
+          "tag": "H2",
+          "text": "Four ways to see Palawan.",
+          "size": "36px",
+          "weight": "600",
+          "family": "Fraunces"
+        },
+        {
+          "tag": "H3",
+          "text": "El Nido to Coron Expedition",
+          "size": "24px",
+          "weight": "500",
+          "family": "Fraunces"
+        },
+        {
+          "tag": "H3",
+          "text": "Coron to El Nido Expedition",
+          "size": "24px",
+          "weight": "500",
+          "family": "Fraunces"
+        },
+        {
+          "tag": "H3",
+          "text": "Shared Speedboat El Nido",
+          "size": "24px",
+          "weight": "500",
+          "family": "Fraunces"
+        },
+        {
+          "tag": "H3",
+          "text": "Private Speedboat El Nido",
+          "size": "24px",
+          "weight": "500",
+          "family": "Fraunces"
+        },
+        {
+          "tag": "H2",
+          "text": "Every photo. Every meal. Every reef. Real.",
+          "size": "36px",
+          "weight": "600",
+          "family": "Fraunces"
+        },
+        {
+          "tag": "H3",
+          "text": "El Nido to Coron Expedition",
+          "size": "22.4px",
+          "weight": "600",
+          "family": "Fraunces"
+        },
+        {
+          "tag": "H3",
+          "text": "Premium Private Boat Charter",
+          "size": "22.4px",
+          "weight": "600",
+          "family": "Fraunces"
+        },
+        {
+          "tag": "H3",
+          "text": "Semi-Private Day",
+          "size": "22.4px",
+          "weight": "600",
+          "family": "Fraunces"
+        },
+        {
+          "tag": "H3",
+          "text": "Real Filipino Food",
+          "size": "22.4px",
+          "weight": "600",
+          "family": "Fraunces"
+        },
+        {
+          "tag": "H3",
+          "text": "Linapacan Campsite",
+          "size": "22.4px",
+          "weight": "600",
+          "family": "Fraunces"
+        },
+        {
+          "tag": "H3",
+          "text": "Locally Owned",
+          "size": "22.4px",
+          "weight": "600",
+          "family": "Fraunces"
+        },
+        {
+          "tag": "H2",
+          "text": "Locally owned, instantly bookable.",
+          "size": "36px",
+          "weight": "600",
+          "family": "Fraunces"
+        },
+        {
+          "tag": "H2",
+          "text": "From browse to boat in 4 steps.",
+          "size": "36px",
+          "weight": "600",
+          "family": "Fraunces"
+        },
+        {
+          "tag": "H3",
+          "text": "Pick a tour and date",
+          "size": "18.4px",
+          "weight": "600",
+          "family": "Fraunces"
+        },
+        {
+          "tag": "H3",
+          "text": "Pay 50% deposit",
+          "size": "18.4px",
+          "weight": "600",
+          "family": "Fraunces"
+        },
+        {
+          "tag": "H3",
+          "text": "We WhatsApp you the day before",
+          "size": "18.4px",
+          "weight": "600",
+          "family": "Fraunces"
+        },
+        {
+          "tag": "H3",
+          "text": "Show up and sail",
+          "size": "18.4px",
+          "weight": "600",
+          "family": "Fraunces"
+        },
+        {
+          "tag": "H2",
+          "text": "What guests say.",
+          "size": "36px",
+          "weight": "600",
+          "family": "Fraunces"
+        },
+        {
+          "tag": "H2",
+          "text": "Pick a tour. Pick a date. Go.",
+          "size": "36px",
+          "weight": "600",
+          "family": "Fraunces"
+        },
+        {
+          "tag": "H3",
+          "text": "Tours",
+          "size": "16px",
+          "weight": "600",
+          "family": "Inter"
+        },
+        {
+          "tag": "H3",
+          "text": "Company",
+          "size": "16px",
+          "weight": "600",
+          "family": "Inter"
+        },
+        {
+          "tag": "H3",
+          "text": "Support",
+          "size": "16px",
+          "weight": "600",
+          "family": "Inter"
+        },
+        {
+          "tag": "H4",
+          "text": "Captain Kael",
+          "size": "16.8px",
+          "weight": "600",
+          "family": "Fraunces"
+        }
+      ],
+      "buttons": [
+        {
+          "idx": 0,
+          "text": "×",
+          "w": 29,
+          "h": 28,
+          "padding": "4px 8px",
+          "radius": "6px",
+          "bg": "rgba(0, 0, 0, 0)",
+          "color": "rgb(138, 115, 64)",
+          "weight": "400",
+          "size": "20px",
+          "cursor": "pointer",
+          "transition": "0s",
+          "outlineNone": true,
+          "top": 68,
+          "foldPct": 1
+        },
+        {
+          "idx": 1,
+          "text": "3D2N Palawan Expedition ▾",
+          "w": 185,
+          "h": 17,
+          "padding": "0px",
+          "radius": "0px",
+          "bg": "rgba(0, 0, 0, 0)",
+          "color": "rgb(42, 63, 76)",
+          "weight": "500",
+          "size": "14px",
+          "cursor": "pointer",
+          "transition": "0s",
+          "outlineNone": true,
+          "top": 23,
+          "foldPct": 0
+        },
+        {
+          "idx": 2,
+          "text": "▾",
+          "w": 7,
+          "h": 17,
+          "padding": "0px",
+          "radius": "0px",
+          "bg": "rgba(0, 0, 0, 0)",
+          "color": "rgb(42, 63, 76)",
+          "weight": "500",
+          "size": "14px",
+          "cursor": "pointer",
+          "transition": "0s",
+          "outlineNone": true,
+          "top": 23,
+          "foldPct": 0
+        },
+        {
+          "idx": 3,
+          "text": "Book 3D2N",
+          "w": 129,
+          "h": 48,
+          "padding": "6px 26px",
+          "radius": "14px",
+          "bg": "rgb(232, 183, 90)",
+          "color": "rgb(10, 31, 44)",
+          "weight": "600",
+          "size": "14px",
+          "cursor": "pointer",
+          "transition": "0.16s, 0.16s, 0.16s",
+          "outlineNone": true,
+          "top": 8,
+          "foldPct": 0
+        },
+        {
+          "idx": 4,
+          "text": "Book 3D2N expedition",
+          "w": 324,
+          "h": 56,
+          "padding": "15px 30px",
+          "radius": "14px",
+          "bg": "rgb(232, 183, 90)",
+          "color": "rgb(10, 31, 44)",
+          "weight": "600",
+          "size": "16px",
+          "cursor": "pointer",
+          "transition": "0.16s, 0.16s, 0.16s",
+          "outlineNone": true,
+          "top": 767,
+          "foldPct": 10
+        },
+        {
+          "idx": 5,
+          "text": "Chat on WhatsApp",
+          "w": 324,
+          "h": 49,
+          "padding": "13px 26px",
+          "radius": "14px",
+          "bg": "rgb(37, 211, 102)",
+          "color": "rgb(255, 255, 255)",
+          "weight": "600",
+          "size": "14px",
+          "cursor": "pointer",
+          "transition": "0.16s, 0.16s, 0.16s",
+          "outlineNone": true,
+          "top": 833,
+          "foldPct": 10
+        },
+        {
+          "idx": 6,
+          "text": "×",
+          "w": 32,
+          "h": 32,
+          "padding": "0px",
+          "radius": "50%",
+          "bg": "rgba(255, 255, 255, 0.35)",
+          "color": "rgb(10, 31, 44)",
+          "weight": "500",
+          "size": "20px",
+          "cursor": "pointer",
+          "transition": "0s",
+          "outlineNone": true,
+          "top": 109,
+          "foldPct": 1
+        },
+        {
+          "idx": 7,
+          "text": "Book the 3D2N expedition",
+          "w": 262,
+          "h": 58,
+          "padding": "15px 30px",
+          "radius": "14px",
+          "bg": "rgb(232, 183, 90)",
+          "color": "rgb(10, 31, 44)",
+          "weight": "600",
+          "size": "16px",
+          "cursor": "pointer",
+          "transition": "0.16s, 0.16s, 0.16s",
+          "outlineNone": true,
+          "top": 587,
+          "foldPct": 7
+        },
+        {
+          "idx": 8,
+          "text": "All tours",
+          "w": 126,
+          "h": 58,
+          "padding": "15px 30px",
+          "radius": "14px",
+          "bg": "rgba(255, 255, 255, 0.1)",
+          "color": "rgb(255, 255, 255)",
+          "weight": "600",
+          "size": "16px",
+          "cursor": "pointer",
+          "transition": "0.16s, 0.16s, 0.16s",
+          "outlineNone": true,
+          "top": 587,
+          "foldPct": 7
+        },
+        {
+          "idx": 9,
+          "text": "Read all 2,156 reviews",
+          "w": 206,
+          "h": 51,
+          "padding": "13px 26px",
+          "radius": "14px",
+          "bg": "rgba(0, 0, 0, 0)",
+          "color": "rgb(10, 31, 44)",
+          "weight": "600",
+          "size": "14px",
+          "cursor": "pointer",
+          "transition": "0.16s, 0.16s, 0.16s",
+          "outlineNone": true,
+          "top": 5865,
+          "foldPct": 73
+        },
+        {
+          "idx": 10,
+          "text": "Book the 3D2N",
+          "w": 176,
+          "h": 56,
+          "padding": "15px 30px",
+          "radius": "14px",
+          "bg": "rgb(232, 183, 90)",
+          "color": "rgb(10, 31, 44)",
+          "weight": "600",
+          "size": "16px",
+          "cursor": "pointer",
+          "transition": "0.16s, 0.16s, 0.16s",
+          "outlineNone": true,
+          "top": 6497,
+          "foldPct": 81
+        },
+        {
+          "idx": 11,
+          "text": "Ask Captain Kael",
+          "w": 186,
+          "h": 48,
+          "padding": "0px 18px",
+          "radius": "999px",
+          "bg": "rgb(10, 31, 44)",
+          "color": "rgb(245, 239, 230)",
+          "weight": "700",
+          "size": "13px",
+          "cursor": "pointer",
+          "transition": "0.12s, 0.12s, 0.12s",
+          "outlineNone": true,
+          "top": 830,
+          "foldPct": 10
+        },
+        {
+          "idx": 12,
+          "text": "Accept all",
+          "w": 90,
+          "h": 37,
+          "padding": "7px 14px",
+          "radius": "14px",
+          "bg": "rgb(232, 183, 90)",
+          "color": "rgb(10, 31, 44)",
+          "weight": "600",
+          "size": "12.48px",
+          "cursor": "pointer",
+          "transition": "0.16s, 0.16s, 0.16s",
+          "outlineNone": true,
+          "top": 922,
+          "foldPct": 11
+        },
+        {
+          "idx": 13,
+          "text": "Essential only",
+          "w": 116,
+          "h": 37,
+          "padding": "7px 14px",
+          "radius": "14px",
+          "bg": "rgba(0, 0, 0, 0)",
+          "color": "rgb(10, 31, 44)",
+          "weight": "600",
+          "size": "12.48px",
+          "cursor": "pointer",
+          "transition": "0.16s, 0.16s, 0.16s",
+          "outlineNone": true,
+          "top": 922,
+          "foldPct": 11
+        }
+      ],
+      "taps": {
+        "total": 67,
+        "under44": 33,
+        "pairsCloserThan8px": 30
+      },
+      "inputs": [
+        {
+          "type": "text",
+          "fontSize": "16px",
+          "hasLabel": true,
+          "autocomplete": "off"
+        }
+      ],
+      "viewportUnits": {
+        "inlineVh": 0,
+        "css100vhRules": 0,
+        "cssDvhSvhRules": 11
+      },
+      "syntheticBoldCandidates": 0,
+      "iosZoomRiskInputs": 0
+    },
+    "buttonStates": [
+      {
+        "text": "×",
+        "hoverChanges": [
+          "bg"
+        ],
+        "focusVisible": true,
+        "base": {
+          "bg": "rgba(0, 0, 0, 0)",
+          "color": "rgb(138, 115, 64)",
+          "border": "rgb(138, 115, 64)",
+          "shadow": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, -14)",
+          "outline": "none 3px rgb(138, 115, 64)",
+          "textDecoration": "none"
+        },
+        "hover": {
+          "bg": "rgba(10, 31, 44, 0.06)",
+          "color": "rgb(138, 115, 64)",
+          "border": "rgb(138, 115, 64)",
+          "shadow": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, -14)",
+          "outline": "none 3px rgb(138, 115, 64)",
+          "textDecoration": "none"
+        },
+        "focus": {
+          "bg": "rgba(10, 31, 44, 0.06)",
+          "color": "rgb(138, 115, 64)",
+          "border": "rgb(138, 115, 64)",
+          "shadow": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, -14)",
+          "outline": "solid 2px rgb(10, 110, 124)",
+          "textDecoration": "none"
+        }
+      },
+      {
+        "text": "3D2N Palawan Expedition ▾",
+        "hoverChanges": [],
+        "focusVisible": true,
+        "base": {
+          "bg": "rgba(0, 0, 0, 0)",
+          "color": "rgb(42, 63, 76)",
+          "border": "rgb(42, 63, 76)",
+          "shadow": "none",
+          "transform": "none",
+          "outline": "none 3px rgb(42, 63, 76)",
+          "textDecoration": "none"
+        },
+        "hover": {
+          "bg": "rgba(0, 0, 0, 0)",
+          "color": "rgb(42, 63, 76)",
+          "border": "rgb(42, 63, 76)",
+          "shadow": "none",
+          "transform": "none",
+          "outline": "none 3px rgb(42, 63, 76)",
+          "textDecoration": "none"
+        },
+        "focus": {
+          "bg": "rgba(0, 0, 0, 0)",
+          "color": "rgb(42, 63, 76)",
+          "border": "rgb(42, 63, 76)",
+          "shadow": "none",
+          "transform": "none",
+          "outline": "solid 2px rgb(10, 110, 124)",
+          "textDecoration": "none"
+        }
+      },
+      {
+        "text": "▾",
+        "hoverChanges": [
+          "color",
+          "border",
+          "outline"
+        ],
+        "focusVisible": true,
+        "base": {
+          "bg": "rgba(0, 0, 0, 0)",
+          "color": "rgb(42, 63, 76)",
+          "border": "rgb(42, 63, 76)",
+          "shadow": "none",
+          "transform": "none",
+          "outline": "none 3px rgb(42, 63, 76)",
+          "textDecoration": "none"
+        },
+        "hover": {
+          "bg": "rgba(0, 0, 0, 0)",
+          "color": "rgb(10, 31, 44)",
+          "border": "rgb(10, 31, 44)",
+          "shadow": "none",
+          "transform": "none",
+          "outline": "none 3px rgb(10, 31, 44)",
+          "textDecoration": "none"
+        },
+        "focus": {
+          "bg": "rgba(0, 0, 0, 0)",
+          "color": "rgb(10, 31, 44)",
+          "border": "rgb(10, 31, 44)",
+          "shadow": "none",
+          "transform": "none",
+          "outline": "none 3px rgb(10, 31, 44)",
+          "textDecoration": "none"
+        }
+      },
+      {
+        "text": "Book 3D2N",
+        "hoverChanges": [
+          "bg",
+          "transform"
+        ],
+        "focusVisible": true,
+        "base": {
+          "bg": "rgb(232, 183, 90)",
+          "color": "rgb(10, 31, 44)",
+          "border": "rgb(10, 31, 44)",
+          "shadow": "none",
+          "transform": "none",
+          "outline": "none 3px rgb(10, 31, 44)",
+          "textDecoration": "none"
+        },
+        "hover": {
+          "bg": "rgb(217, 168, 73)",
+          "color": "rgb(10, 31, 44)",
+          "border": "rgb(10, 31, 44)",
+          "shadow": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, -1)",
+          "outline": "none 3px rgb(10, 31, 44)",
+          "textDecoration": "none"
+        },
+        "focus": {
+          "bg": "rgb(217, 168, 73)",
+          "color": "rgb(10, 31, 44)",
+          "border": "rgb(10, 31, 44)",
+          "shadow": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, -1)",
+          "outline": "solid 2px rgb(10, 110, 124)",
+          "textDecoration": "none"
+        }
+      },
+      {
+        "text": "Book 3D2N expedition",
+        "error": "locator.hover: Timeout 2000ms exceeded.\nCall log:\n\u001b[2m  - wa"
+      },
+      {
+        "text": "Chat on WhatsApp",
+        "error": "locator.hover: Timeout 2000ms exceeded.\nCall log:\n\u001b[2m  - wa"
+      },
+      {
+        "text": "×",
+        "hoverChanges": [],
+        "focusVisible": true,
+        "base": {
+          "bg": "rgba(255, 255, 255, 0.35)",
+          "color": "rgb(10, 31, 44)",
+          "border": "rgb(10, 31, 44)",
+          "shadow": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, -16)",
+          "outline": "none 3px rgb(10, 31, 44)",
+          "textDecoration": "none"
+        },
+        "hover": {
+          "bg": "rgba(255, 255, 255, 0.35)",
+          "color": "rgb(10, 31, 44)",
+          "border": "rgb(10, 31, 44)",
+          "shadow": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, -16)",
+          "outline": "none 3px rgb(10, 31, 44)",
+          "textDecoration": "none"
+        },
+        "focus": {
+          "bg": "rgba(255, 255, 255, 0.35)",
+          "color": "rgb(10, 31, 44)",
+          "border": "rgb(10, 31, 44)",
+          "shadow": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, -16)",
+          "outline": "solid 2px rgb(10, 110, 124)",
+          "textDecoration": "none"
+        }
+      },
+      {
+        "text": "Book the 3D2N expedition",
+        "hoverChanges": [
+          "bg",
+          "transform"
+        ],
+        "focusVisible": true,
+        "base": {
+          "bg": "rgb(232, 183, 90)",
+          "color": "rgb(10, 31, 44)",
+          "border": "rgb(10, 31, 44)",
+          "shadow": "none",
+          "transform": "none",
+          "outline": "none 3px rgb(10, 31, 44)",
+          "textDecoration": "none"
+        },
+        "hover": {
+          "bg": "rgb(217, 168, 73)",
+          "color": "rgb(10, 31, 44)",
+          "border": "rgb(10, 31, 44)",
+          "shadow": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, -1)",
+          "outline": "none 3px rgb(10, 31, 44)",
+          "textDecoration": "none"
+        },
+        "focus": {
+          "bg": "rgb(217, 168, 73)",
+          "color": "rgb(10, 31, 44)",
+          "border": "rgb(10, 31, 44)",
+          "shadow": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, -1)",
+          "outline": "solid 2px rgb(10, 110, 124)",
+          "textDecoration": "none"
+        }
+      },
+      {
+        "text": "All tours",
+        "hoverChanges": [
+          "transform"
+        ],
+        "focusVisible": true,
+        "base": {
+          "bg": "rgba(255, 255, 255, 0.1)",
+          "color": "rgb(255, 255, 255)",
+          "border": "rgba(255, 255, 255, 0.3)",
+          "shadow": "none",
+          "transform": "none",
+          "outline": "none 3px rgb(255, 255, 255)",
+          "textDecoration": "none"
+        },
+        "hover": {
+          "bg": "rgba(255, 255, 255, 0.1)",
+          "color": "rgb(255, 255, 255)",
+          "border": "rgba(255, 255, 255, 0.3)",
+          "shadow": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, -1)",
+          "outline": "none 3px rgb(255, 255, 255)",
+          "textDecoration": "none"
+        },
+        "focus": {
+          "bg": "rgba(255, 255, 255, 0.1)",
+          "color": "rgb(255, 255, 255)",
+          "border": "rgba(255, 255, 255, 0.3)",
+          "shadow": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, -1)",
+          "outline": "solid 2px rgb(10, 110, 124)",
+          "textDecoration": "none"
+        }
+      },
+      {
+        "text": "Read all 2,156 reviews",
+        "hoverChanges": [
+          "bg",
+          "color",
+          "transform",
+          "outline"
+        ],
+        "focusVisible": true,
+        "base": {
+          "bg": "rgba(0, 0, 0, 0)",
+          "color": "rgb(10, 31, 44)",
+          "border": "rgb(10, 31, 44)",
+          "shadow": "none",
+          "transform": "none",
+          "outline": "none 3px rgb(10, 31, 44)",
+          "textDecoration": "none"
+        },
+        "hover": {
+          "bg": "rgb(10, 31, 44)",
+          "color": "rgb(245, 239, 230)",
+          "border": "rgb(10, 31, 44)",
+          "shadow": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, -1)",
+          "outline": "none 3px rgb(245, 239, 230)",
+          "textDecoration": "none"
+        },
+        "focus": {
+          "bg": "rgb(10, 31, 44)",
+          "color": "rgb(245, 239, 230)",
+          "border": "rgb(10, 31, 44)",
+          "shadow": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, -1)",
+          "outline": "solid 2px rgb(10, 110, 124)",
+          "textDecoration": "none"
+        }
+      },
+      {
+        "text": "Book the 3D2N",
+        "hoverChanges": [
+          "bg",
+          "transform"
+        ],
+        "focusVisible": true,
+        "base": {
+          "bg": "rgb(232, 183, 90)",
+          "color": "rgb(10, 31, 44)",
+          "border": "rgb(10, 31, 44)",
+          "shadow": "none",
+          "transform": "none",
+          "outline": "none 3px rgb(10, 31, 44)",
+          "textDecoration": "none"
+        },
+        "hover": {
+          "bg": "rgb(217, 168, 73)",
+          "color": "rgb(10, 31, 44)",
+          "border": "rgb(10, 31, 44)",
+          "shadow": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, -1)",
+          "outline": "none 3px rgb(10, 31, 44)",
+          "textDecoration": "none"
+        },
+        "focus": {
+          "bg": "rgb(217, 168, 73)",
+          "color": "rgb(10, 31, 44)",
+          "border": "rgb(10, 31, 44)",
+          "shadow": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, -1)",
+          "outline": "solid 2px rgb(10, 110, 124)",
+          "textDecoration": "none"
+        }
+      },
+      {
+        "text": "Ask Captain Kael",
+        "hoverChanges": [
+          "bg",
+          "shadow",
+          "transform"
+        ],
+        "focusVisible": true,
+        "base": {
+          "bg": "rgb(10, 31, 44)",
+          "color": "rgb(245, 239, 230)",
+          "border": "rgb(245, 239, 230)",
+          "shadow": "rgba(10, 31, 44, 0.1) 0px 12px 36px 0px",
+          "transform": "none",
+          "outline": "none 3px rgb(245, 239, 230)",
+          "textDecoration": "none"
+        },
+        "hover": {
+          "bg": "rgb(42, 63, 76)",
+          "color": "rgb(245, 239, 230)",
+          "border": "rgb(245, 239, 230)",
+          "shadow": "rgba(10, 31, 44, 0.4) 0px 14px 32px -8px, rgba(10, 31, 44, 0.25) 0px 6px 12px -4px",
+          "transform": "matrix(1, 0, 0, 1, 0, -1)",
+          "outline": "none 3px rgb(245, 239, 230)",
+          "textDecoration": "none"
+        },
+        "focus": {
+          "bg": "rgb(42, 63, 76)",
+          "color": "rgb(245, 239, 230)",
+          "border": "rgb(245, 239, 230)",
+          "shadow": "rgba(10, 31, 44, 0.4) 0px 14px 32px -8px, rgba(10, 31, 44, 0.25) 0px 6px 12px -4px",
+          "transform": "matrix(1, 0, 0, 1, 0, -1)",
+          "outline": "solid 2px rgb(10, 110, 124)",
+          "textDecoration": "none"
+        }
+      },
+      {
+        "text": "Accept all",
+        "error": "locator.hover: Timeout 2000ms exceeded.\nCall log:\n\u001b[2m  - wa"
+      },
+      {
+        "text": "Essential only",
+        "error": "locator.hover: Timeout 2000ms exceeded.\nCall log:\n\u001b[2m  - wa"
+      }
+    ],
+    "findings": [
+      "11 family/weight combos (target <= 6)",
+      "24 distinct font sizes (target <= 12 for a scale)",
+      "9 distinct border radii (target <= 3)",
+      "14 distinct text colors",
+      "33 tap targets under 44px",
+      "30 tap-target pairs closer than 8px",
+      "2/14 buttons have no hover change"
+    ]
+  }
+}

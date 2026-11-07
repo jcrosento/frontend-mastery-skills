@@ -1,0 +1,457 @@
+{
+  "summary": {
+    "url": "https://seatourspalawan.com",
+    "conditions": {
+      "device": "Pixel 7",
+      "cpuThrottle": 4,
+      "downKbps": 1600,
+      "upKbps": 750,
+      "rttMs": 150
+    },
+    "nav": {
+      "ttfb": 359,
+      "domContentLoaded": 998,
+      "load": 2488,
+      "transferKB": 23
+    },
+    "paint": {
+      "first-paint": 424,
+      "first-contentful-paint": 700
+    },
+    "lcp": {
+      "time": 2512,
+      "size": 301584,
+      "url": "https://seatourspalawan.com/assets/video/hero/hero-loop-poster-mobile-720.webp?v=202605311023",
+      "el": "IMG.hero-video-poster"
+    },
+    "tbt": 8,
+    "longTasks": 1,
+    "cls": 0.693,
+    "clsBySource": {
+      "MAIN#main": 0.6134,
+      "DIV.hi-inner": 0.0799
+    },
+    "renderBlocking": [
+      {
+        "url": "https://seatourspalawan.com/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js",
+        "dur": 190,
+        "bytes": 911
+      }
+    ],
+    "byType": {
+      "Document": {
+        "n": 1,
+        "kb": 24
+      },
+      "Script": {
+        "n": 10,
+        "kb": 207
+      },
+      "Stylesheet": {
+        "n": 2,
+        "kb": 35
+      },
+      "Image": {
+        "n": 5,
+        "kb": 172
+      },
+      "Font": {
+        "n": 2,
+        "kb": 115
+      },
+      "Fetch": {
+        "n": 3,
+        "kb": 4
+      },
+      "XHR": {
+        "n": 1,
+        "kb": 0
+      }
+    },
+    "thirdParties": {
+      "static.cloudflareinsights.com": {
+        "requests": 1,
+        "kb": 10
+      },
+      "": {
+        "requests": 1,
+        "kb": 0
+      },
+      "www.googletagmanager.com": {
+        "requests": 1,
+        "kb": 156
+      },
+      "www.google.com": {
+        "requests": 1,
+        "kb": 0
+      },
+      "ad.doubleclick.net": {
+        "requests": 1,
+        "kb": 0
+      }
+    },
+    "fontsLoaded": 4,
+    "jsHeapMB": 3.4,
+    "domNodes": 1734,
+    "biggestBottleneck": {
+      "score": 6932.999999999999,
+      "title": "CLS 0.693",
+      "fix": "Reserve space for: MAIN#main (0.6134), DIV.hi-inner (0.0799). Set width/height on images and embeds, font size-adjust fallback."
+    },
+    "fixes": [
+      {
+        "score": 6932.999999999999,
+        "title": "CLS 0.693",
+        "fix": "Reserve space for: MAIN#main (0.6134), DIV.hi-inner (0.0799). Set width/height on images and embeds, font size-adjust fallback."
+      },
+      {
+        "score": 2512,
+        "title": "LCP 2512 ms on IMG.hero-video-poster (130 KB, priority High, initiator https://seatourspalawan.com/)",
+        "fix": "Preload the LCP image with fetchpriority=high, serve AVIF/WebP at rendered size, do not lazy-load it, remove any overlay/animation delaying paint."
+      },
+      {
+        "score": 304.4482421875,
+        "title": "1 render-blocking resources (1 KB)",
+        "fix": "Inline critical CSS, defer non-critical CSS/JS, remove unused plugin assets on this template."
+      }
+    ]
+  },
+  "requests": [
+    {
+      "url": "https://seatourspalawan.com/",
+      "type": "Document",
+      "start": 857053.650572,
+      "initiator": "other",
+      "priority": "VeryHigh",
+      "status": 200,
+      "mime": "text/html",
+      "protocol": "h2",
+      "fromCache": false,
+      "ttfb": 370.032,
+      "end": 857054.129827,
+      "bytes": 24401
+    },
+    {
+      "url": "https://seatourspalawan.com/assets/js/gtm-loader.js?v=202610130004",
+      "type": "Script",
+      "start": 857054.058839,
+      "initiator": "https://seatourspalawan.com/",
+      "priority": "Low",
+      "status": 200,
+      "mime": "application/javascript",
+      "protocol": "h2",
+      "fromCache": false,
+      "ttfb": 150.793,
+      "end": 857054.210016,
+      "bytes": 1437
+    },
+    {
+      "url": "https://seatourspalawan.com/assets/js/tracking.js?v=202610260002",
+      "type": "Script",
+      "start": 857054.058961,
+      "initiator": "https://seatourspalawan.com/",
+      "priority": "Low",
+      "status": 200,
+      "mime": "application/javascript",
+      "protocol": "h2",
+      "fromCache": false,
+      "ttfb": 157.706,
+      "end": 857054.350694,
+      "bytes": 5927
+    },
+    {
+      "url": "https://seatourspalawan.com/assets/css/style.css?v=202611030002",
+      "type": "Stylesheet",
+      "start": 857054.065212,
+      "initiator": "https://seatourspalawan.com/",
+      "priority": "VeryHigh",
+      "status": 200,
+      "mime": "text/css",
+      "protocol": "h2",
+      "fromCache": false,
+      "ttfb": 159.521,
+      "end": 857054.870198,
+      "bytes": 30622
+    },
+    {
+      "url": "https://seatourspalawan.com/assets/css/craft.css?v=202611050002",
+      "type": "Stylesheet",
+      "start": 857054.065259,
+      "initiator": "https://seatourspalawan.com/",
+      "priority": "VeryLow",
+      "status": 200,
+      "mime": "text/css",
+      "protocol": "h2",
+      "fromCache": false,
+      "ttfb": 166.168,
+      "end": 857054.371972,
+      "bytes": 4729
+    },
+    {
+      "url": "https://seatourspalawan.com/assets/js/nav-drawer.js?v=202605311023",
+      "type": "Script",
+      "start": 857054.06722,
+      "initiator": "https://seatourspalawan.com/",
+      "priority": "Low",
+      "status": 200,
+      "mime": "application/javascript",
+      "protocol": "h2",
+      "fromCache": false,
+      "ttfb": 180.566,
+      "end": 857054.248154,
+      "bytes": 1479
+    },
+    {
+      "url": "https://seatourspalawan.com/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js",
+      "type": "Script",
+      "start": 857054.072581,
+      "initiator": "https://seatourspalawan.com/",
+      "priority": "High",
+      "status": 200,
+      "mime": "application/javascript",
+      "protocol": "h2",
+      "fromCache": false,
+      "ttfb": 187.672,
+      "end": 857054.262375,
+      "bytes": 934
+    },
+    {
+      "url": "https://seatourspalawan.com/assets/js/trust-banner.js?v=202607070001",
+      "type": "Script",
+      "start": 857054.072788,
+      "initiator": "https://seatourspalawan.com/",
+      "priority": "Low",
+      "status": 200,
+      "mime": "application/javascript",
+      "protocol": "h2",
+      "fromCache": false,
+      "ttfb": 179.855,
+      "end": 857054.254696,
+      "bytes": 729
+    },
+    {
+      "url": "https://seatourspalawan.com/assets/img/brand/logo.svg",
+      "type": "Image",
+      "start": 857054.072817,
+      "initiator": "https://seatourspalawan.com/",
+      "priority": "Low",
+      "status": 200,
+      "mime": "image/svg+xml",
+      "protocol": "h2",
+      "fromCache": false,
+      "ttfb": 260.443,
+      "end": 857054.445669,
+      "bytes": 4764
+    },
+    {
+      "url": "https://seatourspalawan.com/assets/video/hero/hero-loop-poster-mobile-720.webp?v=202605311023",
+      "type": "Image",
+      "start": 857054.087343,
+      "initiator": "https://seatourspalawan.com/",
+      "priority": "High",
+      "status": 200,
+      "mime": "image/webp",
+      "protocol": "h2",
+      "fromCache": false,
+      "ttfb": 196.807,
+      "end": 857056.13729,
+      "bytes": 132728
+    },
+    {
+      "url": "https://seatourspalawan.com/assets/img/brand/logo-light.svg",
+      "type": "Image",
+      "start": 857054.116312,
+      "initiator": "https://seatourspalawan.com/",
+      "priority": "Low",
+      "status": 200,
+      "mime": "image/svg+xml",
+      "protocol": "h2",
+      "fromCache": false,
+      "ttfb": 182.578,
+      "end": 857054.422328,
+      "bytes": 4812
+    },
+    {
+      "url": "https://seatourspalawan.com/assets/js/hero-video-defer.js?v=202606240001",
+      "type": "Script",
+      "start": 857054.122743,
+      "initiator": "https://seatourspalawan.com/",
+      "priority": "Low",
+      "status": 200,
+      "mime": "application/javascript",
+      "protocol": "h2",
+      "fromCache": false,
+      "ttfb": 219.031,
+      "end": 857054.342099,
+      "bytes": 1126
+    },
+    {
+      "url": "https://seatourspalawan.com/assets/js/captain-lazy.js?v=202606130002",
+      "type": "Script",
+      "start": 857054.122778,
+      "initiator": "https://seatourspalawan.com/",
+      "priority": "Low",
+      "status": 200,
+      "mime": "application/javascript",
+      "protocol": "h2",
+      "fromCache": false,
+      "ttfb": 190.142,
+      "end": 857054.313287,
+      "bytes": 1147
+    },
+    {
+      "url": "https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092",
+      "type": "Script",
+      "start": 857054.131229,
+      "initiator": "https://seatourspalawan.com/",
+      "priority": "High",
+      "status": 200,
+      "mime": "text/javascript",
+      "protocol": "h2",
+      "fromCache": false,
+      "ttfb": 327.738,
+      "end": 857054.642266,
+      "bytes": 10478
+    },
+    {
+      "url": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%221920%22%20height%3D%221080%22%2F%3E",
+      "type": "Image",
+      "start": 857054.278262,
+      "initiator": "https://seatourspalawan.com/",
+      "priority": "High",
+      "status": 200,
+      "mime": "image/svg+xml",
+      "protocol": "data",
+      "fromCache": false,
+      "ttfb": null,
+      "end": 857054.278282,
+      "bytes": 0
+    },
+    {
+      "url": "https://seatourspalawan.com/assets/img/responsive/boat-island-cove-600.webp",
+      "type": "Image",
+      "start": 857054.344602,
+      "initiator": "https://seatourspalawan.com/",
+      "priority": "Low",
+      "status": 200,
+      "mime": "image/webp",
+      "protocol": "h3",
+      "fromCache": false,
+      "ttfb": 172.789,
+      "end": 857055.088918,
+      "bytes": 32831
+    },
+    {
+      "url": "https://seatourspalawan.com/assets/js/captain.js?v=202610220004",
+      "type": "Script",
+      "start": 857054.375647,
+      "initiator": "script",
+      "priority": "Low",
+      "status": 200,
+      "mime": "application/javascript",
+      "protocol": "h3",
+      "fromCache": false,
+      "ttfb": 186.242,
+      "end": 857055.074347,
+      "bytes": 29280
+    },
+    {
+      "url": "https://seatourspalawan.com/assets/fonts/fraunces-6NU78FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0KxC9TeP2Xz5c.woff2",
+      "type": "Font",
+      "start": 857054.878169,
+      "initiator": "https://seatourspalawan.com/assets/css/style.css?v=202611030002",
+      "priority": "VeryHigh",
+      "status": 200,
+      "mime": "font/woff2",
+      "protocol": "h3",
+      "fromCache": false,
+      "ttfb": 170.219,
+      "end": 857056.026332,
+      "bytes": 67972
+    },
+    {
+      "url": "https://seatourspalawan.com/assets/fonts/inter-UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7W0Q5nw.woff2",
+      "type": "Font",
+      "start": 857054.879009,
+      "initiator": "https://seatourspalawan.com/assets/css/style.css?v=202611030002",
+      "priority": "VeryHigh",
+      "status": 200,
+      "mime": "font/woff2",
+      "protocol": "h3",
+      "fromCache": false,
+      "ttfb": 177.887,
+      "end": 857055.851663,
+      "bytes": 49896
+    },
+    {
+      "url": "https://seatourspalawan.com/api/apps-get?fn=getKB",
+      "type": "Fetch",
+      "start": 857055.079289,
+      "initiator": "script",
+      "priority": "High",
+      "status": 200,
+      "mime": "application/json",
+      "protocol": "h3",
+      "fromCache": false,
+      "ttfb": 178.172,
+      "end": 857055.315994,
+      "bytes": 3704
+    },
+    {
+      "url": "https://seatourspalawan.com/cdn-cgi/rum?",
+      "type": "XHR",
+      "start": 857056.142598,
+      "initiator": "script",
+      "priority": "High",
+      "status": 204,
+      "mime": "text/plain",
+      "protocol": "h3",
+      "fromCache": false,
+      "ttfb": 161.735,
+      "end": 857056.305061,
+      "bytes": 476
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtm.js?id=GTM-N48G294L",
+      "type": "Script",
+      "start": 857056.539324,
+      "initiator": "script",
+      "priority": "Low",
+      "status": 200,
+      "mime": "application/javascript",
+      "protocol": "h2",
+      "fromCache": false,
+      "ttfb": 270.783,
+      "end": 857058.363764,
+      "bytes": 160021
+    },
+    {
+      "url": "https://www.google.com/ccm/collect?rcb=1&frm=0&apvc=1&ae=g&auid=1649683658.1794072711&dt=Seatours%20Palawan%20%C2%B7%20Expeditions%20%26%20Speedboats%20%C2%B7%20Book%20Online&en=page_view&dl=https%3A%2F%2Fseatourspalawan.com%2F&scrsrc=www.googletagmanager.com&rnd=593122938.1794072711&navt=n&npa=0&ep.ads_data_redaction=0&sdl=W3sibiI6IlNlYXRvdXJzIFBhbGF3YW4g4oCUIEVsIE5pZG8gQm9hdCBUb3VycyIsImIiOiJTZWF0b3VycyBQYWxhd2FuIiwibyI6W3siY3UiOiJQSFAiLCJhIjoxLCJscCI6Ijk1MDAifV19XQ&gtm=45He6b50h2v9227133789za200zd9227133789xeaxf1&gcd=13l3l3l3l1l1&dma=0&tag_exp=115938465~115938469~118131808~118897920~118897930~119863601~120385422~120412528~120420414~120469145~120469153~121049589~121191153~121246026~121246034~123814185&tft=1794072710563&tfd=4818&fmt=8",
+      "type": "Fetch",
+      "start": 857058.472456,
+      "initiator": "script",
+      "priority": "High",
+      "status": 200,
+      "mime": "text/plain",
+      "protocol": "h2",
+      "fromCache": false,
+      "ttfb": 301.567,
+      "end": 857058.774296,
+      "bytes": 0
+    },
+    {
+      "url": "https://ad.doubleclick.net/ccm/s/collect?auid=1649683658.1794072711&gtm=45He6b50h2v9227133789za200zd9227133789xeaxf1&fmt=8",
+      "type": "Fetch",
+      "start": 857058.473391,
+      "initiator": "script",
+      "priority": "High",
+      "status": 204,
+      "mime": "text/html",
+      "protocol": "h2",
+      "fromCache": false,
+      "ttfb": 292.852,
+      "end": 857058.766707,
+      "bytes": 0
+    }
+  ]
+}
