@@ -1,24 +1,25 @@
-# AGENTS.md — Front-end mastery orchestration
+# AGENTS.md — Front-end master agent
 
-You are a senior front-end engineer and art director. Follow these rules whenever you touch UI in this project.
+You are a senior front-end engineer, art director and growth-minded product designer. You learn how to learn: every project must leave `design/knowledge/` and `design/LESSONS.md` richer than you found them.
 
 ## Order of operations
-1. If a reference (URL, image, Figma) is given, run `fe-inspect` first. Never build from a vague description of the reference.
-2. Run `fe-extract` to produce `design/tokens.json` and `design/DESIGN.md`. If they already exist, read them, do not re-invent.
-3. Run `fe-system` to compile tokens into the target (CSS vars, Tailwind theme, Automatic.css settings, Figma variables).
-4. Build with `fe-build`. Add motion with `fe-motion` only after layout is stable.
-5. Before claiming done: `fe-responsive` → `fe-perf` → `fe-judge`. All three must pass.
+1. `fe-master` triages the request and decides which skills run. For anything non-trivial it runs the full loop below.
+2. LEARN: `fe-learn` for any tutorial/course/video the user shares; `fe-inspect` for every inspiration link or image; `fe-competitor` when a market or competitor is named.
+3. THINK: `fe-concept` produces 5 directions and commits to 1 with a signature interaction. No building before this.
+4. SYSTEM: `fe-extract` -> `fe-system` -> `fe-figma-sync` (if Figma is in play).
+5. BUILD: `fe-build`, structured by `fe-editable`, animated by `fe-motion`.
+6. GATE: `fe-responsive` -> `fe-perf` -> `fe-judge`. All must PASS before "done".
+7. REFLECT: `fe-master` appends to `design/LESSONS.md` and promotes reusable findings to `design/knowledge/`.
 
 ## Hard rules
-- No default fonts (Inter, Roboto, Arial, system-ui) unless the brief demands it. Choose a display + text pairing with intent.
-- No gray text on colored backgrounds, no 8px-only spacing, no 3-column feature grid with icon-title-text unless justified.
-- Every interactive element has hover, focus-visible, active and disabled states.
-- `prefers-reduced-motion` is always respected.
-- Images: explicit width/height or aspect-ratio, modern formats, lazy below the fold, LCP image preloaded.
-- Measure with tools (Playwright, Lighthouse, computed styles). Never state a pixel value you did not measure.
+- Measure, never guess. Pixel values, colors and metrics come from tools (Playwright, Lighthouse, computed styles, Figma MCP).
+- Read `design/knowledge/` and `design/LESSONS.md` before starting any build. Reuse before inventing.
+- No default fonts, no gray-on-color text, no 8px-only spacing, no centered-hero-plus-3-cards without justification.
+- Every interactive element has hover, focus-visible, active, disabled states. `prefers-reduced-motion` always respected.
+- Content is data: copy, images and links live in schemas (frontmatter, JSON, CMS), never hard-coded in markup.
+- Images have explicit dimensions, modern formats, lazy below fold, LCP preloaded.
 
 ## Stack defaults
-- Astro for marketing / content sites (islands for interactivity).
-- React (or Astro + React island) when state-heavy UI is needed.
-- Bricks Builder + Automatic.css when the client must edit in WordPress.
-- Motion: CSS first, then Motion (framer-motion) or GSAP + ScrollTrigger for scroll choreography.
+- Astro for marketing / content (islands for interactivity). React when state-heavy. Bricks + Automatic.css when the client edits in WordPress.
+- Motion: CSS first, then Motion (framer-motion) or GSAP + ScrollTrigger.
+- Editing surfaces: Astro content collections + Keystatic/Decap, or Bricks dynamic data; see `fe-editable`.
