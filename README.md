@@ -1,6 +1,6 @@
 # frontend-mastery-skills
 
-A **master front-end agent** that learns how to learn. It watches tutorials, studies inspirations and competitors pixel by pixel, extracts design systems, builds in Astro / React / Bricks, keeps everything editable like a builder, and refuses to ship anything that fails responsiveness, performance or an award-style jury.
+A **master front-end agent** that learns how to learn. It watches tutorials, studies inspirations and competitors pixel by pixel, extracts design systems, audits WordPress builders (Elementor, Bricks) for consistency, builds in Astro / React / Bricks, keeps everything editable like a builder, and refuses to ship anything that fails responsiveness, performance, schema or an award-style jury.
 
 Built on the open [Agent Skills spec](https://agentskills.io/specification). Works in Cursor, Claude Code, Codex, Copilot, Gemini CLI, Perplexity Computer and any client that reads `SKILL.md`. Pairs with [Impeccable](https://github.com/pbakaus/impeccable) (design vocabulary) and [claude-video](https://github.com/bradautomates/claude-video) (`/watch`).
 
@@ -11,7 +11,7 @@ npx skills add jcrosento/frontend-mastery-skills
 npx skills add bradautomates/claude-video -g --skill watch   # video learning
 npx skills add pbakaus/impeccable                            # design vocabulary
 ```
-In Cursor also run `/add-plugin figma` and point a rule at `AGENTS.md`.
+In Cursor also run `/add-plugin figma` and point a rule at `AGENTS.md`. For WordPress sites install the **MCP Adapter** plugin (see `fe-wp-audit`).
 
 ## Skill map
 
@@ -21,9 +21,13 @@ In Cursor also run `/add-plugin figma` and point a rule at `AGENTS.md`.
 | Learn | `fe-learn` | Turns tutorials, courses, articles and videos into reusable technique cards |
 | Observe | `fe-inspect` | Pixel / element / device teardown of any URL, screenshot, photo or Figma frame |
 | Observe | `fe-competitor` | Deep competitor analysis: UX flows, conversion patterns, SEO, speed, gaps to exploit |
+| Observe | `fe-wp-audit` | Connects to WordPress (MCP Adapter / REST / export ZIP) and audits Elementor + Bricks globals, templates, media, meta, icons, headers |
+| Observe | `fe-keywords` | Keyword planner from competitor URLs, Google Ads Keyword Planner and Search Console; maps keywords to pages |
 | Think | `fe-concept` | Out-of-the-box concepting: 5 directions, 1 chosen, with a signature interaction |
 | System | `fe-extract` | Tokens + DESIGN.md from inspections or code |
 | System | `fe-system` | Tokens -> CSS vars / Tailwind / ACSS / Figma variables + component schema |
+| System | `fe-consistency` | Enforces one palette, one type system, one icon set, one header/footer, one spacing scale across every page and site; auto-fix plans for Elementor and Bricks |
+| System | `fe-schema` | Top-notch JSON-LD: Organization, LocalBusiness subtypes, TouristTrip, Product, FAQ, Breadcrumb, Article; validation loop |
 | System | `fe-figma-sync` | Existing site -> Figma (html.to.design) and tokens <-> Figma variables via MCP |
 | Build | `fe-build` | Slop-free Astro / React / Bricks implementation |
 | Build | `fe-editable` | Builder-like editability: content schemas, slots, visual-edit friendly structure |
@@ -35,9 +39,9 @@ In Cursor also run `/add-plugin figma` and point a rule at `AGENTS.md`.
 ## The loop
 
 ```
-LEARN  -> fe-learn (tutorials) + fe-inspect (inspirations) + fe-competitor (market)
+LEARN  -> fe-learn (tutorials) + fe-inspect (inspirations) + fe-competitor (market) + fe-wp-audit (own sites) + fe-keywords (demand)
 THINK  -> fe-concept picks a point of view and signature move
-SYSTEM -> fe-extract -> fe-system -> fe-figma-sync
+SYSTEM -> fe-extract -> fe-system -> fe-consistency -> fe-schema -> fe-figma-sync
 BUILD  -> fe-build + fe-editable + fe-motion
 GATE   -> fe-responsive -> fe-perf -> fe-judge
 REFLECT-> fe-master writes what worked into design/knowledge/ so the next site starts smarter
@@ -50,11 +54,14 @@ design/
   knowledge/      technique cards from fe-learn (one .md per technique)
   inspection/     fe-inspect teardowns + screenshots
   competitors/    fe-competitor reports
+  wp-audit/       fe-wp-audit exports, inventories and fix plans
+  keywords/       fe-keywords maps and clusters
   concepts/       fe-concept direction boards
   tokens.json     single source of truth
   DESIGN.md       point of view, rules, component inventory
   components/     component schemas
-  reports/        responsive / perf / judge outputs
+  schema/         JSON-LD templates per page type
+  reports/        responsive / perf / judge / consistency outputs
   LESSONS.md      fe-master retrospective log
 ```
 
