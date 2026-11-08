@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "fe-reference decision matrix",
+  "type": "object",
+  "required": ["flow", "venture", "criteria", "candidates", "winner"],
+  "properties": {
+    "flow": { "type": "string", "minLength": 3 },
+    "venture": { "type": "string", "minLength": 2 },
+    "criteria": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": {
+        "type": "object",
+        "required": ["id", "weight"],
+        "properties": {
+          "id": { "enum": ["familiarity", "task_shape", "speed", "minimalism_headroom", "aesthetic_ceiling"] },
+          "weight": { "type": "integer", "minimum": 1, "maximum": 100 }
+        }
+      }
+    },
+    "candidates": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "required": ["id", "scores"],
+        "properties": {
+          "id": { "type": "string" },
+          "scores": {
+            "type": "object",
+            "required": ["familiarity", "task_shape", "speed", "minimalism_headroom", "aesthetic_ceiling"],
+            "additionalProperties": {
+              "type": "object",
+              "required": ["value", "source"],
+              "properties": {
+                "value": { "type": "integer", "minimum": 1, "maximum": 5 },
+                "source": { "type": "string", "minLength": 5 }
+              }
+            }
+          }
+        }
+      }
+    },
+    "winner": { "type": "string" }
+  },
+  "x-fixed-weights": {
+    "familiarity": 30,
+    "task_shape": 25,
+    "speed": 20,
+    "minimalism_headroom": 15,
+    "aesthetic_ceiling": 10
+  }
+}
