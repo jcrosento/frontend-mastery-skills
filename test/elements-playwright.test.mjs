@@ -5,7 +5,7 @@ import { mkdtempSync, readFileSync, readdirSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { spawn } from 'node:child_process';
+import { spawnBounded } from '../scripts/run-bounded.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const fixture = join(root, 'test/fixtures/pages/elements-consent.html');
@@ -20,45 +20,15 @@ function listen(server, port, host) {
   });
 }
 
-function spawnBounded(command, args, { cwd, env, timeoutMs }) {
-  const controller = new AbortController();
-  const child = spawn(command, args, { cwd, env, stdio: ['ignore', 'pipe', 'pipe'], signal: controller.signal });
-  let stdout = '', stderr = '', timedOut = false, settled = false, hardKill;
-  const finish = result => {
-    if (settled) return;
-    settled = true;
-    clearTimeout(timer);
-    clearTimeout(hardKill);
-    result.stdout = stdout;
-    result.stderr = stderr;
-    result.timedOut = timedOut;
-    resolvePromise(result);
-  };
-  let resolvePromise, rejectPromise;
-  const resultPromise = new Promise((resolve, reject) => { resolvePromise = resolve; rejectPromise = reject; });
-  const timer = setTimeout(() => {
-    timedOut = true;
-    controller.abort();
-    hardKill = setTimeout(() => child.kill('SIGKILL'), 1000);
-    hardKill.unref?.();
-  }, timeoutMs);
-  timer.unref?.();
-  child.stdout.setEncoding('utf8').on('data', chunk => { stdout += chunk; });
-  child.stderr.setEncoding('utf8').on('data', chunk => { stderr += chunk; });
-  child.once('error', error => {
-    if (timedOut) finish({ code: null, signal: null, error: error.message });
-    else if (!settled) { settled = true; clearTimeout(timer); rejectPromise(error); }
-  });
-  child.once('close', (code, signal) => finish({ code, signal }));
-  return resultPromise;
-}
-
-test('async harness aborts a forced timeout and reports it as not passing', { timeout: 5_000 }, async () => {
-  const result = await spawnBounded(process.execPath, ['-e', 'setInterval(() => {}, 1000)'], {
-    cwd: root, env: process.env, timeoutMs: 250
+test('async harness escalates a forced timeout to SIGKILL and never reports green', { timeout: 5_000 }, async () => {
+  const started = Date.now();
+  const result = await spawnBounded(process.execPath, ['-e', "process.on('SIGTERM', () => {}); setInterval(() => {}, 1000)"], {
+    cwd: root, env: process.env, timeoutMs: 250, killGraceMs: 150
   });
   assert.equal(result.timedOut, true);
   assert.notEqual(result.code, 0, 'a timed-out process must never be reported as green');
+  assert.equal(result.signal, 'SIGKILL', 'a child that ignores the abort signal must be force-killed after the grace period');
+  assert.ok(Date.now() - started < 5_000, 'forced termination must complete within the test deadline');
 });
 
 test('elements scanner passes three seeded runs with network, consent, animation, and redaction checks', { timeout: 90_000 }, async () => {

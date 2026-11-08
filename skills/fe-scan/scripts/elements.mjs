@@ -14,7 +14,19 @@ const profiles = { mobile: { ...devices['iPhone 14'] }, desktop: { viewport: { w
 const allowLoopbackFixture = process.argv.includes('--allow-loopback-fixture');
 const dismissConsent = process.argv.includes('--dismiss-consent');
 const blockedRequests = [];
-await assertRequestAllowed(url, 'GET', { allowLoopbackFixture });
+try {
+  await assertRequestAllowed(url, 'GET', { allowLoopbackFixture });
+} catch {
+  // Record a sanitized machine-readable refusal before any request is made. Never
+  // persist the rejected URL, which may contain private hostnames or credentials.
+  const stamp = process.env.FE_SCAN_STAMP || `${new Date().toISOString().slice(0, 10)}-${process.pid}`;
+  const out = join('design', 'reports', 'scan', 'policy-blocked', stamp);
+  mkdirSync(out, { recursive: true });
+  const refusal = { status: 'blocked', code: 'ERR_TARGET_POLICY', reason: 'Target rejected by read-only network policy before network access.' };
+  writeArtifact(join(out, 'manifest.json'), { targetPolicy: refusal, steps: [{ name: 'target-policy', exit: 2, ...refusal }] });
+  console.error(JSON.stringify({ event: 'target-policy', ...refusal }));
+  process.exit(2);
+}
 const run = which === 'both' ? ['mobile', 'desktop'] : [which];
 const site = new URL(url).hostname.replace(/[^a-z0-9.-]/gi, '_');
 const stamp = process.env.FE_SCAN_STAMP || new Date().toISOString().slice(0, 10);

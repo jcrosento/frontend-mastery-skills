@@ -16,6 +16,8 @@
     "compare": "node skills/fe-scan/scripts/compare.mjs",
     "gate": "node skills/fe-perf/scripts/lighthouse-gate.mjs",
     "test": "node --test",
+    "verify": "node scripts/verify.mjs",
+    "check:public-artifacts": "node scripts/check-public-artifacts.mjs",
     "check": "npm run check:syntax && npm run check:selftest",
     "check:syntax": "for f in skills/fe-scan/scripts/*.mjs scripts/*.mjs; do node --check \"$f\" || exit 1; done",
     "check:selftest": "node skills/fe-scan/scripts/compare.mjs --selftest && node skills/fe-scan/scripts/crawlers.mjs --selftest && node skills/fe-scan/scripts/run-all.mjs https://example.invalid --dry-run"
