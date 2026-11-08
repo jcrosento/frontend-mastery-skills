@@ -20,9 +20,9 @@ test('public artifact policy rejects raw scan paths without printing their names
   assert.throws(() => assertNoGeneratedScanArtifacts(paths), /1 generated scan artifact path/);
 });
 
-test('gitignore excludes newly generated scan output without deleting tracked history', () => {
+test('gitignore excludes generated report output and the current tree tracks no scan artifacts', () => {
   const ignored = execFileSync('git', ['check-ignore', '-v', '--no-index', 'design/reports/scan/synthetic.example/never-commit.json'], { cwd: root, encoding: 'utf8' }).trim();
-  assert.match(ignored, /^\.gitignore:\d+:design\/reports\/scan\//);
+  assert.match(ignored, /^\.gitignore:\d+:design\/reports\//);
   const trackedCount = execFileSync('git', ['ls-files', 'design/reports/scan'], { cwd: root, encoding: 'utf8' }).trim().split(/\r?\n/).filter(Boolean).length;
-  assert.ok(trackedCount > 0, 'existing tracked scan artifacts remain intact; this change does not purge history');
+  assert.equal(trackedCount, 0, 'generated scan artifacts must not be present in the current public tree');
 });
