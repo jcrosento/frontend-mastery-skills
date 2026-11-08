@@ -16,7 +16,7 @@ permissions:
 jobs:
   evidence-and-regression:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 12
     steps:
       - uses: actions/checkout@v4
         with:
@@ -31,7 +31,17 @@ jobs:
           else
             git diff --check HEAD^
           fi
+      - name: Install locked dependencies
+        run: npm ci
+      - name: Install Chromium for local seeded browser test
+        run: npx playwright install --with-deps chromium
+      - name: Audit npm dependencies
+        run: npm audit --audit-level=high
+      - name: Run scanner syntax and self-checks
+        run: npm run check
       - name: Run seeded fixture regression suite
-        run: node --test
-      - name: Validate the sanitized evidence example
-        run: node scripts/validate-evidence.mjs test/fixtures/evidence/improved-comparison.json
+        run: npm test
+      - name: Validate sanitized evidence fixtures
+        run: |
+          node scripts/validate-evidence.mjs test/fixtures/evidence/improved-comparison.json
+          node scripts/validate-evidence.mjs test/fixtures/evidence/regressed-comparison.json

@@ -1,14 +1,20 @@
 #!/usr/bin/env node
 // Usage: node elements.mjs <url> [--device mobile|desktop|both]
-// Designer census + banner-aware state probes: probes each button as-is (records overlays that block it), dismisses cookie/consent banners (prefers Essential/Reject), re-probes hover/active/focus.
+// Designer census + banner-aware state probes. Consent banners are never dismissed unless --dismiss-consent is explicitly supplied.
 import { chromium, devices } from 'playwright';
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { mkdirSync } from 'node:fs';
 import { join } from 'node:path';
+import { assertRequestAllowed, installRequestGuard } from './network-policy.mjs';
+import { writeArtifact } from './artifacts.mjs';
 
 const url = process.argv[2];
 if (!url) { console.error('Usage: node elements.mjs <url> [--device mobile|desktop|both]'); process.exit(1); }
 const di = process.argv.indexOf('--device'); const which = di > -1 ? process.argv[di + 1] : 'both';
 const profiles = { mobile: { ...devices['iPhone 14'] }, desktop: { viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1 } };
+const allowLoopbackFixture = process.argv.includes('--allow-loopback-fixture');
+const dismissConsent = process.argv.includes('--dismiss-consent');
+const blockedRequests = [];
+await assertRequestAllowed(url, 'GET', { allowLoopbackFixture });
 const run = which === 'both' ? ['mobile', 'desktop'] : [which];
 const site = new URL(url).hostname.replace(/[^a-z0-9.-]/gi, '_');
 const stamp = process.env.FE_SCAN_STAMP || new Date().toISOString().slice(0, 10);
@@ -50,44 +56,69 @@ async function dismissBanner(page) {
     if (pick) pick.setAttribute('data-fe-dismiss', '1');
     return { found: true, selector: label(b), position: r.top < innerHeight / 2 ? 'top' : 'bottom', heightPx: Math.round(r.height), coversFoldPct: Math.round((r.height / innerHeight) * 100), buttons: ctrls.map(x => x.textContent.trim()).slice(0, 8), chosen: pick ? pick.textContent.trim() : null };
   }, { sel: BANNER_SEL, prefer: PREFER_RE, fallback: FALLBACK_RE });
-  if (info.found && info.chosen) { try { await page.locator('[data-fe-dismiss="1"]').first().click({ timeout: 2000 }); await page.waitForTimeout(400); info.dismissed = 'clicked'; } catch { info.dismissed = false; } }
-  if (info.found && !info.dismissed) { await page.evaluate(sel => document.querySelectorAll(sel).forEach(b => (b.style.display = 'none')), BANNER_SEL); info.dismissed = 'hidden'; }
+  if (info.found && !dismissConsent) info.dismissed = 'not-requested';
+  if (info.found && dismissConsent && info.chosen) { try { await page.locator('[data-fe-dismiss="1"]').first().click({ timeout: 2000 }); await page.waitForTimeout(100); info.dismissed = 'clicked'; } catch { info.dismissed = false; } }
+  if (info.found && dismissConsent && !info.dismissed) { await page.evaluate(sel => document.querySelectorAll(sel).forEach(b => (b.style.display = 'none')), BANNER_SEL); info.dismissed = 'hidden'; }
   return info;
 }
 
 async function probe(page, buttons) {
   const states = [];
+  // Force :active through Chromium's inspection protocol; a real mouse down/up can
+  // activate a consent button or other user action while the scan is read-only.
+  const cdp = await page.context().newCDPSession(page);
+  await cdp.send('DOM.enable');
+  await cdp.send('CSS.enable');
   for (const b of buttons.slice(0, 15)) {
     const loc = page.locator(`[data-fe-idx="${b.idx}"]`).first();
     const grab = () => loc.evaluate(e => { const s = getComputedStyle(e); return { bg: s.backgroundColor, color: s.color, border: s.borderColor, shadow: s.boxShadow, transform: s.transform, outline: s.outlineStyle + ' ' + s.outlineWidth + ' ' + s.outlineColor, textDecoration: s.textDecorationLine }; });
     try {
-      await loc.scrollIntoViewIfNeeded(); const base = await grab();
+      await loc.scrollIntoViewIfNeeded({ timeout: 1500 }); const base = await grab();
       await loc.hover({ timeout: 1500 }); await page.waitForTimeout(300); const hover = await grab();
-      await page.mouse.down(); await page.waitForTimeout(80); const active = await grab(); await page.mouse.up();
+      const { root } = await cdp.send('DOM.getDocument', { depth: 0 });
+      const { nodeId } = await cdp.send('DOM.querySelector', { nodeId: root.nodeId, selector: `[data-fe-idx="${b.idx}"]` });
+      if (!nodeId) throw new Error('active-state target disappeared from DOM');
+      let active;
+      try {
+        await cdp.send('CSS.forcePseudoState', { nodeId, forcedPseudoClasses: ['active'] });
+        await page.evaluate(() => new Promise(requestAnimationFrame));
+        active = await grab();
+      } finally {
+        await cdp.send('CSS.forcePseudoState', { nodeId, forcedPseudoClasses: [] });
+      }
       await loc.focus(); await page.waitForTimeout(100); const focus = await grab();
       await page.mouse.move(0, 0);
       const diff = (a, c) => Object.keys(a).filter(k => a[k] !== c[k]);
       const fd = diff(base, focus);
       states.push({ text: b.text, hoverChanges: diff(base, hover), activeChanges: diff(base, active), focusVisible: fd.includes('outline') || fd.includes('shadow') || (fd.length > 0 && !b.outlineNone) });
-    } catch (e) { states.push({ text: b.text, blocked: /intercepts pointer events|not visible|outside of the viewport/i.test(e.message), error: e.message.split('\n')[0].slice(0, 80) }); }
+    } catch (e) {
+      const message = String(e.message || e);
+      const blocked = /intercepts pointer events|not visible|outside of the viewport/i.test(message);
+      const errorKind = /timeout/i.test(message) ? 'timeout' : 'probe-error';
+      states.push({ text: b.text, status: blocked ? 'blocked' : 'unknown', blocked, errorKind, error: message.split('\n')[0].slice(0, 120) });
+    }
   }
   return states;
 }
 
 const browser = await chromium.launch();
-const result = { url, stamp, coverage: { devices: run, buttonsProbedPerDevice: 15, bannerHandling: 'probe as-is, dismiss (prefer reject/essential), re-probe' } };
+const result = { url, stamp, coverage: { devices: run, buttonsProbedPerDevice: 15, activeState: 'Chromium forced :active pseudo-state (no pointer/click activation)', bannerHandling: 'probe as-is; post-consent probe only with --dismiss-consent' } };
 for (const key of run) {
-  const ctx = await browser.newContext(profiles[key]); const page = await ctx.newPage();
-  await page.goto(url, { waitUntil: 'networkidle', timeout: 60000 });
+  const ctx = await browser.newContext({ ...profiles[key], serviceWorkers: 'block' }); const page = await ctx.newPage();
+  await installRequestGuard(ctx, { allowLoopbackFixture, blocked: blockedRequests });
+  await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 20000 });
+  await page.addStyleTag({ content: '*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important;caret-color:transparent!important}' });
+  await Promise.race([page.evaluate(() => document.fonts.ready), new Promise(resolve => setTimeout(resolve, 3000))]);
   const census = await page.evaluate(CENSUS);
   const coveredBefore = census.buttons.filter(b => b.coveredBy);
   const probeBlocked = await probe(page, census.buttons);
   const banner = await dismissBanner(page);
-  const c = banner.found ? await page.evaluate(CENSUS) : census;
-  const states = banner.found ? await probe(page, c.buttons) : probeBlocked;
+  const c = banner.found && dismissConsent ? await page.evaluate(CENSUS) : census;
+  const states = banner.found && dismissConsent ? await probe(page, c.buttons) : probeBlocked;
   const findings = [];
-  if (banner.found) findings.push(`Cookie/consent banner (${banner.selector}, ${banner.position}, ${banner.heightPx}px = ${banner.coversFoldPct}% of viewport) covers ${coveredBefore.length} interactive element(s) at the fold${coveredBefore.length ? ': ' + coveredBefore.map(b => b.text || '#' + b.idx).slice(0, 4).join(', ') : ''}; dismissed via ${banner.dismissed === 'hidden' ? 'CSS hide (no dismiss control found)' : `"${banner.chosen}"`}`);
-  const blocked = probeBlocked.filter(s => s.blocked).length; if (blocked) findings.push(`${blocked} button(s) could not be hovered before dismissing the banner (overlay intercepts pointer)`);
+  if (banner.found) findings.push(`Cookie/consent banner (${banner.selector}, ${banner.position}, ${banner.heightPx}px = ${banner.coversFoldPct}% of viewport) covers ${coveredBefore.length} interactive element(s) at the fold${coveredBefore.length ? ': ' + coveredBefore.map(b => b.text || '#' + b.idx).slice(0, 4).join(', ') : ''}; consent handling: ${banner.dismissed === 'not-requested' ? 'left untouched (use --dismiss-consent only for authorized tests)' : banner.dismissed === 'hidden' ? 'CSS hidden after explicit opt-in' : `explicit opt-in: "${banner.chosen}"`}`);
+  const blocked = probeBlocked.filter(s => s.status === 'blocked').length; if (blocked) findings.push(`${blocked} button(s) could not be hovered before dismissing the banner (overlay intercepts pointer)`);
+  const unknown = states.filter(s => s.status === 'unknown').length; if (unknown) findings.push(`${unknown}/${states.length} button interaction probe(s) unknown; inspect timeout/error details before treating as pass`);
   if (c.families.length > 3) findings.push(`${c.families.length} font families in use (target <= 3): ${c.families.slice(0, 4).map(f => f[0]).join(', ')}`);
   if (c.weights.length > 6) findings.push(`${c.weights.length} family/weight combos (target <= 6)`);
   if (c.sizes.length > 12) findings.push(`${c.sizes.length} distinct font sizes (target <= 12 for a scale)`);
@@ -104,12 +135,12 @@ for (const key of run) {
   const noPointer = c.buttons.filter(b => b.cursor !== 'pointer').length; if (noPointer) findings.push(`${noPointer} buttons without cursor:pointer`);
   const h1s = c.headings.filter(h => h.tag === 'H1').length; if (h1s !== 1) findings.push(`${h1s} H1 elements (target exactly 1)`);
   const dupH = c.headings.filter((h, i, a) => a.findIndex(x => x.text === h.text) !== i).length; if (dupH) findings.push(`${dupH} duplicated heading text(s) (duplicate hero/DOM variants?)`);
-  result[key] = { banner, census: c, buttonStatesBlocked: probeBlocked, buttonStates: states, findings };
+  result[key] = { banner, census: c, buttonStatesBlocked: probeBlocked, buttonStates: states, findings, network: { blockedRequests: blockedRequests.filter(r => r.url.startsWith(new URL(url).origin) || /non-public|method|local hostname/.test(r.reason)).map(r => ({ method: r.method, reason: r.reason })) } };
   await ctx.close();
 }
 await browser.close();
-writeFileSync(join(out, 'elements.json'), JSON.stringify(result, null, 2));
-const md = ['# Element census: ' + url, '', `Coverage: devices ${run.join(', ')}; first 15 buttons probed per device; banner handling: ${result.coverage.bannerHandling}.`, ...run.flatMap(k => { const r = result[k]; const c = r.census; return [``, `## ${k}`, `### Banner`, r.banner.found ? `- ${r.banner.selector} at ${r.banner.position}, ${r.banner.heightPx}px (${r.banner.coversFoldPct}% of viewport); controls: ${r.banner.buttons.join(' | ')}; dismissed: ${r.banner.dismissed}` : '- none detected', `### Findings`, ...(r.findings.length ? r.findings.map(f => '- ' + f) : ['- none flagged']), `### Families / weights`, ...c.weights.slice(0, 12).map(([w, n]) => `- ${w} (${n})`), `### Font sizes`, c.sizes.map(([s, n]) => `${s}(${n})`).join(', '), `### Radii`, c.radii.map(([s, n]) => `${s}(${n})`).join(', ') || '-', `### Text colors`, c.textColors.slice(0, 12).map(([s, n]) => `${s}(${n})`).join(', '), `### Headings`, ...c.headings.slice(0, 20).map(h => `- ${h.tag} ${h.size}/${h.weight} ${h.family}: ${h.text}`), `### Buttons (after banner dismissed)`, '| text | size | padding | radius | fold% | covered before | hover | active | focus |', '|---|---|---|---|---|---|---|---|---|', ...c.buttons.slice(0, 15).map((b, i) => { const s = r.buttonStates[i] || {}; const before = r.buttonStatesBlocked[i]; return `| ${b.text} | ${b.w}x${b.h} | ${b.padding} | ${b.radius} | ${b.foldPct}% | ${before && before.blocked ? 'BLOCKED' : b.coveredBy || '-'} | ${(s.hoverChanges || []).join(',') || (s.error ? 'err' : 'none')} | ${(s.activeChanges || []).join(',') || (s.error ? 'err' : 'none')} | ${s.focusVisible === undefined ? '-' : s.focusVisible ? 'yes' : 'NO'} |`; })]; })].join('\n');
-writeFileSync(join(out, 'elements.md'), md);
+writeArtifact(join(out, 'elements.json'), result);
+const md = ['# Element census: ' + url, '', `Coverage: devices ${run.join(', ')}; first 15 buttons probed per device; banner handling: ${result.coverage.bannerHandling}.`,  ...run.flatMap(k => { const r = result[k]; const c = r.census; return [``, `## ${k}`, `### Banner`, r.banner.found ? `- ${r.banner.selector} at ${r.banner.position}, ${r.banner.heightPx}px (${r.banner.coversFoldPct}% of viewport); controls: ${r.banner.buttons.join(' | ')}; dismissed: ${r.banner.dismissed}` : '- none detected', `### Findings`, ...(r.findings.length ? r.findings.map(f => '- ' + f) : ['- none flagged']), `### Families / weights`, ...c.weights.slice(0, 12).map(([w, n]) => `- ${w} (${n})`), `### Font sizes`, c.sizes.map(([s, n]) => `${s}(${n})`).join(', '), `### Radii`, c.radii.map(([s, n]) => `${s}(${n})`).join(', ') || '-', `### Text colors`, c.textColors.slice(0, 12).map(([s, n]) => `${s}(${n})`).join(', '), `### Headings`, ...c.headings.slice(0, 20).map(h => `- ${h.tag} ${h.size}/${h.weight} ${h.family}: ${h.text}`), `### Buttons (post-consent only when explicitly opted in)`,  '| text | size | padding | radius | fold% | covered before | hover | active | focus |', '|---|---|---|---|---|---|---|---|---|', ...c.buttons.slice(0, 15).map((b, i) => { const s = r.buttonStates[i] || {}; const before = r.buttonStatesBlocked[i]; return `| ${b.text} | ${b.w}x${b.h} | ${b.padding} | ${b.radius} | ${b.foldPct}% | ${before && before.blocked ? 'BLOCKED' : b.coveredBy || '-'} | ${(s.hoverChanges || []).join(',') || (s.error ? 'err' : 'none')} | ${(s.activeChanges || []).join(',') || (s.error ? 'err' : 'none')} | ${s.focusVisible === undefined ? '-' : s.focusVisible ? 'yes' : 'NO'} |`; })]; })].join('\n');
+writeArtifact(join(out, 'elements.md'), md);
 console.log(JSON.stringify(Object.fromEntries(run.map(k => [k, result[k].findings])), null, 2));
 console.log(`\nWrote ${out}/elements.md`);

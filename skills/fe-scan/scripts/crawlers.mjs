@@ -2,8 +2,10 @@
 // Usage: node crawlers.mjs <url>   |   node crawlers.mjs --selftest
 // Bot-access matrix: fetch /, /robots.txt, /sitemap.xml as Googlebot, Bingbot, GPTBot, OAI-SearchBot, PerplexityBot, ClaudeBot, Google-Extended, curl, Chrome.
 // Detects Cloudflare/WAF challenges and robots.txt disallows per bot. Network required except for --selftest.
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { mkdirSync } from 'node:fs';
 import { join } from 'node:path';
+import { assertRequestAllowed, safeFetch } from './network-policy.mjs';
+import { writeArtifact } from './artifacts.mjs';
 
 export const UAS = {
   Googlebot: 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)',
@@ -23,19 +25,20 @@ export const ruleFor = (groups, bot) => { const k = Object.keys(groups).find(g =
 export function buildIssues(rows, robotsTxt) { const issues = []; for (const r of rows) { const blocked = [r.home, r.robots, r.sitemap].filter(x => x && (x.challenged || x.status >= 400 || x.status === 0)).length; if (blocked && r.bot !== 'curl') issues.push(`${r.bot}: ${blocked}/3 paths blocked or challenged (home ${r.home.status}${r.home.challenged ? ' challenge' : ''}, robots ${r.robots.status}, sitemap ${r.sitemap.status})`); if (r.robotsRule.blockedAll) issues.push(`${r.bot}: robots.txt disallows everything`); } if (!robotsTxt) issues.push('robots.txt not readable even as Chrome'); return issues; }
 
 async function run(url) {
+  await assertRequestAllowed(url);
   const origin = new URL(url).origin; const site = new URL(url).hostname.replace(/[^a-z0-9.-]/gi, '_');
   const stamp = process.env.FE_SCAN_STAMP || new Date().toISOString().slice(0, 10);
   const out = join('design', 'reports', 'scan', site, stamp); mkdirSync(out, { recursive: true });
   const matrix = {}; let robotsTxt = '';
-  for (const [bot, ua] of Object.entries(UAS)) { matrix[bot] = {}; for (const p of PATHS) { try { const r = await fetch(origin + p, { headers: { 'user-agent': ua, accept: 'text/html,application/xml;q=0.9,*/*;q=0.8' }, redirect: 'follow' }); const body = await r.text(); matrix[bot][p] = { status: r.status, challenged: isChallenge(r.status, r.headers, body), server: r.headers.get('server') || '', cfRay: !!r.headers.get('cf-ray'), bytes: body.length }; if (bot === 'Chrome' && p === '/robots.txt' && r.status === 200) robotsTxt = body; } catch (e) { matrix[bot][p] = { status: 0, error: e.message.slice(0, 80) }; } } }
+  for (const [bot, ua] of Object.entries(UAS)) { matrix[bot] = {}; for (const p of PATHS) { try { const r = await safeFetch(origin + p, { headers: { 'user-agent': ua, accept: 'text/html,application/xml;q=0.9,*/*;q=0.8' } }); const body = await r.text(); matrix[bot][p] = { status: r.status, challenged: isChallenge(r.status, r.headers, body), server: r.headers.get('server') || '', cfRay: !!r.headers.get('cf-ray'), bytes: body.length }; if (bot === 'Chrome' && p === '/robots.txt' && r.status === 200) robotsTxt = body; } catch (e) { matrix[bot][p] = { status: 0, error: e.message.slice(0, 80) }; } } }
   const groups = parseRobots(robotsTxt);
   const rows = Object.keys(UAS).map(bot => ({ bot, home: matrix[bot]['/'], robots: matrix[bot]['/robots.txt'], sitemap: matrix[bot]['/sitemap.xml'], robotsRule: ruleFor(groups, bot) }));
   const issues = buildIssues(rows, robotsTxt);
   const report = { url, stamp, cloudflare: rows.some(r => r.home && r.home.cfRay), issues, rows };
-  writeFileSync(join(out, 'crawlers.json'), JSON.stringify(report, null, 2));
+  writeArtifact(join(out, 'crawlers.json'), report);
   const c = x => x ? `${x.status}${x.challenged ? ' CHALLENGE' : ''}${x.error ? ' ERR' : ''}` : '-';
   const md = [`# Crawler access: ${url}`, '', `Cloudflare detected: ${report.cloudflare}`, '', '## Issues', ...(issues.length ? issues.map(i => '- ' + i) : ['- none: all bots get 200 on /, robots.txt and sitemap.xml']), '', '## Matrix', '| bot | / | robots.txt | sitemap.xml | robots.txt rule |', '|---|---|---|---|---|', ...rows.map(r => `| ${r.bot} | ${c(r.home)} | ${c(r.robots)} | ${c(r.sitemap)} | ${r.robotsRule.group ? `${r.robotsRule.group}: ${r.robotsRule.disallow.slice(0, 4).join(' ') || 'allow all'}` : 'no rule'} |`), '', '## How to fix (Cloudflare)', '- Bot Fight Mode cannot be scoped; prefer a WAF custom rule that Skips challenges when `cf.verified_bot_category in {"Search Engine Crawler" "AI Crawler" "AI Assistant" "AI Search"}`.', '- Add a Skip rule for `http.request.uri.path eq "/robots.txt" or starts_with(http.request.uri.path, "/sitemap")`.', '- To block AI training but allow AI search citations: disallow GPTBot, ClaudeBot, Google-Extended in robots.txt; allow OAI-SearchBot and PerplexityBot.'].join('\n');
-  writeFileSync(join(out, 'crawlers.md'), md);
+  writeArtifact(join(out, 'crawlers.md'), md);
   console.log(JSON.stringify({ cloudflare: report.cloudflare, issues }, null, 2)); console.log(`\nWrote ${out}/crawlers.md`);
 }
 
