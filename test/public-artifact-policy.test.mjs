@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -6,6 +7,12 @@ import test from 'node:test';
 import { assertNoGeneratedScanArtifacts, generatedScanPaths } from '../scripts/public-artifact-policy.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+
+test('published worked example stays synthetic and omits site identifiers', () => {
+  const example = readFileSync(resolve(root, 'examples/synthetic-expedition/audit.md'), 'utf8');
+  assert.match(example, /fully synthetic teaching fixture/i);
+  assert.doesNotMatch(example, /https?:\/\/|[\w.+-]+@[\w.-]+\.[a-z]{2,}|seatours|seatourspalawan/i);
+});
 
 test('public artifact policy rejects raw scan paths without printing their names', () => {
   const paths = ['scripts/verify.mjs', 'design/reports/scan/private-example/raw.json'];
