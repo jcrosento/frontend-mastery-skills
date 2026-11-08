@@ -1,0 +1,30 @@
+{
+  "name": "frontend-mastery-skills",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "description": "Master front-end agent skills: scan, audit, build, gate, learn.",
+  "scripts": {
+    "setup": "npm i && npx playwright install chromium",
+    "scan": "node skills/fe-scan/scripts/run-all.mjs",
+    "scan:deep": "node skills/fe-scan/scripts/deep-scan.mjs",
+    "scan:elements": "node skills/fe-scan/scripts/elements.mjs",
+    "scan:trace": "node skills/fe-scan/scripts/trace.mjs",
+    "scan:seo": "node skills/fe-scan/scripts/seo-hygiene.mjs",
+    "scan:crawlers": "node skills/fe-scan/scripts/crawlers.mjs",
+    "scan:psi": "node skills/fe-scan/scripts/psi.mjs",
+    "compare": "node skills/fe-scan/scripts/compare.mjs",
+    "gate": "node skills/fe-perf/scripts/lighthouse-gate.mjs",
+    "test": "node --test",
+    "verify": "node scripts/verify.mjs",
+    "check:public-artifacts": "node scripts/check-public-artifacts.mjs",
+    "check": "npm run check:syntax && npm run check:selftest",
+    "check:syntax": "for f in skills/fe-scan/scripts/*.mjs scripts/*.mjs; do node --check \"$f\" || exit 1; done",
+    "check:selftest": "node skills/fe-scan/scripts/compare.mjs --selftest && node skills/fe-scan/scripts/crawlers.mjs --selftest && node skills/fe-scan/scripts/run-all.mjs https://example.invalid --dry-run"
+  },
+  "devDependencies": {
+    "gremlins.js": "2.2.0",
+    "playwright": "1.65.0"
+  },
+  "license": "MIT"
+}

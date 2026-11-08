@@ -2,18 +2,22 @@
 // Usage: node trace.mjs <url> [--cpu 4] [--down 1600] [--up 750] [--rtt 150]
 // Throttled mobile CDP trace: long tasks with attribution, render-blocking resources, LCP element + request chain, CLS sources, third-party cost. Writes trace.json + bottleneck.md.
 import { chromium, devices } from 'playwright';
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { mkdirSync } from 'node:fs';
 import { join } from 'node:path';
+import { assertRequestAllowed, installRequestGuard } from './network-policy.mjs';
+import { writeArtifact } from './artifacts.mjs';
 
 const url = process.argv[2];
 if (!url) { console.error('Usage: node trace.mjs <url> [--cpu 4] [--down kbps] [--up kbps] [--rtt ms]'); process.exit(1); }
 const opt = (k, d) => { const i = process.argv.indexOf(`--${k}`); return i > -1 ? Number(process.argv[i + 1]) : d; };
 const cpu = opt('cpu', 4), down = opt('down', 1600), up = opt('up', 750), rtt = opt('rtt', 150);
+await assertRequestAllowed(url);
 const site = new URL(url).hostname.replace(/[^a-z0-9.-]/gi, '_'); const origin = new URL(url).origin;
 const out = join('design', 'reports', 'scan', site, new Date().toISOString().slice(0, 10), 'trace'); mkdirSync(out, { recursive: true });
 
 const browser = await chromium.launch();
-const ctx = await browser.newContext({ ...devices['Pixel 7'] });
+const ctx = await browser.newContext({ ...devices['Pixel 7'], serviceWorkers: 'block' });
+await installRequestGuard(ctx);
 const page = await ctx.newPage();
 const cdp = await ctx.newCDPSession(page);
 await cdp.send('Network.enable'); await cdp.send('Performance.enable');
@@ -65,8 +69,8 @@ const jsKB = byType.Script ? byType.Script.kb : 0; if (jsKB > 400) candidates.pu
 candidates.sort((a, b) => b.score - a.score);
 
 const summary = { url, conditions: { device: 'Pixel 7', cpuThrottle: cpu, downKbps: down, upKbps: up, rttMs: rtt }, nav, paint, lcp: perf.lcp, tbt: Math.round(tbt), longTasks: perf.longTasks.length, cls: +clsTotal.toFixed(3), clsBySource, renderBlocking: perf.blocking, byType, thirdParties: tp, fontsLoaded: fonts.length, jsHeapMB: metrics.JSHeapUsedSize ? +(metrics.JSHeapUsedSize / 1048576).toFixed(1) : null, domNodes: metrics.Nodes, biggestBottleneck: candidates[0] || { title: 'No major bottleneck under these conditions' }, fixes: candidates };
-writeFileSync(join(out, 'trace.json'), JSON.stringify({ summary, requests: list }, null, 2));
+writeArtifact(join(out, 'trace.json'), { summary, requests: list });
 const md = [`# Bottleneck: ${url}`, '', `Conditions: Pixel 7, CPU x${cpu}, ${down}/${up} kbps, RTT ${rtt} ms`, '', `## Biggest bottleneck`, `**${summary.biggestBottleneck.title}**`, summary.biggestBottleneck.fix ? `Fix: ${summary.biggestBottleneck.fix}` : '', '', '## Ranked fixes', ...candidates.map((c, i) => `${i + 1}. ${c.title}\n   - ${c.fix}`), '', '## Numbers', '```json', JSON.stringify({ nav, paint, lcp: perf.lcp, tbt: summary.tbt, cls: summary.cls, byType, thirdParties: tp, domNodes: summary.domNodes, jsHeapMB: summary.jsHeapMB }, null, 2), '```'].join('\n');
-writeFileSync(join(out, 'bottleneck.md'), md);
+writeArtifact(join(out, 'bottleneck.md'), md);
 console.log(JSON.stringify({ biggestBottleneck: summary.biggestBottleneck.title, lcp: perf.lcp?.time, tbt: summary.tbt, cls: summary.cls, ttfb: nav?.ttfb, fixes: candidates.length }, null, 2));
 console.log(`\nWrote ${out}/bottleneck.md`);

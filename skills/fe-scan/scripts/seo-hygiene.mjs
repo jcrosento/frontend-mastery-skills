@@ -1,18 +1,21 @@
 #!/usr/bin/env node
 // Usage: node seo-hygiene.mjs <url> [--pages 20] [--keywords "island hopping iloilo,gigantes island tour"] [--gl ph] [--hl en]
 // Checks sitemap, robots, canonical, titles/meta lengths, duplicates, encoding/mojibake, headings, JSON-LD presence/validity, hreflang; expands long-tail keywords via Google Suggest.
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { mkdirSync } from 'node:fs';
 import { join } from 'node:path';
+import { assertRequestAllowed, safeFetch } from './network-policy.mjs';
+import { writeArtifact, redactText } from './artifacts.mjs';
 
 const url = process.argv[2];
 if (!url) { console.error('Usage: node seo-hygiene.mjs <url> [--pages N] [--keywords "a,b"] [--gl ph] [--hl en]'); process.exit(1); }
 const opt = (k, d) => { const i = process.argv.indexOf(`--${k}`); return i > -1 ? process.argv[i + 1] : d; };
 const maxPages = Number(opt('pages', 20)); const gl = opt('gl', 'ph'); const hl = opt('hl', 'en');
 const seedKeywords = (opt('keywords', '') || '').split(',').map(s => s.trim()).filter(Boolean);
+await assertRequestAllowed(url);
 const origin = new URL(url).origin; const site = new URL(url).hostname.replace(/[^a-z0-9.-]/gi, '_');
 const out = join('design', 'reports', 'scan', site, new Date().toISOString().slice(0, 10), 'seo'); mkdirSync(out, { recursive: true });
 const UA = 'Mozilla/5.0 (compatible; fe-scan/0.1; +https://github.com/jcrosento/frontend-mastery-skills)';
-const get = async u => { try { const r = await fetch(u, { headers: { 'user-agent': UA }, redirect: 'follow' }); return { status: r.status, text: await r.text(), ct: r.headers.get('content-type') || '', finalUrl: r.url }; } catch (e) { return { status: 0, text: '', ct: '', error: e.message }; } };
+const get = async u => { try { const r = await safeFetch(u, { headers: { 'user-agent': UA } }); return { status: r.status, text: await r.text(), ct: r.headers.get('content-type') || '', finalUrl: r.url }; } catch (e) { return { status: 0, text: '', ct: '', error: e.message }; } };
 
 const report = { url, robots: {}, sitemap: {}, pages: [], issues: [], longTail: {} };
 const robots = await get(`${origin}/robots.txt`);
@@ -52,7 +55,7 @@ for (const [t, us] of Object.entries(titles)) if (us.length > 1) report.issues.p
 for (const [d, us] of Object.entries(descs)) if (us.length > 1) report.issues.push(`duplicate description on ${us.length} pages`);
 
 const seeds = seedKeywords.length ? seedKeywords : [...new Set(report.pages.map(p => p.h1).filter(Boolean))].slice(0, 5).map(h => h.toLowerCase().replace(/[^a-z0-9 ]/g, '').split(' ').slice(0, 4).join(' '));
-const suggest = async q => { try { const r = await fetch(`https://suggestqueries.google.com/complete/search?client=firefox&gl=${gl}&hl=${hl}&q=${encodeURIComponent(q)}`, { headers: { 'user-agent': UA } }); const j = await r.json(); return j[1] || []; } catch { return []; } };
+const suggest = async q => { try { const safeQ = redactText(q); const r = await safeFetch(`https://suggestqueries.google.com/complete/search?client=firefox&gl=${gl}&hl=${hl}&q=${encodeURIComponent(safeQ)}`, { headers: { 'user-agent': UA } }); const j = await r.json(); return j[1] || []; } catch { return []; } };
 const modifiers = ['price', 'package', 'rates', 'itinerary', 'how to get to', 'best time', 'near', 'tour', 'booking', 'review', 'vs', 'for families', 'day trip', 'overnight'];
 const questions = ['how', 'what', 'where', 'when', 'is', 'can', 'why'];
 for (const seed of seeds) {
@@ -63,8 +66,8 @@ for (const seed of seeds) {
   const list = [...set].filter(s => s !== seed); const long = list.filter(s => s.split(' ').length >= 4); const qs = list.filter(s => /^(how|what|where|when|is|can|why|do|does)\b/.test(s));
   report.longTail[seed] = { total: list.length, longTail: long.slice(0, 40), questions: qs.slice(0, 25), all: list };
 }
-writeFileSync(join(out, 'seo.json'), JSON.stringify(report, null, 2));
+writeArtifact(join(out, 'seo.json'), report);
 const md = [`# SEO hygiene: ${url}`, '', '## Site-level issues', ...(report.issues.length ? report.issues.map(i => '- ' + i) : ['- none']), '', `## Sitemap: ${report.sitemap.url}`, `- URLs: ${report.sitemap.count}, lastmod: ${report.sitemap.hasLastmod}, errors: ${report.sitemap.errors.join('; ') || 'none'}`, `- robots.txt: ${report.robots.status}, sitemap ref: ${report.robots.hasSitemap}, disallows: ${report.robots.disallows.join(' ') || 'none'}`, '', '## Pages', '| url | title (len) | desc len | H1 | schema | issues |', '|---|---|---|---|---|---|', ...report.pages.map(p => `| ${p.url.replace(origin, '')} | ${(p.title || '').slice(0, 45)} (${p.titleLen || 0}) | ${p.descLen || 0} | ${p.h1Count} | ${(p.ldTypes || []).join(', ') || '-'} | ${p.issues.join('; ') || 'ok'} |`), '', '## Long-tail keyword opportunities (Google Suggest, gl=' + gl + ')', ...Object.entries(report.longTail).flatMap(([seed, v]) => [``, `### ${seed} (${v.total} suggestions)`, `**Questions (FAQ/H2 candidates):**`, ...v.questions.map(q => '- ' + q), `**Long-tail (4+ words):**`, ...v.longTail.slice(0, 25).map(q => '- ' + q)])].join('\n');
-writeFileSync(join(out, 'seo.md'), md);
+writeArtifact(join(out, 'seo.md'), md);
 console.log(JSON.stringify({ siteIssues: report.issues.length, pages: report.pages.length, pagesWithIssues: report.pages.filter(p => p.issues.length).length, sitemapUrls: report.sitemap.count, longTailSeeds: Object.keys(report.longTail) }, null, 2));
 console.log(`\nWrote ${out}/seo.md`);

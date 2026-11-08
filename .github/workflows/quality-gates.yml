@@ -1,0 +1,41 @@
+name: Frontend quality gates
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - "clicky/**"
+      - "perplexity/**"
+      - "review/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  evidence-and-regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Check patch whitespace
+        run: |
+          if [ "$GITHUB_EVENT_NAME" = "pull_request" ]; then
+            git diff --check "origin/$GITHUB_BASE_REF...HEAD"
+          else
+            git diff --check HEAD^
+          fi
+      - name: Install locked dependencies
+        run: npm ci
+      - name: Install Chromium for local seeded browser test
+        run: npx playwright install --with-deps chromium
+      - name: Audit npm dependencies
+        run: npm audit --audit-level=high
+      - name: Run the single public verification entrypoint
+        run: npm run verify

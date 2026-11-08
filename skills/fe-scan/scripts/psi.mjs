@@ -1,11 +1,14 @@
 #!/usr/bin/env node
 // Usage: PSI_API_KEY=... node psi.mjs <url> [--strategy mobile|desktop|both]
 // Pulls PageSpeed Insights (Lighthouse lab) and CrUX field data (URL + origin), writes JSON + a bottleneck summary.
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { mkdirSync } from 'node:fs';
 import { join } from 'node:path';
+import { assertRequestAllowed, safeFetch } from './network-policy.mjs';
+import { writeArtifact } from './artifacts.mjs';
 
 const url = process.argv[2];
 if (!url) { console.error('Usage: node psi.mjs <url> [--strategy mobile|desktop|both]'); process.exit(1); }
+await assertRequestAllowed(url);
 const i = process.argv.indexOf('--strategy'); const strategyArg = i > -1 ? process.argv[i + 1] : 'both';
 const strategies = strategyArg === 'both' ? ['mobile', 'desktop'] : [strategyArg];
 const key = process.env.PSI_API_KEY || process.env.GOOGLE_API_KEY;
@@ -18,10 +21,10 @@ const OPP = ['render-blocking-resources', 'unused-javascript', 'unused-css-rules
 
 for (const strategy of strategies) {
   const q = new URLSearchParams({ url, strategy, category: 'performance' }); q.append('category', 'accessibility'); q.append('category', 'seo'); q.append('category', 'best-practices'); if (key) q.set('key', key);
-  const res = await fetch(`https://www.googleapis.com/pagespeedonline/v5/runPagespeed?${q}`);
+  const res = await safeFetch(`https://www.googleapis.com/pagespeedonline/v5/runPagespeed?${q}`);
   if (!res.ok) { console.error(strategy, 'PSI error', res.status, await res.text()); continue; }
   const j = await res.json();
-  writeFileSync(join(out, `${slug}-${strategy}.json`), JSON.stringify(j, null, 2));
+  writeArtifact(join(out, `${slug}-${strategy}.json`), j);
   const lr = j.lighthouseResult; const a = lr.audits;
   const lab = { performance: Math.round(lr.categories.performance.score * 100), accessibility: Math.round(lr.categories.accessibility.score * 100), seo: Math.round(lr.categories.seo.score * 100), bestPractices: Math.round(lr.categories['best-practices'].score * 100), fcp: a['first-contentful-paint'].displayValue, lcp: a['largest-contentful-paint'].displayValue, tbt: a['total-blocking-time'].displayValue, cls: a['cumulative-layout-shift'].displayValue, speedIndex: a['speed-index'].displayValue };
   const fieldOf = le => le && le.metrics ? Object.fromEntries(Object.entries(le.metrics).map(([k, v]) => [k, { p75: v.percentile, category: v.category }])) : null;
@@ -30,7 +33,7 @@ for (const strategy of strategies) {
   const lcpEl = a['largest-contentful-paint-element']?.details?.items?.[0]?.items?.[0]?.node?.snippet || a['largest-contentful-paint-element']?.details?.items?.[0]?.node?.snippet || null;
   const bottleneck = opportunities[0] ? `${opportunities[0].title} (${opportunities[0].savingsMs ? Math.round(opportunities[0].savingsMs) + ' ms' : opportunities[0].display || ''})` : 'none above threshold';
   const summary = { url, strategy, lab, field, lcpElement: lcpEl, biggestBottleneck: bottleneck, topFixes: opportunities.slice(0, 8) };
-  writeFileSync(join(out, `${slug}-${strategy}-summary.json`), JSON.stringify(summary, null, 2));
+  writeArtifact(join(out, `${slug}-${strategy}-summary.json`), summary);
   console.log(JSON.stringify(summary, null, 2));
 }
 console.log(`\nWrote ${out}`);

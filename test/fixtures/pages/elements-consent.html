@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Seeded scanner test __EMAIL__ __TOKEN__</title>
+<style>
+* { box-sizing: border-box; } body { margin: 0; font: 16px/1.5 Arial, sans-serif; color: #132238; }
+main { min-height: 150vh; padding: 48px; } .btn { display: inline-block; padding: 14px 22px; color: white; background: #174d88; border-radius: 4px; }
+#cmp-layer { position: fixed; inset: 0; z-index: 9999; display: grid; place-items: end center; background: rgb(0 0 0 / 25%); }
+.cookie-child { width: 100%; min-height: 180px; background: white; padding: 24px; box-shadow: 0 0 20px #333; }
+button { padding: 12px 18px; border: 0; cursor: pointer; } #essential:hover { background: #ddd; }
+#animated { background: #6c2a82; animation: wobble 100ms linear infinite alternate; transition: transform 300ms ease; }
+#animated:active { transform: scale(.96); }
+#unhoverable { position: relative; }
+@keyframes wobble { from { transform: translateX(0); } to { transform: translateX(40px); } }
+</style>
+</head>
+<body>
+<script>
+window.addEventListener('load', () => setTimeout(() => {
+  const unstable = document.querySelector('#unhoverable');
+  let offset = 0;
+  const jitter = () => { offset = offset ? 0 : 1; unstable.style.transform = `translateX(${offset}px)`; requestAnimationFrame(jitter); };
+  requestAnimationFrame(jitter);
+  fetch('/post-probe', { method: 'POST', body: 'synthetic-only' }).catch(() => {});
+  fetch('/redirect-private').catch(() => {});
+  const image = new Image(); image.src = '__PRIVATE_ORIGIN__/private-image'; document.body.append(image);
+}, 0));
+</script>
+<div id="cmp-layer"><section class="cookie-child" aria-label="Privacy choices"><p>Privacy choices: this test banner has no tracking. Contact __EMAIL__; marker __TOKEN__.</p><button id="essential" type="button" onclick="document.querySelector('#cmp-layer').remove()">Essential only</button></section></div>
+<main data-test-account="__EMAIL__" data-test-token="__TOKEN__"><h1>Seeded front-end test</h1><p>Local fixture content only. Synthetic contact: __EMAIL__.</p><input aria-label="seeded email" value="__EMAIL__"><a class="btn" href="#done">Primary action</a><button id="animated" type="button">Frozen animation target</button><button id="unhoverable" type="button">Unhoverable test target</button></main>
+</body>
+</html>

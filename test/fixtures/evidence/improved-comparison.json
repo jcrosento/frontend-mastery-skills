@@ -1,0 +1,79 @@
+{
+  "schemaVersion": "1.0.0",
+  "runId": "fixture-improvement-01",
+  "subject": { "alias": "sample-storefront", "platform": "bricks" },
+  "baseline": {
+    "id": "fixture-before-01",
+    "capturedAt": "2026-11-08T00:00:00Z",
+    "reference": "synthetic baseline; no live website was scanned"
+  },
+  "candidate": {
+    "id": "fixture-after-01",
+    "capturedAt": "2026-11-08T00:30:00Z",
+    "reference": "synthetic candidate; same seeded scenario"
+  },
+  "coverage": {
+    "plannedProfiles": ["mobile", "desktop"],
+    "completedProfiles": [],
+    "skippedProfiles": [
+      { "profile": "mobile", "reason": "Synthetic fixture only; no live mobile browser run." },
+      { "profile": "desktop", "reason": "Synthetic fixture only; no live desktop browser run." }
+    ],
+    "checks": { "planned": 6, "passed": 6, "failed": 0, "skipped": 0 }
+  },
+  "metrics": [
+    {
+      "key": "lcp_ms", "unit": "ms", "aggregation": "median", "direction": "lower-is-better",
+      "before": { "value": 3200, "status": "measured" },
+      "after": { "value": 2200, "status": "measured" },
+      "delta": { "absolute": -1000, "percent": -31.25, "verdict": "improved" },
+      "evidence": {
+        "before": [
+          { "file": "test/fixtures/scans/before/lcp-run-1.json", "pointer": "/summary/lcp/time" },
+          { "file": "test/fixtures/scans/before/lcp-run-2.json", "pointer": "/summary/lcp/time" },
+          { "file": "test/fixtures/scans/before/lcp-run-3.json", "pointer": "/summary/lcp/time" }
+        ],
+        "after": [
+          { "file": "test/fixtures/scans/after/lcp-run-1.json", "pointer": "/summary/lcp/time" },
+          { "file": "test/fixtures/scans/after/lcp-run-2.json", "pointer": "/summary/lcp/time" },
+          { "file": "test/fixtures/scans/after/lcp-run-3.json", "pointer": "/summary/lcp/time" }
+        ]
+      }
+    },
+    {
+      "key": "cls", "unit": "score", "aggregation": "single", "direction": "lower-is-better",
+      "before": { "value": 0.18, "status": "measured" },
+      "after": { "value": 0.07, "status": "measured" },
+      "delta": { "absolute": -0.11, "percent": -61.11, "verdict": "improved" },
+      "evidence": {
+        "before": [{ "file": "test/fixtures/scans/before/trace.json", "pointer": "/summary/cls" }],
+        "after": [{ "file": "test/fixtures/scans/after/trace.json", "pointer": "/summary/cls" }]
+      }
+    },
+    {
+      "key": "dead_end_count", "unit": "count", "aggregation": "single", "direction": "lower-is-better",
+      "before": { "value": 1, "status": "measured" },
+      "after": { "value": 0, "status": "measured" },
+      "delta": { "absolute": -1, "percent": -100, "verdict": "improved" },
+      "evidence": {
+        "before": [{ "file": "test/fixtures/scans/before/scan.json", "pointer": "/summary/deadEndsAfterClick", "transform": "count" }],
+        "after": [{ "file": "test/fixtures/scans/after/scan.json", "pointer": "/summary/deadEndsAfterClick", "transform": "count" }]
+      }
+    }
+  ],
+  "findings": {
+    "resolved": ["fixture: booking CTA dead-end removed"],
+    "new": [],
+    "unchanged": ["fixture: heading hierarchy remains stable"]
+  },
+  "limitations": [
+    { "area": "real-device-browser", "status": "fixture-only", "reason": "Fixtures verify comparison logic, not actual visual or functional site behavior." },
+    { "area": "business-conversion", "status": "not-run", "reason": "No analytics or booking conversion data is included in this synthetic test." }
+  ],
+  "privacy": {
+    "sourceClass": "synthetic",
+    "containsPersonalData": false,
+    "containsSecrets": false,
+    "sanitized": true
+  }
+}

@@ -3,8 +3,10 @@
 // Requires: npm i -D playwright gremlins.js && npx playwright install chromium
 // --no-forms: safe for production; monkey test will not type into or submit forms, and all form submissions are blocked.
 import { chromium, devices as pwDevices } from 'playwright';
-import { mkdirSync, writeFileSync, existsSync } from 'node:fs';
+import { mkdirSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
+import { assertRequestAllowed, installRequestGuard } from './network-policy.mjs';
+import { writeArtifact, redactPageForScreenshot, restorePageAfterScreenshot } from './artifacts.mjs';
 
 const args = process.argv.slice(2);
 const url = args[0];
@@ -15,6 +17,8 @@ const monkeySeconds = Number(opt('monkey', 60));
 const deviceSel = opt('devices', 'all');
 const noForms = args.includes('--no-forms');
 const noMonkey = args.includes('--no-monkey');
+const allowLoopbackFixture = args.includes('--allow-loopback-fixture');
+await assertRequestAllowed(url, 'GET', { allowLoopbackFixture });
 
 const origin = new URL(url).origin;
 const site = new URL(url).hostname.replace(/[^a-z0-9.-]/gi, '_');
@@ -32,11 +36,12 @@ const matrix = {
 const chosen = deviceSel === 'mobile' ? ['pixel-7', 'iphone-14'] : deviceSel === 'desktop' ? ['laptop', 'desktop'] : Object.keys(matrix);
 
 const browser = await chromium.launch();
-const report = { url, stamp, noForms, pages: [], devices: chosen, errors: [], flows: [], monkey: [], perf: {} };
+const report = { url, stamp, noForms, pages: [], devices: chosen, errors: [], flows: [], monkey: [], perf: {}, blockedRequests: [] };
 const safe = async (fn, fallback) => { try { return await fn(); } catch (e) { report.errors.push(String(e.message || e).slice(0, 160)); return fallback; } };
 
 async function discoverPages() {
-  const ctx = await browser.newContext();
+  const ctx = await browser.newContext({ serviceWorkers: 'block' });
+  await installRequestGuard(ctx, { allowLoopbackFixture, blocked: report.blockedRequests });
   const page = await ctx.newPage();
   let urls = [];
   try {
@@ -64,12 +69,13 @@ const SECTION_JS = () => {
     const pads = [s.paddingTop, s.paddingRight, s.paddingBottom, s.paddingLeft].map(toNum);
     const off4 = pads.filter(p => p % 4 !== 0).length;
     const texts = [...n.querySelectorAll('p,li,span')].slice(0, 30).map(t => toNum(getComputedStyle(t).fontSize)).filter(Boolean);
-    return { index: i, tag: n.tagName.toLowerCase(), id: n.id || null, cls: (n.className || '').toString().slice(0, 80), top: Math.round(r.top + scrollY), height: Math.round(r.height), width: Math.round(r.width), padding: pads, margin: [s.marginTop, s.marginBottom].map(toNum), gap: toNum(s.gap || s.rowGap), background: s.backgroundColor, heading: h ? { level: h.tagName, size: toNum(hs.fontSize), lineHeight: hs.lineHeight, family: hs.fontFamily.split(',')[0] } : null, minTextPx: texts.length ? Math.min(...texts) : null, images: imgs, ctas, flags: { paddingOffScale: off4 > 0, tallOnMobile: innerWidth < 500 && r.height > innerHeight * 2, smallText: texts.some(t => t < 16) && innerWidth < 500, smallTap: ctas.some(c => c.h < 44 || c.w < 44), upscaledImage: imgs.some(im => im.intrinsic[0] && im.rendered[0] > im.intrinsic[0] * 1.5) } };
+    return { index: i, tag: n.tagName.toLowerCase(), id: n.id || null, cls: (n.className || '').toString().slice(0, 80), top: Math.round(r.top + scrollY), height: Math.round(r.height), width: Math.round(r.width), padding: pads, margin: [s.marginTop, s.marginBottom].map(toNum), gap: toNum(s.gap || s.rowGap), background: s.backgroundColor, headingText: h ? h.textContent.trim().replace(/\\s+/g, ' ').slice(0, 80) : null, heading: h ? { level: h.tagName, size: toNum(hs.fontSize), lineHeight: hs.lineHeight, family: hs.fontFamily.split(',')[0] } : null, minTextPx: texts.length ? Math.min(...texts) : null, images: imgs, ctas, flags: { paddingOffScale: off4 > 0, tallOnMobile: innerWidth < 500 && r.height > innerHeight * 2, smallText: texts.some(t => t < 16) && innerWidth < 500, smallTap: ctas.some(c => c.h < 44 || c.w < 44), upscaledImage: imgs.some(im => im.intrinsic[0] && im.rendered[0] > im.intrinsic[0] * 1.5) } };
   });
 };
 
 async function scanPage(pageUrl, devKey) {
-  const ctx = await browser.newContext({ ...matrix[devKey] });
+  const ctx = await browser.newContext({ ...matrix[devKey], serviceWorkers: 'block' });
+  await installRequestGuard(ctx, { allowLoopbackFixture, blocked: report.blockedRequests });
   const page = await ctx.newPage();
   const errs = []; const failed = [];
   page.on('pageerror', e => errs.push(String(e))); page.on('console', m => m.type() === 'error' && errs.push(m.text())); page.on('requestfailed', r => failed.push(r.url()));
@@ -78,11 +84,17 @@ async function scanPage(pageUrl, devKey) {
   const loadMs = Date.now() - t0;
   const slug = new URL(pageUrl).pathname.replace(/\W+/g, '-').replace(/^-|-$/g, '') || 'home';
   const dir = join(out, 'screens', devKey, slug); mkdirSync(dir, { recursive: true });
-  await safe(() => page.screenshot({ path: join(dir, 'fold.png') }));
-  await safe(() => page.evaluate(async () => { for (let y = 0; y < document.body.scrollHeight; y += innerHeight) { scrollTo(0, y); await new Promise(r => setTimeout(r, 120)); } scrollTo(0, 0); }));
-  await safe(() => page.screenshot({ path: join(dir, 'full.png'), fullPage: true }));
-  const sections = await safe(() => page.evaluate(SECTION_JS), []);
-  for (const s of sections) { await safe(() => page.screenshot({ path: join(dir, `${String(s.index).padStart(2, '0')}-${s.tag}${s.id ? '-' + s.id : ''}.png`), clip: { x: 0, y: s.top, width: matrix[devKey].viewport.width, height: Math.min(s.height, 4000) }, fullPage: true })); }
+  await page.evaluate(() => document.fonts.ready).catch(() => {});
+  await safe(() => page.addStyleTag({ content: '*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}' }));
+  await redactPageForScreenshot(page);
+  let sections;
+  try {
+    await safe(() => page.screenshot({ path: join(dir, 'fold.png') }));
+    await safe(() => page.evaluate(async () => { for (let y = 0; y < document.body.scrollHeight; y += innerHeight) { scrollTo(0, y); await new Promise(r => setTimeout(r, 120)); } scrollTo(0, 0); }));
+    await safe(() => page.screenshot({ path: join(dir, 'full.png'), fullPage: true }));
+    sections = await safe(() => page.evaluate(SECTION_JS), []);
+    for (const s of sections) { await safe(() => page.screenshot({ path: join(dir, `${String(s.index).padStart(2, '0')}-${s.tag}${s.id ? '-' + s.id : ''}.png`), clip: { x: 0, y: s.top, width: matrix[devKey].viewport.width, height: Math.min(s.height, 4000) }, fullPage: true })); }
+  } finally { await restorePageAfterScreenshot(page).catch(() => {}); }
   const overflow = await safe(() => page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
   const vitals = await safe(() => page.evaluate(() => new Promise(res => { const o = {}; try { new PerformanceObserver(l => { const e = l.getEntries().pop(); if (e) o.lcp = Math.round(e.startTime); }).observe({ type: 'largest-contentful-paint', buffered: true }); new PerformanceObserver(l => { o.cls = (o.cls || 0) + l.getEntries().reduce((a, e) => a + (e.hadRecentInput ? 0 : e.value), 0); }).observe({ type: 'layout-shift', buffered: true }); new PerformanceObserver(l => { o.longTasks = (o.longTasks || 0) + l.getEntries().length; o.tbt = (o.tbt || 0) + l.getEntries().reduce((a, e) => a + Math.max(0, e.duration - 50), 0); }).observe({ type: 'longtask', buffered: true }); } catch {} const n = performance.getEntriesByType('navigation')[0]; o.ttfb = n ? Math.round(n.responseStart) : null; o.requests = performance.getEntriesByType('resource').length; o.bytes = performance.getEntriesByType('resource').reduce((a, r) => a + (r.transferSize || 0), 0); setTimeout(() => res(o), 1500); })), {});
   const links = await safe(() => page.evaluate(() => [...document.querySelectorAll('a[href]')].filter(a => a.closest('nav, header') || /btn|button|cta/i.test(a.className)).slice(0, 12).map(a => ({ text: a.textContent.trim().slice(0, 40), href: a.href }))), []);
@@ -91,7 +103,7 @@ async function scanPage(pageUrl, devKey) {
 }
 
 async function flowWalk(pageUrl, devKey, keyLinks) {
-  const ctx = await browser.newContext({ ...matrix[devKey] }); const page = await ctx.newPage(); const steps = [];
+  const ctx = await browser.newContext({ ...matrix[devKey], serviceWorkers: 'block' }); await installRequestGuard(ctx, { allowLoopbackFixture, blocked: report.blockedRequests }); const page = await ctx.newPage(); const steps = [];
   for (const l of keyLinks.filter(k => k.href.startsWith(origin)).slice(0, 8)) {
     const t = Date.now(); let status = 'ok';
     try { const r = await page.goto(l.href, { waitUntil: 'domcontentloaded', timeout: 30000 }); if (!r || r.status() >= 400) status = `http ${r && r.status()}`; } catch (e) { status = 'fail: ' + e.message.slice(0, 80); }
@@ -107,16 +119,14 @@ async function flowWalk(pageUrl, devKey, keyLinks) {
 async function monkey(pageUrl, devKey) {
   const gpath = 'node_modules/gremlins.js/dist/gremlins.min.js';
   if (!existsSync(gpath)) return { url: pageUrl, device: devKey, skipped: 'gremlins.js not installed (npm i gremlins.js)' };
-  const ctx = await browser.newContext({ ...matrix[devKey] }); const page = await ctx.newPage();
+  const ctx = await browser.newContext({ ...matrix[devKey], serviceWorkers: 'block' }); const page = await ctx.newPage();
   const errs = []; const failed = []; let navigations = 0;
   page.on('pageerror', e => errs.push(String(e))); page.on('console', m => m.type() === 'error' && errs.push(m.text())); page.on('requestfailed', r => failed.push(r.url()));
   page.on('framenavigated', f => { if (f === page.mainFrame()) navigations++; });
-  await page.route('**/*', route => {
+  await installRequestGuard(ctx, { allowLoopbackFixture, blocked: report.blockedRequests, beforeContinue: route => {
     const r = route.request();
-    if (r.isNavigationRequest() && r.frame() === page.mainFrame() && r.url() !== pageUrl && navigations > 0) return route.abort();
-    if (noForms && r.method() === 'POST') return route.abort();
-    return route.continue();
-  });
+    return !(r.isNavigationRequest() && r.frame() === page.mainFrame() && r.url() !== pageUrl && navigations > 0);
+  } });
   await page.addInitScript({ path: gpath });
   await page.addInitScript(nf => {
     window.__clicks = [];
@@ -168,10 +178,10 @@ function writeReport() {
     scriptErrors: report.errors.length
   };
   report.summary = summary;
-  writeFileSync(join(out, 'scan.json'), JSON.stringify(report, null, 2));
-  writeFileSync(join(out, 'sections.json'), JSON.stringify(flat, null, 2));
+  writeArtifact(join(out, 'scan.json'), report);
+  writeArtifact(join(out, 'sections.json'), flat);
   const md = [`# Deep scan: ${url} (${stamp})${noForms ? ' [no-forms mode]' : ''}`, '', '## Summary', '```json', JSON.stringify(summary, null, 2), '```', '', '## Sections (flagged)', '| page | device | section | height | padding | heading | flags |', '|---|---|---|---|---|---|---|', ...flat.filter(s => Object.values(s.flags).some(Boolean)).map(s => `| ${s.page} | ${s.device} | ${s.tag}${s.id ? '#' + s.id : ''} | ${s.height} | ${s.padding.join('/')} | ${s.heading ? s.heading.level + ' ' + s.heading.size + 'px' : '-'} | ${Object.entries(s.flags).filter(([, v]) => v).map(([k]) => k).join(', ')} |`), '', '## Flow log (what happens after the click)', '| from | link | ms | status | lands on H1 | next step available |', '|---|---|---|---|---|---|', ...report.flows.flatMap(f => f.steps.map(s => `| ${f.device} ${new URL(f.url).pathname} | ${s.text} | ${s.ms} | ${s.status} | ${s.afterClick?.h1 || '-'} | ${s.afterClick ? (s.afterClick.hasForm ? 'form' : s.afterClick.hasCta ? 'cta' : 'DEAD END') : '-'} |`)), '', '## Forms', ...report.flows.flatMap(f => f.forms.map(fm => `- ${f.device} ${new URL(f.url).pathname}: ${fm.fields} fields (${fm.required} required), types ${[...new Set(fm.inputTypes)].join('/')}, labels ${fm.hasLabels}, consent ${fm.hasConsent}, spam protection ${fm.hasHoneypotOrCaptcha}, action ${fm.action}`)), '', '## Monkey test', ...report.monkey.map(m => `- ${m.device} ${new URL(m.url).pathname}: ${m.skipped || `${m.seconds}s${m.noForms ? ' (forms protected)' : ''}, ${m.clickPoints} clicks, ${m.errors.length} errors, ${m.failedRequests.length} failed requests, ${m.navigationsBlocked} navigations blocked`}`), '', report.errors.length ? `## Script warnings (${report.errors.length})\n` + report.errors.slice(0, 20).map(e => '- ' + e).join('\n') : '', '', `Artifacts: screens/, heatmaps/ (PREDICTED attention, MONKEY click), scan.json, sections.json. Next: elements.mjs, trace.mjs, seo-hygiene.mjs, psi.mjs.`].join('\n');
-  writeFileSync(join(out, 'report.md'), md);
+  writeArtifact(join(out, 'report.md'), md);
   return summary;
 }
 
@@ -186,10 +196,10 @@ try {
       const r = await safe(() => scanPage(p, d), null); if (!r) continue;
       report.perf[`${r.slug}|${d}`] = r;
       const dims = { w: matrix[d].viewport.width, h: r.sections.length ? r.sections.at(-1).top + r.sections.at(-1).height : matrix[d].viewport.height, vh: matrix[d].viewport.height };
-      writeFileSync(join(out, 'heatmaps', `${r.slug}-${d}-attention-PREDICTED.svg`), attentionSVG(r.sections, dims));
+      writeArtifact(join(out, 'heatmaps', `${r.slug}-${d}-attention-PREDICTED.svg`), attentionSVG(r.sections, dims));
       if (pages.indexOf(p) < 3) {
         const f = await safe(() => flowWalk(p, d, r.keyLinks), null); if (f) report.flows.push(f);
-        if (!noMonkey && (d === 'pixel-7' || d === 'desktop')) { const m = await safe(() => monkey(p, d), null); if (m) { report.monkey.push({ ...m, clicks: undefined }); if (m.clicks && m.clicks.length) writeFileSync(join(out, 'heatmaps', `${r.slug}-${d}-click-MONKEY.svg`), heatmapSVG(m.clicks, m.pageDims)); } }
+        if (!noMonkey && (d === 'pixel-7' || d === 'desktop')) { const m = await safe(() => monkey(p, d), null); if (m) { report.monkey.push({ ...m, clicks: undefined }); if (m.clicks && m.clicks.length) writeArtifact(join(out, 'heatmaps', `${r.slug}-${d}-click-MONKEY.svg`), heatmapSVG(m.clicks, m.pageDims)); } }
       }
       console.error(`scanned ${r.slug} @ ${d}`);
     }
