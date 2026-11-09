@@ -1,0 +1,32 @@
+{
+  "source": "PPIM 2026 42K route poster (1080x1081)",
+  "palette": {
+    "bg_deep": "#070932",
+    "bg_land": "#151767",
+    "sea_blue": "#3e43f5",
+    "panel_navy": "#0c0d56",
+    "accent_purple": "#5909c1",
+    "route_purple": "#7534c8",
+    "badge_magenta": "#ce1f52",
+    "text_light": "#f6effb",
+    "muted_lavender": "#95abcb"
+  },
+  "legend": {
+    "bbox_px": [30, 660, 330, 830],
+    "rows": 4,
+    "row_pitch_px": 35,
+    "icon_tile_px": [28, 28],
+    "icon_radius_px": 4,
+    "label_offset_px": 12,
+    "label_font": "geometric sans, bold, ~15px, white",
+    "items": [
+      {"icon": "water drop on cyan tile", "label": "Hydration & Nutrition Station"},
+      {"icon": "water drop + 'HS' sub-tag", "label": "Hydration Station Only"},
+      {"icon": "white cross on red tile", "label": "Medic"},
+      {"icon": "U-turn arrow on green tile", "label": "Turning Point"}
+    ]
+  },
+  "turning_badge": {"left_block": "#473186 km label", "right_block": "#ce1f52 name", "icon": "green u-turn chip", "font": "condensed bold uppercase"},
+  "stats_bar": {"fields": ["DISTANCE", "AVG. GRADE", "TOTAL ASCENT", "TOTAL DESCENT"], "label_color": "#95abcb", "value_color": "#ffffff"},
+  "profile": {"fill": "#7534c8", "bg": "#12166b", "y_ticks": "min/max labels only", "x_ticks": "0, quarter marks, total"}
+}
