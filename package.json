@@ -1,6 +1,6 @@
 {
   "name": "frontend-mastery-skills",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "private": true,
   "type": "module",
   "description": "Master front-end agent skills: scan, audit, build, gate, learn.",
@@ -13,6 +13,7 @@
     "scan:seo": "node skills/fe-scan/scripts/seo-hygiene.mjs",
     "scan:crawlers": "node skills/fe-scan/scripts/crawlers.mjs",
     "scan:psi": "node skills/fe-scan/scripts/psi.mjs",
+    "map": "node skills/fe-scan/scripts/app-map.mjs",
     "compare": "node skills/fe-scan/scripts/compare.mjs",
     "gate": "node skills/fe-perf/scripts/lighthouse-gate.mjs",
     "guard": "node skills/fe-guard/scripts/guard.mjs",
@@ -28,7 +29,8 @@
   },
   "devDependencies": {
     "gremlins.js": "2.2.0",
-    "playwright": "1.65.0"
+    "playwright": "1.65.0",
+    "yaml": "2.9.1"
   },
   "license": "MIT"
 }

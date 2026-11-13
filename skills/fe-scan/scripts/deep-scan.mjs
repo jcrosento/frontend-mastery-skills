@@ -4,7 +4,8 @@
 // --no-forms: safe for production; monkey test will not type into or submit forms, and all form submissions are blocked.
 import { chromium, devices as pwDevices } from 'playwright';
 import { mkdirSync, existsSync } from 'node:fs';
-import { join } from 'node:path';
+import { join, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { assertRequestAllowed, installRequestGuard } from './network-policy.mjs';
 import { writeArtifact, redactPageForScreenshot, restorePageAfterScreenshot } from './artifacts.mjs';
 
@@ -116,9 +117,21 @@ async function flowWalk(pageUrl, devKey, keyLinks) {
   return { url: pageUrl, device: devKey, steps, forms };
 }
 
+// gremlins.js is looked for in the folder the scan runs from, then upward from this script,
+// so a global skills install (~/.agents/node_modules) works from any app folder.
+function findGremlins() {
+  const rel = join('node_modules', 'gremlins.js', 'dist', 'gremlins.min.js');
+  if (existsSync(rel)) return rel;
+  for (let dir = dirname(fileURLToPath(import.meta.url)), prev = ''; dir !== prev; prev = dir, dir = dirname(dir)) {
+    const candidate = join(dir, rel);
+    if (existsSync(candidate)) return candidate;
+  }
+  return null;
+}
+
 async function monkey(pageUrl, devKey) {
-  const gpath = 'node_modules/gremlins.js/dist/gremlins.min.js';
-  if (!existsSync(gpath)) return { url: pageUrl, device: devKey, skipped: 'gremlins.js not installed (npm i gremlins.js)' };
+  const gpath = findGremlins();
+  if (!gpath) return { url: pageUrl, device: devKey, skipped: 'gremlins.js not installed (npm i gremlins.js)' };
   const ctx = await browser.newContext({ ...matrix[devKey], serviceWorkers: 'block' }); const page = await ctx.newPage();
   const errs = []; const failed = []; let navigations = 0;
   page.on('pageerror', e => errs.push(String(e))); page.on('console', m => m.type() === 'error' && errs.push(m.text())); page.on('requestfailed', r => failed.push(r.url()));

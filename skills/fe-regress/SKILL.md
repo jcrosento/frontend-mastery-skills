@@ -5,12 +5,16 @@ license: MIT
 compatibility: Uses fe-scan scripts (run-all, compare), Search Console / GA4 / Clarity connectors when available, and git tags for revision history.
 metadata:
   author: jcrosento
-  version: "0.1.0"
+  version: "0.2.0"
 ---
 
 # fe-regress
 
 Nothing is "better" until the numbers say so twice.
+
+This skill has two halves. Sections 1 to 4 are for a public site with a URL. Section 5 is for an app behind a login, where there is no URL to scan.
+
+`npm run scan` works inside a clone of this repository. From an installed copy, call the script directly: `node <skills folder>/fe-scan/scripts/run-all.mjs <url> ...`, where the skills folder is `.agents/skills` in the project or `~/.agents/skills` for a global install.
 
 ## 1. Baseline foundation (once per site)
 1. `npm run scan -- <url> --pages 12 --monkey 45 --runs 3 --baseline` -> three deep-scan and trace runs, medians, `BASELINE` marker file in the site folder.
@@ -44,7 +48,21 @@ Nothing is "better" until the numbers say so twice.
 
 Monthly ritual (60 min): re-scan all sites -> compare vs baseline -> read Clarity top-10 rage/dead clicks -> pick max 3 revisions -> write hypotheses -> `LESSONS.md` entry.
 
-## 5. Learning capture
+## 5. Regression for an app behind a login
+The site scanner cannot sign in, so none of sections 1 to 3 run on an app's private screens. Regression there is these four checks, all of which must pass before and after every UI change:
+
+| Check | Command | Catches |
+|---|---|---|
+| UI-only | `fe-guard/scripts/guard.mjs --base <main>` | a change outside the UI folders, or to a line that talks to the network |
+| Landmarks | `fe-guard/scripts/lock-check.mjs --lock design/landmarks.lock.json --state <screen> --html <rendered.html>` | a locked control that vanished, was relabelled or moved out of order |
+| Screens and links | `fe-scan/scripts/app-map.mjs --declared <sitemap.md> --strict` | a written link or redirect to a screen that no longer exists (fails). A screen added or removed without the sitemap document changing is listed under `declared`, to be read; it does not fail the run |
+| Behaviour | the app's own tests and type check | anything the three above cannot see |
+
+Save the map before the change with `--out` to a file outside the repository (a committed report would itself be a non-UI change) and compare it after: the list of screens, guards and redirects should differ only where the change says it should.
+
+What is not covered: there is no automated before/after picture comparison for signed-in screens, and no check that a screen still behaves the same. Until the app has a signed-in test fixture, a person opens each touched screen on a phone and a desktop and says so in the pull request.
+
+## 6. Learning capture
 - Every KEEP revision -> technique card marked `proven: true`, `uses += 1`.
 - Every ROLLBACK -> `LESSONS.md` anti-pattern with the numbers.
 - Every scan crash or false positive -> fix the script, add a selftest check, record in `LESSONS.md` under Tooling.

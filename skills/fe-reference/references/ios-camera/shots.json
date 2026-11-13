@@ -5,7 +5,7 @@
   "platform": "iOS 26 Camera (Liquid Glass controls)",
   "captured": "2026-11-13",
   "viewport_pt": [430, 932],
-  "viewport_basis": "iPhone 14 Pro Max, stated by the device owner on 2026-11-13 (430x932 pt logical screen, 1290x2796 px at 3x). Before that it was inferred from the measurements: the 923:2000 image aspect fits only the 393x852 and 430x932 pt iPhones, and the Dynamic Island cutout in cam-photo measures 269x79 px, which is 125x37 pt at 430 pt wide. The uploads are downscaled to 923 px wide, so one point is 2.147 image pixels.",
+  "viewport_basis": "iPhone 14 Pro Max, stated by the device owner on 2026-11-13 (430x932 pt logical screen, 1290x2796 px at 3x). Before that it was inferred from the measurements: the 923x2000 image shape fits the 375x812, 393x852 and 430x932 pt iPhones (measure-shot.mjs --device), and the Dynamic Island cutout in cam-photo measures 269x79 px, which is 125x37 pt at 430 pt wide. The uploads are downscaled to 923 px wide, so one point is 2.147 image pixels.",
   "shots": [
     {
       "id": "cam-photo",
@@ -13,11 +13,11 @@
       "sha256": "8f46037eccc9507864f0c6bf792d7692eb4c0f0ff074026fdfbcb2e41fe959ce",
       "screen": "Photo mode viewfinder, default state",
       "regions": [
-        { "name": "island", "search": [290, 5, 350, 130], "mode": "darker", "threshold": 7, "note": "System Dynamic Island cutout as drawn in the screenshot. Used only to infer the viewport; not a pattern." },
+        { "name": "island", "search": [290, 5, 350, 130], "mode": "darker", "threshold": 7, "pick": "largest", "note": "System Dynamic Island cutout as drawn in the screenshot. Used only to infer the viewport; not a pattern." },
         { "name": "shutter.disc", "search": [340, 1545, 245, 245], "mode": "brighter", "threshold": 200 },
         { "name": "zoom.selected", "search": [405, 1418, 112, 112], "threshold": 12 },
         { "name": "zoom.labels", "search": [350, 1455, 300, 34], "mode": "brighter", "threshold": 150, "split": "x", "join": 12 },
-        { "name": "mode-strip", "search": [240, 1800, 440, 150], "threshold": 10 },
+        { "name": "mode-strip", "search": [240, 1800, 440, 150], "threshold": 12 },
         { "name": "thumb-well", "search": [50, 1800, 150, 150], "threshold": 10 },
         { "name": "flip-button", "search": [725, 1800, 150, 150], "threshold": 10 },
         { "name": "cluster.icons", "search": [590, 195, 300, 56], "mode": "brighter", "threshold": 150, "split": "x", "join": 10 }

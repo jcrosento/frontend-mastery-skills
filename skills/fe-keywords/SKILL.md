@@ -1,6 +1,6 @@
 ---
 name: fe-keywords
-description: Keyword planning and mapping from competitors and Google data: mine competitor URLs and seed terms through Google Ads Keyword Planner (generateKeywordIdeas) or the Google Ads connector, pull real queries from Google Search Console, cluster by intent, map keywords to pages and templates, and write title/H1/meta/alt patterns. Use when the user asks for keywords, keyword planner, SEO strategy, what competitors rank for, or content gaps.
+description: "Keyword planning and mapping from competitors and Google data: mine competitor URLs and seed terms through Google Ads Keyword Planner (generateKeywordIdeas) or the Google Ads connector, pull real queries from Google Search Console, cluster by intent, map keywords to pages and templates, and write title/H1/meta/alt patterns. Use when the user asks for keywords, keyword planner, SEO strategy, what competitors rank for, or content gaps."
 license: MIT
 compatibility: Works with a Google Ads connector or the Google Ads API KeywordPlanIdeaService (needs a customer ID; developer token basic access is enough), Google Search Console connector, and optionally an Apify Keyword Planner actor as a no-account fallback. Competitor pages are fetched with Playwright.
 metadata:

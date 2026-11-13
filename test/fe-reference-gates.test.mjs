@@ -4,8 +4,9 @@ import { mkdtempSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync
 import { tmpdir } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { SUBTRACTION_SHARE, checkCitations, checkMatrix, checkSubtraction, checkTokens, citablePatterns } from '../skills/fe-reference/scripts/gates.mjs';
+import { STABILITY_MIN_VARIANTS, SUBTRACTION_SHARE, checkCitations, checkMatrix, checkSubtraction, checkTokens, citablePatterns } from '../skills/fe-reference/scripts/gates.mjs';
 import { validateManifest } from '../skills/fe-inspect/scripts/shot-manifest.mjs';
+import { RADIUS_MIN_FILL, cornerKind } from '../skills/fe-inspect/scripts/measure-core.mjs';
 import { spawnBounded } from '../scripts/run-bounded.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
@@ -111,6 +112,18 @@ test('fe-reference library: committed tokens pass provenance and calibration, an
       const [x, y, w, h] = token.measured_from.box, [iw, ih] = token.measured_from.image;
       assert.ok(x >= 0 && y >= 0 && w > 0 && h > 0 && x + w <= iw && y + h <= ih, `${folder}/${token.name}: box lies outside the image`);
       assert.ok(Math.abs(token.pt.w - w * tokens.viewport_pt[0] / iw) <= 0.06, `${folder}/${token.name}: points do not follow from pixels`);
+      // Radius and corner name are only claimed for filled shapes measured by contrast or brightness.
+      const claims = token.fill >= RADIUS_MIN_FILL && token.method.mode !== 'match';
+      assert.equal('radius' in token.px, claims, `${folder}/${token.name}: radius claimed for the wrong kind of shape`);
+      assert.equal(token.corner, claims ? cornerKind(token.measured_from.box, token.px.radius) : null, `${folder}/${token.name}: corner name does not follow from the radius`);
+      if (claims) {
+        assert.ok(token.px.radius >= 0 && token.px.radius <= Math.min(w, h) / 2 + 1, `${folder}/${token.name}: radius larger than the shape`);
+        assert.ok(Math.abs(token.pt.radius - token.px.radius * tokens.viewport_pt[0] / iw) <= 0.06, `${folder}/${token.name}: radius points do not follow from pixels`);
+      }
+      const region = shot.regions.find(r => r.name === token.name);
+      assert.deepEqual(token.method.search, region.search, `${folder}/${token.name}: measured with a different search box than the manifest`);
+      assert.equal(token.method.threshold, region.threshold ?? 40, `${folder}/${token.name}: measured with a different threshold than the manifest`);
+      assert.equal(token.method.pick, region.pick, `${folder}/${token.name}: "pick" differs from the manifest`);
     }
   }
 });
@@ -139,6 +152,19 @@ test('fe-reference gates: tokens from the product itself, uncalibrated or withou
   const guessedPoints = structuredClone(good);
   guessedPoints.viewport_pt = null;
   assert.ok(checkTokens(guessedPoints).some(f => f.includes('viewport is unknown')));
+  // Stability: a token that was never re-measured, or whose record does not add up, is not trusted.
+  assert.equal(STABILITY_MIN_VARIANTS, 20);
+  const stabilityOf = (change) => { const doc = structuredClone(good); change(doc.tokens[0]); return checkTokens(doc); };
+  const unstable = /G2: "island" has no passing stability record/;
+  assert.match(stabilityOf(t => { delete t.stability; })[0], unstable, 'tokens measured before the stability check must be re-measured');
+  assert.match(stabilityOf(t => { t.stability.agreed_moved_or_grown = 0; })[0], unstable, 'only threshold nudges agreed');
+  assert.match(stabilityOf(t => { t.stability.variants = 4; t.stability.agreed = 4; t.stability.agreed_moved_or_grown = 4; })[0], unstable, 'too few perturbations');
+  assert.match(stabilityOf(t => { t.stability.agreed = 19; })[0], unstable, 'a run that neither agreed nor was refused disagreed');
+  assert.match(stabilityOf(t => { t.stability.max_delta_px = 3; })[0], unstable);
+  assert.deepEqual(stabilityOf(t => { t.stability = { skipped: 'allow_clip' }; }), [], 'a deliberately clipped box cannot be re-tested and says so');
+  assert.match(stabilityOf(t => { t.stability = { skipped: 'trust me' }; })[0], unstable);
+  assert.ok(checkTokens({ ...good, calibration: { max_error_px: 1 } }).some(f => f.includes('no corner-radius calibration')));
+  assert.ok(checkTokens({ ...good, calibration: { max_error_px: 1, max_radius_error_px: 2.5 } }).some(f => f.includes('corner-radius calibration error 2.5px exceeds')));
 });
 
 test('fe-reference gates: command line exits 0 on a passing brief and 1 on a failing one', { timeout: 60_000 }, async () => {

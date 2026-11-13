@@ -10,14 +10,45 @@ Two profiles:
 
 ## Install
 
+The installer needs Node 22.20 or newer (`node -v`). On an older Node it stops before installing anything.
+
 ```bash
-npx skills add jcrosento/frontend-mastery-skills
-npx skills add bradautomates/claude-video -g --skill watch   # video learning
-npx skills add pbakaus/impeccable                            # design vocabulary
-npx skills add emilkowalski/skills                           # interaction and motion craft (optional, app profile)
-npm i -D playwright gremlins.js lighthouse && npx playwright install chromium   # for fe-scan / fe-perf scripts
+# recommended on your own machine: once, for every project, nothing added to any app repository
+npx skills add jcrosento/frontend-mastery-skills -g -a cursor -y
+npm i --prefix ~/.agents playwright gremlins.js && ~/.agents/node_modules/.bin/playwright install chromium   # browser for the scripts
+
+# or per project, when teammates or cloud agents need the same skills (adds .agents/skills/ and skills-lock.json)
+npx skills add jcrosento/frontend-mastery-skills -a cursor -y
+
+# only some skills
+npx skills add jcrosento/frontend-mastery-skills -g -a cursor -y --skill fe-master fe-guard fe-reference fe-inspect fe-scan
+
+# update later
+npx skills update -g
 ```
-In Cursor also run `/add-plugin figma` and point a rule at `AGENTS.md`. For WordPress sites install the **MCP Adapter** plugin (see `fe-wp-audit`). Set `PSI_API_KEY` for PageSpeed Insights.
+A full install is 25 skills; `npx skills list -g` should show all of them. Companion skills, all optional:
+```bash
+npx skills add pbakaus/impeccable -g -a cursor -y                    # design vocabulary and interface audits
+npx skills add emilkowalski/skills -g -a cursor -y                   # interaction and motion craft (app profile)
+npx skills add bradautomates/claude-video -g --skill watch           # video learning
+```
+
+### Use it in Cursor
+Cursor reads skills from `~/.agents/skills/` (global) and `.agents/skills/` (project). Open the app's folder, open Agent chat, type `/` and pick `fe-master`, then say what you want. The agent also picks a skill up on its own when the request matches its description.
+
+```text
+/fe-master App profile. Simplify the Send Money screen. UI only: do not touch the server, schema, auth or any network call. Read the screen map first, then show me what you will change before you change it.
+/fe-master Site profile. Audit https://example.com and give me the top 10 fixes with evidence.
+/fe-guard Set up the UI-only contract for this app in its own pull request. Change nothing else.
+```
+Scripts run from where the skills were installed, for example from an app folder:
+```bash
+node ~/.agents/skills/fe-scan/scripts/app-map.mjs --root . --declared docs/sitemap.md     # screens, guards and links of an app behind a login
+node ~/.agents/skills/fe-guard/scripts/guard.mjs --base origin/main                       # did the change stay UI-only
+```
+`guard.mjs`, `gates.mjs` and `app-map.mjs` need only Node. Scripts that open a browser need the Playwright line above (without `gremlins.js` the monkey test is skipped and says so); the PageSpeed script needs `PSI_API_KEY`. Inside a clone of this repository, `npm run setup` installs everything and the `npm run ...` shortcuts work.
+
+In Cursor you can also run `/add-plugin figma`. For WordPress sites install the **MCP Adapter** plugin (see `fe-wp-audit`).
 
 ## Skill map
 
@@ -25,9 +56,9 @@ In Cursor also run `/add-plugin figma` and point a rule at `AGENTS.md`. For Word
 |-------|-------|-----------|
 | Orchestrate | `fe-master` | Decides which skills to run, keeps the knowledge base, compounds what it learns |
 | Learn | `fe-learn` | Turns tutorials, courses, articles and videos into reusable technique cards |
-| Observe | `fe-scan` | Automated evidence: 5 device profiles, section screenshots + box-model, flow walk, monkey test (`--no-forms` safe mode), heatmaps, element census, throttled CDP trace -> bottleneck, SEO hygiene, PSI + CrUX |
+| Observe | `fe-scan` | Automated evidence: 5 device profiles, section screenshots + box-model, flow walk, monkey test (`--no-forms` safe mode), heatmaps, element census, throttled CDP trace -> bottleneck, SEO hygiene, PSI + CrUX; for apps behind a login, a screen map read from the source (routes, guards, redirects, dead links) |
 | Observe | `fe-audit` | Human-designer audit on top of the evidence: typography, color, corners, states, tap padding, vh/vw, consistency, after-the-click, conversion bottleneck, simplicity, trust/legal, CRM/booking readiness, schema/sitemap/characters/long-tail, feedback loop |
-| Observe | `fe-inspect` | Pixel / element / device teardown of any URL or Figma frame; calibrated measurement of app screenshots, labelled by source app, with the product's own screenshots refused as references |
+| Observe | `fe-inspect` | Pixel / element / device teardown of any URL or Figma frame; calibrated measurement of app screenshots (position, size, corner radius), each box re-measured 20 times and refused if it moves, labelled by source app, with the product's own screenshots refused as references |
 | Observe | `fe-competitor` | Deep competitor analysis: UX flows, conversion patterns, SEO, speed, gaps to exploit |
 | Observe | `fe-wp-audit` | Connects to WordPress (MCP Adapter / REST / export ZIP) and audits Elementor + Bricks globals, templates, media, meta, icons, headers |
 | Observe | `fe-keywords` | Keyword planner from competitor URLs, Google Ads Keyword Planner and Search Console; maps keywords to pages |
@@ -63,6 +94,7 @@ REFLECT-> fe-master writes what worked into design/knowledge/ so the next site s
 ## Change an app's UI without touching its backend
 
 ```bash
+node skills/fe-scan/scripts/app-map.mjs --root . --declared docs/sitemap.md --strict    # read the screens and links first
 # once per app, in its own pull request: design/guard.json + design/landmarks.lock.json
 node skills/fe-guard/scripts/guard.mjs --base origin/main            # paths + network lines
 node skills/fe-guard/scripts/lock-check.mjs --lock design/landmarks.lock.json --state home --html rendered.html
@@ -70,7 +102,7 @@ node skills/fe-inspect/scripts/measure-shot.mjs --manifest design/reference/ios-
 node skills/fe-reference/scripts/gates.mjs --matrix matrix.json --tokens tokens.json --brief borrow-tweak-elevate.md --counts counts.json
 node skills/fe-guard/scripts/guard.mjs --base origin/main --final    # also fails if variant code remains
 ```
-What this proves: the change stayed inside the UI folders, no network-facing line changed, every locked control is still present, labelled and in order, and the screen did not gain controls. What it does not prove: that behaviour is identical or that the design is better. The app's own tests and a human review still decide that.
+What this proves: the change stayed inside the UI folders, no network-facing line changed, every locked control is still present, labelled and in order, the screen did not gain controls, and no written link or redirect points at a screen that does not exist. What it does not prove: that behaviour is identical or that the design is better. The app's own tests and a human review still decide that.
 
 ## Paste a URL, get an audit
 

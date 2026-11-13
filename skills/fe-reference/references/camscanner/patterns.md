@@ -12,7 +12,7 @@ Measured 2026-11-13 from three owner-supplied screenshots (dark theme, 923x2000 
 
 ### cs-02  filter-chips
 - where: Files; horizontal chip row directly under the count header
-- measured: chips 24 pt tall, 8 pt apart, first chip 16 pt from the left edge, widths 51 to 109 pt set by the label [chips]. Radius and horizontal padding not measured.
+- measured: chips 24 pt tall, 8 pt apart, first chip 16 pt from the left edge, widths 51 to 109 pt set by the label, corner radius 4 pt [chips]. Horizontal padding not measured.
 - job: one-tap narrowing of a long list by category, scrolls horizontally, selected state obvious
 - maps_to: ledgera/custody-balances (Department, Status, Period); seatours/tours (El Nido, Coron, Linapacan, Private)
 
@@ -30,7 +30,7 @@ Measured 2026-11-13 from three owner-supplied screenshots (dark theme, 923x2000 
 
 ### cs-05  recents-four-slot-row
 - where: Files; thumbnail + title + date + page count, fixed grid
-- measured: thumbnail 63 pt square, 16 pt from the left edge; rows repeat every 80 pt [row.thumb-1, row.thumb-2]. Title and date type sizes not measured.
+- measured: thumbnail 63 pt square, 16 pt from the left edge; rows repeat every 80 pt, corner radius 4 pt [row.thumb-1, row.thumb-2]. Title and date type sizes not measured.
 - job: every row scans in one pass because the four slots never move
 - maps_to: ledgera/recent-transactions (receipt thumb, payee, date, amount); seatours/tour-card (photo, name, next departure, seats left)
 
@@ -42,7 +42,7 @@ Measured 2026-11-13 from three owner-supplied screenshots (dark theme, 923x2000 
 
 ### cs-07  three-tile-shortcut-row
 - where: Files; three equal tiles at the top, above the count header and filter chips
-- measured: three tiles 126 x 92 pt, 10 pt apart, 16 pt from each side edge [tiles]; a full-width folder row in the list below is 398 x 60 pt [folder-row]
+- measured: three tiles 126 x 92 pt, 10 pt apart, 16 pt from each side edge, corner radius 8 pt [tiles]; a full-width folder row in the list below is 398 x 60 pt with a 4 pt corner radius [folder-row]
 - job: three fixed destinations get equal, large targets; the row never scrolls and never grows a fourth
 - maps_to: ledgera/home (Send money, Approve, Report); seatours/home (Tours, Expeditions, Transfers)
 

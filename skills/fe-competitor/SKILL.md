@@ -1,6 +1,6 @@
 ---
 name: fe-competitor
-description: Deep competitor and market analysis for websites: UX flows, conversion patterns, information architecture, visual positioning, SEO structure, performance, trust signals, and exploitable gaps. Use when the user names competitors, asks to benchmark, differentiate, beat, outrank or out-design other sites, or before fe-concept on a commercial project.
+description: "Deep competitor and market analysis for websites: UX flows, conversion patterns, information architecture, visual positioning, SEO structure, performance, trust signals, and exploitable gaps. Use when the user names competitors, asks to benchmark, differentiate, beat, outrank or out-design other sites, or before fe-concept on a commercial project."
 license: MIT
 compatibility: Uses Playwright for capture and Lighthouse/PSI for speed; optionally Search Console / Analytics connectors for own-site data.
 metadata:

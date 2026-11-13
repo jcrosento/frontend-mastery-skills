@@ -5,7 +5,7 @@ license: MIT
 compatibility: Best with Playwright MCP or a browser tool for live URLs; image analysis for photos/screenshots; Figma MCP for Figma links.
 metadata:
   author: jcrosento
-  version: "0.2.0"
+  version: "0.3.0"
 ---
 
 # fe-inspect
@@ -36,13 +36,17 @@ Write `design/inspection/<slug>.md` using this structure: Summary → Breakpoint
 Run `scripts/capture.mjs <url> <slug>` to automate steps 1 and 10 when Node + Playwright are available.
 
 ## Screenshots of apps
-Native apps have no DOM to read, so geometry comes from pixels. `scripts/measure-shot.mjs` takes a labelled manifest and writes `tokens.json`. You propose a rough search box per element; the pixels decide the final box.
+Native apps have no DOM to read, so geometry comes from pixels. `scripts/measure-shot.mjs` takes a labelled manifest and writes `tokens.json`. You propose a rough search box per element; the pixels decide the final box, and the box only counts if it comes back unchanged when the search box is moved.
 
+Work in this order. Do not skip step 2: a search box guessed from the bare screenshot is the main source of wrong measurements.
 ```bash
-node scripts/measure-shot.mjs --hash <file>                    # hash to record in the manifest
-node scripts/measure-shot.mjs --calibrate                      # prove the measurer on known geometry
-node scripts/measure-shot.mjs --manifest design/reference/<app>/shots.json --project <product> --overlay
+node scripts/measure-shot.mjs --device <file>                  # 1. which phone screens fit this screenshot
+node scripts/measure-shot.mjs --grid <file> --out grid.png     # 2. numbered pixel grid; read search boxes off it
+node scripts/measure-shot.mjs --hash <file>                    # 3. hash to record in the manifest
+node scripts/measure-shot.mjs --manifest design/reference/<app>/shots.json --project <product> --overlay   # 4. measure
+node scripts/measure-shot.mjs --calibrate                      # the calibration on its own (step 4 always runs it)
 ```
+`--device` settles the screen size only for an untouched screenshot, whose pixel size is the phone's own. A screenshot resized by a chat or upload usually fits several phones (a 923 x 2000 upload fits the 375, 393 and 430 pt wide iPhones). Then ask the owner which phone took it; if nobody knows, set `"viewport_pt": null`.
 
 Manifest (`shots.json`, next to the screenshots in the venture's private design folder):
 ```json
@@ -62,15 +66,21 @@ The run is refused, and no tokens are written, when:
 - `kind` is not `reference`, or `app` names the product passed as `--project`. A product's own screenshots are a baseline for fe-scan, never a reference.
 - A file's content does not match its recorded `sha256` (the screenshot was swapped after it was labelled).
 - The built-in calibration image (known shapes, drawn large, downscaled and JPEG-compressed like a phone upload) is not reproduced within +/-2 px.
+- The built-in calibration fails. It draws known shapes (capsule, circle, chip, square card, two touching cells) on five kinds of image: lossless, JPEG, a 1290 px iPhone screen downscaled to 923 px, a 1080 px Android screen, and a light theme downscaled. Every box and every corner radius must come back within +/-2 px.
 - A box is not found, or touches the edge of its search area (widen the search; do not accept a clipped box).
+- A box is **not stable**. Every region is measured again 20 times: the search box moved 6 and 12 px in eight directions, grown by 8 and 16 px, and the threshold nudged up and down by 15%. A re-run that is cut off or finds nothing is ignored; one that returns a different box (more than 2 px) with no warning refuses the region. So does a region that no moved or grown box could confirm: leave about 20 px of margin around the element.
 
-Region modes: `contrast` (differs from the ring around the search box), `brighter` / `darker` (luma threshold), `match` (same colour as a sampled point; use it for a filled shape that touches other colours). `split: "x"` lists the separate items in a row, for chip and icon spacing.
+When a region is refused as not stable, the message says which re-run disagreed and what it found. Two causes, two fixes:
+- Something else inside the search area also matches (a label, a speck, a neighbouring control). Tighten `search`, or add `"pick": "largest"` to keep only the biggest connected shape. Leave `pick` out for a row of separate items such as chips.
+- The threshold sits on an edge, where a slightly lower or higher value picks a ring or halo around the shape. Try a few values, find the range that gives one answer, and use the middle of it.
 
-Output per token: pixel box, `ratio` (fraction of screen width and height), and `pt` when the viewport is known. Set `viewport_pt` to `null` when the device is unknown; `pt` is then `null`, never guessed. If the viewport is inferred, say from what in `viewport_basis`.
+Region options: `mode` is `contrast` (differs from the ring around the search box), `brighter` / `darker` (luma threshold) or `match` (same colour as a sampled point; use it for a filled shape that touches other colours). `split: "x"` lists the separate items in a row, for chip and icon spacing. `pick` is `all` (default) or `largest`.
 
-Always open the `--overlay` images and confirm each pink box sits on the element you named. The overlay is written even when the run is refused, so you can see why. A box on the wrong element is a wrong measurement no matter how precise.
+Output per token: pixel box, `ratio` (fraction of screen width and height), `pt` when the viewport is known, and the `stability` record. For a filled shape it also gives the corner `radius` and names the `corner` (`square`, `rounded`, `capsule`, `circle`). For a row of items the radius is that of the outer corners of the first and last item. Outlines, text and `match`-mode shapes get no radius: JPEG colour bleed rounds a square corner by 2 to 4 px in that mode, so the number would be wrong. Set `viewport_pt` to `null` when the device is unknown; `pt` is then `null`, never guessed.
 
-Limits, stated honestly: this measures position and size. It does not read type size, colour, radius or motion, and it cannot isolate translucent surfaces over busy content; record those as unmeasured.
+Always open the `--overlay` images and confirm each pink outline sits on the element you named and follows its corners; the outline is drawn with the measured radius. The overlay is written even when the run is refused, so you can see why. A box on the wrong element is a wrong measurement no matter how precise, and no check in this tool can catch a mislabelled element: that part is a human look.
+
+Limits, stated honestly: this measures position, size and the corner radius of filled shapes. It does not read type size, colour, stroke width or motion, and it cannot isolate translucent surfaces over busy content; record those as unmeasured. Radii are good to about 1 pt on a resized upload, so treat a 4 pt radius as "small", not as exactly 4.
 
 ## Rules
 - Every number must be measured or explicitly flagged as estimated.
