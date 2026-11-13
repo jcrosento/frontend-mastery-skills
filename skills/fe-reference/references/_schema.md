@@ -1,22 +1,44 @@
 # Reference library schema
 
-Each folder under `references/` is one studied app. It holds measurements and pattern descriptions only. Screenshots, icons, brand assets and copied text never enter this repository; they live in the venture's private design folder and are referenced by id.
+Each folder under `references/` is one studied app. It holds measurements and pattern descriptions only. Screenshots, icons, brand assets and copied text never enter this repository; they live in the venture's private design folder and are referenced by id and file hash.
 
-## Required files
-- `patterns.md` - one block per pattern (format below).
-- `tokens.json` - measured values; every value has `measured_from: { shot: <id>, box: [x, y, w, h], device: <name> }`.
-- `applies-to.md` - which ventures and flows benefit, and why. Written by a human, drafted by an agent.
+## Files
+- `patterns.md` - required. One block per pattern (format below).
+- `tokens.json` - required once measured. Written by `fe-inspect/scripts/measure-shot.mjs`; never edited by hand.
+- `shots.json` - required once measured. The labelled manifest the tokens were measured from: app, platform, capture date, viewport, and per screenshot an id, file name, SHA-256 and the regions searched. It is the recipe to reproduce `tokens.json` for anyone holding the same screenshots.
+- `applies-to.md` - which ventures and flows benefit, and why. Drafted by an agent, confirmed by a human.
+
+A folder with only `patterns.md` is a candidate. Its patterns are descriptions, not evidence, and cannot be cited in a brief.
 
 ## Pattern block format
 ```
 ### <id>  <name>
 - where: <screen / state in the reference app>
-- measured: <values with units, or TODO(fe-inspect) until measured>
+- measured: <values with units and the token names they come from, or TODO(fe-inspect) with the reason>
 - job: <what it does for the user, one sentence>
 - maps_to: <venture>/<flow>; <venture>/<flow>
 ```
 
+## Token format (`tokens.json`)
+Top level: `app`, `kind: "reference"`, `source`, `platform`, `captured`, `viewport_pt` (`[w, h]` or `null`), `viewport_basis`, `tolerance_px`, `calibration`, `tokens`.
+
+Each token:
+```json
+{
+  "name": "shutter.disc",
+  "measured_from": { "shot": "cam-photo", "sha256": "<64 hex>", "screen": "Photo mode viewfinder", "box": [389, 1597, 145, 145], "image": [923, 2000] },
+  "method": { "mode": "brighter", "threshold": 200, "search": [340, 1545, 245, 245] },
+  "px": { "x": 389, "y": 1597, "w": 145, "h": 145, "right": 389, "bottom": 258 },
+  "ratio": { "w": 0.1571, "h": 0.0725 },
+  "pt": { "w": 67.6, "h": 67.6 }
+}
+```
+`px` are screenshot pixels. `ratio` is the fraction of the screenshot's width or height and is the value to trust when the device is uncertain. `pt` is logical points and is `null` when `viewport_pt` is `null`.
+
 ## Rules
-- Pattern ids are stable and prefixed per app (`cs-`, `cam-`, `rev-`...). Briefs cite them; renaming breaks briefs.
-- `measured` must be filled by two fe-inspect runs that agree within +/-2 px before a pattern may be cited in a brief (gate G2).
+- Pattern ids are stable and prefixed per app (`cs-`, `cam-`, `fb-`, `gc-`...). Briefs cite them; renaming breaks briefs.
+- `measured` is filled only from `tokens.json`. A pattern whose `measured` line starts with `TODO` cannot be cited (`scripts/gates.mjs --brief`).
+- If part of a pattern cannot be measured (translucent surface over busy content, no screenshot of that screen), say so on the `measured` line rather than estimating.
+- When the viewport is inferred, say so in `viewport_basis` and quote ratios alongside points.
+- File names in `shots.json` must not reveal personal information. Screenshots that show personal documents are measured for layout only and are never described by their content.
 - Describe behaviour and geometry, never visual identity.

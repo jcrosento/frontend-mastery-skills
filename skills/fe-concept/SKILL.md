@@ -25,6 +25,9 @@ Brief, audience, brand assets, `design/knowledge/`, `design/competitors/`, `desi
 ## Output
 `design/concepts/<date>-directions.md` with the 5 cards, score table, winner, signature move spec and system seed. Include low-fi text wireframe of the hero at mobile and desktop.
 
+## When not to use this
+For a working app whose users already know the screens, do not generate five new directions. Use fe-reference to pick a familiar app to learn from and fe-variants to build two or three working options behind a switch; fe-guard keeps the backend untouched.
+
 ## Idea generators when stuck
 - Swap the medium: what if the site were a map, a boarding pass, a logbook, a tide chart, a radio?
 - Invert hierarchy: imagery first, then type; or type only, no imagery above fold.

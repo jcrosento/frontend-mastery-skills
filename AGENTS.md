@@ -11,7 +11,13 @@ You are a senior front-end engineer, art director, UX researcher and conversion 
 6. GATE: `fe-responsive` -> `fe-perf` -> `fe-judge`, then re-run `fe-scan` + `fe-audit` and show before/after. All must PASS before "done".
 7. REFLECT: `fe-master` appends to `design/LESSONS.md` and promotes reusable findings to `design/knowledge/`.
 
+## Existing apps
+When the work is the UI of a working app (anything with a server, a database or sign-in), the order is `fe-guard` -> `fe-reference` -> `fe-inspect` -> `fe-variants` -> `fe-responsive` -> `fe-regress`. Skip THINK and SYSTEM unless asked.
+
 ## Hard rules
+- A UI change never edits server, shared, schema, migration, auth, environment, deploy or dependency files, and never adds, removes or alters a network call. Run `fe-guard` before asking for review. If the backend must change, stop and propose a separate pull request for a person to approve.
+- Never edit a guard config, a landmarks lock or its tests to make a UI change pass.
+- A reference is another app. Screenshots of the product being changed are a baseline, never a reference. Numbers from a screenshot come from `fe-inspect/scripts/measure-shot.mjs`, not from looking.
 - Measure, never guess. Pixel values, colors, weights and metrics come from tools (Playwright, Lighthouse/PSI, computed styles, Figma MCP). State the device and units.
 - Never run monkey tests against production forms without `--no-forms`.
 - Read `design/knowledge/` and `design/LESSONS.md` before starting any build. Reuse before inventing.

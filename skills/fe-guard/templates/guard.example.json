@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "ui": [
+    "client/src/components/**",
+    "client/src/pages/**",
+    "client/src/styles/**",
+    "client/src/index.css",
+    "client/src/assets/**",
+    "client/public/**",
+    "docs/design/**"
+  ],
+  "frozen": [
+    "server/**",
+    "shared/**",
+    "api/**",
+    "migrations/**",
+    "script/**",
+    "client/src/lib/queryClient.*",
+    "client/src/lib/auth*",
+    "drizzle.config.*",
+    "vercel.json",
+    "package.json",
+    "package-lock.json",
+    ".env*",
+    ".github/**"
+  ],
+  "protected": [
+    "design/guard.json",
+    "docs/design/landmarks.lock.json",
+    "tests/landmarks*"
+  ],
+  "variants": [
+    "client/src/**/__variants__/**"
+  ],
+  "network_extra": [
+    "\\buse(Cash|Requests|Approvals)\\w*\\s*\\("
+  ]
+}

@@ -5,7 +5,7 @@ license: MIT
 compatibility: Best with Playwright MCP or a browser tool for live URLs; image analysis for photos/screenshots; Figma MCP for Figma links.
 metadata:
   author: jcrosento
-  version: "0.1.0"
+  version: "0.2.0"
 ---
 
 # fe-inspect
@@ -14,7 +14,7 @@ Goal: produce an **Inspection Report** so precise that a developer could rebuild
 
 ## Inputs
 - URL → use Playwright (navigate, snapshot, take_screenshot fullPage and per element, evaluate getComputedStyle).
-- Screenshot / photo → analyze the image; estimate with stated confidence; state the assumed canvas width.
+- Screenshot / photo → measure with `scripts/measure-shot.mjs` (see "Screenshots of apps" below). Eyeballed numbers are not measurements and may not enter `tokens.json`.
 - Figma link → use Figma MCP `get_design_context` / variables; treat values as exact.
 
 ## Procedure
@@ -35,7 +35,45 @@ Write `design/inspection/<slug>.md` using this structure: Summary → Breakpoint
 
 Run `scripts/capture.mjs <url> <slug>` to automate steps 1 and 10 when Node + Playwright are available.
 
+## Screenshots of apps
+Native apps have no DOM to read, so geometry comes from pixels. `scripts/measure-shot.mjs` takes a labelled manifest and writes `tokens.json`. You propose a rough search box per element; the pixels decide the final box.
+
+```bash
+node scripts/measure-shot.mjs --hash <file>                    # hash to record in the manifest
+node scripts/measure-shot.mjs --calibrate                      # prove the measurer on known geometry
+node scripts/measure-shot.mjs --manifest design/reference/<app>/shots.json --project <product> --overlay
+```
+
+Manifest (`shots.json`, next to the screenshots in the venture's private design folder):
+```json
+{
+  "app": "ios-camera", "kind": "reference", "source": "user-capture",
+  "platform": "iOS 26 Camera", "captured": "2026-11-13",
+  "viewport_pt": [430, 932], "viewport_basis": "iPhone 15 Pro Max, stated by the owner",
+  "shots": [
+    { "id": "cam-photo", "file": "IMG_7031.jpeg", "sha256": "<64 hex>", "screen": "Photo mode viewfinder",
+      "regions": [ { "name": "shutter.disc", "search": [340, 1545, 245, 245], "mode": "brighter", "threshold": 200 } ] }
+  ]
+}
+```
+
+The run is refused, and no tokens are written, when:
+- `app`, `platform`, `screen` or `file` is missing or a placeholder (`TODO`, `<folder>`, `[TBD]`, `example`).
+- `kind` is not `reference`, or `app` names the product passed as `--project`. A product's own screenshots are a baseline for fe-scan, never a reference.
+- A file's content does not match its recorded `sha256` (the screenshot was swapped after it was labelled).
+- The built-in calibration image (known shapes, drawn large, downscaled and JPEG-compressed like a phone upload) is not reproduced within +/-2 px.
+- A box is not found, or touches the edge of its search area (widen the search; do not accept a clipped box).
+
+Region modes: `contrast` (differs from the ring around the search box), `brighter` / `darker` (luma threshold), `match` (same colour as a sampled point; use it for a filled shape that touches other colours). `split: "x"` lists the separate items in a row, for chip and icon spacing.
+
+Output per token: pixel box, `ratio` (fraction of screen width and height), and `pt` when the viewport is known. Set `viewport_pt` to `null` when the device is unknown; `pt` is then `null`, never guessed. If the viewport is inferred, say from what in `viewport_basis`.
+
+Always open the `--overlay` images and confirm each pink box sits on the element you named. The overlay is written even when the run is refused, so you can see why. A box on the wrong element is a wrong measurement no matter how precise.
+
+Limits, stated honestly: this measures position and size. It does not read type size, colour, radius or motion, and it cannot isolate translucent surfaces over busy content; record those as unmeasured.
+
 ## Rules
 - Every number must be measured or explicitly flagged as estimated.
+- Screenshots of third-party apps stay in the venture's private design folder. Only measurements enter a repository.
 - Never copy copyrighted copy or imagery; describe treatment, not content.
 - Report findings in a table, not prose, wherever there are 3+ values.
