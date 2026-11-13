@@ -1,6 +1,6 @@
 {
   "name": "frontend-mastery-skills",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "private": true,
   "type": "module",
   "description": "Master front-end agent skills: scan, audit, build, gate, learn.",

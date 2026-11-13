@@ -15,8 +15,10 @@
     "api/**",
     "migrations/**",
     "script/**",
-    "client/src/lib/queryClient.*",
-    "client/src/lib/auth*",
+    "client/src/App.tsx",
+    "client/src/main.tsx",
+    "client/src/lib/**",
+    "client/src/hooks/**",
     "drizzle.config.*",
     "vercel.json",
     "package.json",
@@ -26,13 +28,11 @@
   ],
   "protected": [
     "design/guard.json",
-    "docs/design/landmarks.lock.json",
+    "design/landmarks*.lock.json",
+    "docs/design/landmarks*.lock.json",
     "tests/landmarks*"
   ],
   "variants": [
     "client/src/**/__variants__/**"
-  ],
-  "network_extra": [
-    "\\buse(Cash|Requests|Approvals)\\w*\\s*\\("
   ]
 }
