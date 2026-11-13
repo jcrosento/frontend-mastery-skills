@@ -1,6 +1,6 @@
 ---
 name: fe-figma-sync
-description: Bring an existing website into Figma and keep design and code aligned: import pages with html.to.design, mirror design/tokens.json as Figma variables and components via the Figma MCP use_figma tool, and pull Figma frames into code with get_design_context. Use when the user asks to translate a site to Figma, sync Figma and code, two-way sync, or set up Figma MCP in Cursor.
+description: "Bring an existing website into Figma and keep design and code aligned: import pages with html.to.design, mirror design/tokens.json as Figma variables and components via the Figma MCP use_figma tool, and pull Figma frames into code with get_design_context. Use when the user asks to translate a site to Figma, sync Figma and code, two-way sync, or set up Figma MCP in Cursor."
 license: MIT
 compatibility: Requires Figma desktop with Dev Mode MCP server (or remote mcp.figma.com) and the html.to.design plugin. In Cursor run /add-plugin figma.
 metadata:

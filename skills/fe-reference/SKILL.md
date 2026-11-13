@@ -1,11 +1,11 @@
 ---
 name: fe-reference
-description: Decide which widely-used app a venture flow should borrow its interaction grammar from, then produce a measured, provenance-tagged brief that build skills consume. Familiar-first, refined-second: structure and sequence are borrowed, chrome is subtracted, finish is elevated. Use when the user asks which app to copy, wants inspiration for a flow, or asks whether a design is familiar, fast and minimal enough.
+description: "Decide which widely-used app a venture flow should borrow its interaction grammar from, then produce a measured, provenance-tagged brief that build skills consume. Familiar-first, refined-second: structure and sequence are borrowed, chrome is subtracted, finish is elevated. Use when the user asks which app to copy, wants inspiration for a flow, or asks whether a design is familiar, fast and minimal enough."
 license: MIT
 compatibility: Node 18+. Reads skills/fe-reference/references/*. Uses fe-inspect for screenshot measurement, fe-guard for the landmark lock and element count, and scripts/gates.mjs to enforce the gates. Screenshots stay in the venture's private design folder; only measurements enter this repo.
 metadata:
   author: jcrosento
-  version: "0.2.0"
+  version: "0.3.0"
 ---
 
 # fe-reference
@@ -58,7 +58,7 @@ node scripts/gates.mjs --matrix matrix.json --tokens tokens.json --brief borrow-
 | Gate | Threshold | Why |
 |------|-----------|-----|
 | G1 Provenance | 100% of tokens have `measured_from` (screenshot id, file hash, pixel box). Every cited pattern is measured | No invented numbers |
-| G2 Calibration | The measurer reproduces a built-in image of known geometry within +/-2 px, under the same downscale and JPEG compression as a phone upload | Running an estimate twice only proves it is consistent, not that it is right |
+| G2 Calibration and stability | The measurer reproduces known shapes and corner radii within +/-2 px on five kinds of image (lossless, JPEG, downscaled iPhone, Android, light theme). Every token carries a passing `stability` record: the same box came back when its search box was moved and grown and its threshold nudged (20 re-runs) | Running an estimate twice only proves it is consistent, not that it is right; a box that moves with the search box was never a measurement |
 | G3 Subtraction and lock | The redesigned screen has at least 20% fewer interactive elements than before, or no more than the reference screen; never more than before. Every locked landmark is present, labelled and in order | Minimalism is enforced; nothing the user relies on disappears |
 | G4 Outcome | Taps-to-complete <= reference and task completion not lower, over two consecutive weekly runs | The design must actually be faster for real users |
 

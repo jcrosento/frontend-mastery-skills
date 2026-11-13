@@ -59,6 +59,7 @@ export function validateManifest(manifest, { project, hashOf } = {}) {
         else names.add(region.name);
         if (!(Array.isArray(region.search) && region.search.length === 4 && region.search.every(Number.isFinite))) bad(`${rat}.search: [x, y, width, height] in screenshot pixels`);
         if (region.mode !== undefined && !['contrast', 'brighter', 'darker', 'match'].includes(region.mode)) bad(`${rat}.mode: contrast, brighter, darker or match`);
+        if (region.pick !== undefined && !['all', 'largest'].includes(region.pick)) bad(`${rat}.pick: all or largest`);
         if (region.sample !== undefined && !(Array.isArray(region.sample) && region.sample.length === 2 && region.sample.every(Number.isFinite))) bad(`${rat}.sample: [x, y] in screenshot pixels`);
       });
     }

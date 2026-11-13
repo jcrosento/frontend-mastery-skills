@@ -31,7 +31,7 @@
       "screen": "Capture screen, Scan mode, Batch selected",
       "regions": [
         { "name": "shutter.outer", "search": [340, 1590, 245, 225], "mode": "brighter", "threshold": 60 },
-        { "name": "shutter.disc", "search": [340, 1590, 245, 225], "mode": "brighter", "threshold": 215 }
+        { "name": "shutter.disc", "search": [340, 1590, 245, 225], "mode": "brighter", "threshold": 225 }
       ]
     },
     {

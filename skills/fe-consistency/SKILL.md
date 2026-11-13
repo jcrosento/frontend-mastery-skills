@@ -1,6 +1,6 @@
 ---
 name: fe-consistency
-description: Enforce design and content consistency across every page and every site: one color palette, one typography system, one icon set, one spacing scale, one header/footer, consistent buttons, cards, forms, image treatment, naming and SEO patterns. Produces a consistency score and an auto-fix plan for Elementor, Bricks, Astro or React. Use when the user says things look inconsistent, wants to unify multiple sites, or after fe-wp-audit / fe-extract.
+description: "Enforce design and content consistency across every page and every site: one color palette, one typography system, one icon set, one spacing scale, one header/footer, consistent buttons, cards, forms, image treatment, naming and SEO patterns. Produces a consistency score and an auto-fix plan for Elementor, Bricks, Astro or React. Use when the user says things look inconsistent, wants to unify multiple sites, or after fe-wp-audit / fe-extract."
 license: MIT
 metadata:
   author: jcrosento

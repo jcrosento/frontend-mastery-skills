@@ -5,7 +5,7 @@ import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'no
 import { tmpdir } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { ringBackground, snapBox, splitRuns, toUnits } from '../skills/fe-inspect/scripts/measure-core.mjs';
+import { STABILITY, checkStability, cornerKind, deviceCandidates, measureRegion, ringBackground, snapBox, splitRuns, thresholdStep, toUnits } from '../skills/fe-inspect/scripts/measure-core.mjs';
 import { sha256File, validateManifest } from '../skills/fe-inspect/scripts/shot-manifest.mjs';
 import { TOLERANCE_PX, calibrate, measureManifest, openOfflinePage } from '../skills/fe-inspect/scripts/measure-shot.mjs';
 import { checkTokens } from '../skills/fe-reference/scripts/gates.mjs';
@@ -70,6 +70,112 @@ test('fe-inspect measure: points are reported only when the viewport is known an
   assert.throws(() => toUnits([0, 0, 10, 10], image, [430, 800]), /does not match/);
 });
 
+// A filled rounded rectangle, drawn exactly: a pixel is inside when its centre is.
+function roundRect(rgba, width, [x, y, w, h], r, colour) {
+  for (let yy = y; yy < y + h; yy++) for (let xx = x; xx < x + w; xx++) {
+    const cx = Math.min(Math.max(xx + 0.5, x + r), x + w - r), cy = Math.min(Math.max(yy + 0.5, y + r), y + h - r);
+    if (Math.hypot(xx + 0.5 - cx, yy + 0.5 - cy) <= r) rgba.set([...colour, 255], (yy * width + xx) * 4);
+  }
+}
+
+test('fe-inspect measure: corner radius is fitted for filled shapes and named', () => {
+  const white = [255, 255, 255];
+  for (const [box, radius, kind] of [[[40, 40, 200, 120], 0, 'square'], [[40, 40, 200, 120], 12, 'rounded'], [[40, 40, 200, 120], 40, 'rounded'], [[40, 40, 240, 80], 40, 'capsule'], [[40, 40, 140, 140], 70, 'circle']]) {
+    const rgba = canvas(320, 220, DARK, []);
+    roundRect(rgba, 320, box, radius, white);
+    const got = snapBox(rgba, 320, 220, [10, 10, 300, 200]);
+    assert.deepEqual(got.box, box);
+    assert.ok(Math.abs(got.radius - radius) <= 1, `radius ${radius}: measured ${got.radius}`);
+    assert.equal(cornerKind(got.box, got.radius), kind, `radius ${radius} on ${box[2]}x${box[3]}`);
+  }
+  // An outline or text is not a filled shape: no radius is claimed for it.
+  const ring = canvas(200, 200, DARK, [[40, 40, 120, 120, white], [46, 46, 108, 108, DARK]]);
+  const outline = snapBox(ring, 200, 200, [10, 10, 180, 180]);
+  assert.deepEqual(outline.box, [40, 40, 120, 120]);
+  assert.equal(outline.radius, null);
+  assert.equal(cornerKind(outline.box, outline.radius), null);
+  const units = toUnits([40, 40, 240, 80], { width: 923, height: 2000 }, [430, 932], 40);
+  assert.equal(units.px.radius, 40);
+  assert.equal(units.pt.radius, 18.6);
+  assert.equal('radius' in toUnits([40, 40, 240, 80], { width: 923, height: 2000 }, [430, 932]).px, false);
+});
+
+test('fe-inspect measure: "largest" keeps one shape when something else in the search area matches', () => {
+  const white = [255, 255, 255];
+  const rgba = canvas(400, 200, DARK, [[60, 60, 120, 60, white], [260, 70, 20, 20, white]]);
+  const search = [20, 20, 360, 160];
+  assert.deepEqual(snapBox(rgba, 400, 200, search).box, [60, 60, 220, 60], 'the default boxes everything that matched');
+  const one = snapBox(rgba, 400, 200, search, { pick: 'largest' });
+  assert.deepEqual(one.box, [60, 60, 120, 60]);
+  assert.equal(one.components, 2);
+  assert.equal(one.fill, 1);
+  assert.throws(() => snapBox(rgba, 400, 200, search, { pick: 'biggest' }), /unknown pick/);
+});
+
+test('fe-inspect measure: a result that changes when the search box moves is not stable', () => {
+  const white = [255, 255, 255];
+  assert.deepEqual(STABILITY, { shifts: [6, 12], grows: [8, 16], thresholdShare: 0.15, thresholdMin: 2, thresholdMax: 12 });
+  assert.deepEqual([4, 14, 40, 200].map(thresholdStep), [2, 2, 6, 12]);
+
+  // One clean shape with margin: all 20 perturbed runs return the same box.
+  const clean = canvas(400, 300, DARK, [[120, 100, 160, 80, white]]);
+  const region = { name: 'card', search: [80, 60, 240, 160] };
+  const base = measureRegion(clean, 400, 300, region).snapped.box;
+  const steady = checkStability(clean, 400, 300, region, base, 2);
+  assert.deepEqual({ variants: steady.variants, agreed: steady.agreed, refused: steady.refused, disagreed: steady.disagreed.length, stable: steady.stable }, { variants: 20, agreed: 20, refused: 0, disagreed: 0, stable: true });
+
+  // A small second shape just outside the search box: a grown box swallows it whole, so the size changes
+  // with no clipping warning. (A shape only partly swallowed is cut off, which is already refused.)
+  const crowded = canvas(400, 300, DARK, [[120, 100, 160, 80, white], [120, 224, 160, 8, white]]);
+  const tight = { name: 'card', search: [80, 60, 240, 160] };
+  const first = measureRegion(crowded, 400, 300, tight).snapped;
+  assert.deepEqual(first.box, [120, 100, 160, 80]);
+  assert.deepEqual(first.clipped, [], 'the first measurement looks fine on its own');
+  const shaky = checkStability(crowded, 400, 300, tight, first.box, 2);
+  assert.equal(shaky.stable, false);
+  assert.ok(shaky.disagreed.some(d => d.variant === 'search grown by 16 px' && d.box[3] === 132), JSON.stringify(shaky.disagreed));
+  // "largest" settles it: the neighbour is a separate shape.
+  const picked = { ...tight, pick: 'largest' };
+  assert.equal(checkStability(crowded, 400, 300, picked, measureRegion(crowded, 400, 300, picked).snapped.box, 2).stable, true);
+
+  // A threshold sitting on a cliff: a faint halo joins the shape when the threshold drops.
+  const halo = canvas(400, 300, DARK, [[100, 90, 200, 100, [60, 60, 62]], [120, 100, 160, 80, white]]);
+  const cliff = { name: 'card', search: [60, 50, 280, 180], threshold: 33 };
+  const inner = measureRegion(halo, 400, 300, cliff).snapped.box;
+  assert.deepEqual(inner, [120, 100, 160, 80]);
+  const onCliff = checkStability(halo, 400, 300, cliff, inner, 2);
+  assert.equal(onCliff.stable, false);
+  assert.deepEqual(onCliff.disagreed.map(d => d.variant), ['threshold 28']);
+  const safe = { ...cliff, threshold: 120 };
+  assert.equal(checkStability(halo, 400, 300, safe, measureRegion(halo, 400, 300, safe).snapped.box, 2).stable, true);
+
+  // Hemmed in: another surface sits 4 px away on every side, so every moved or grown box is cut off
+  // and nothing confirms the result.
+  const framed = canvas(400, 300, DARK, [[76, 56, 248, 168, white], [116, 96, 168, 88, DARK], [120, 100, 160, 80, white]]);
+  const snug = { name: 'card', search: [118, 98, 164, 84], mode: 'brighter', threshold: 128 };
+  assert.deepEqual(measureRegion(framed, 400, 300, snug).snapped.box, [120, 100, 160, 80]);
+  const unconfirmed = checkStability(framed, 400, 300, snug, [120, 100, 160, 80], 2);
+  assert.equal(unconfirmed.disagreed.length, 0);
+  assert.equal(unconfirmed.agreed_geometric, 0);
+  assert.equal(unconfirmed.refused, 18);
+  assert.equal(unconfirmed.stable, false, 'a result nothing could confirm does not count as stable');
+});
+
+test('fe-inspect measure: the device is only settled by an untouched screenshot', () => {
+  const sizes = (w, h) => deviceCandidates(w, h).map(c => c.pt.join('x'));
+  assert.deepEqual(sizes(1290, 2796), ['430x932']);
+  assert.equal(deviceCandidates(1290, 2796)[0].native, true);
+  assert.deepEqual(sizes(1179, 2556), ['393x852']);
+  assert.deepEqual(sizes(750, 1334), ['375x667']);
+  // The uploads in the reference library: resized, so several iPhones fit and the owner has to say which.
+  const resized = deviceCandidates(923, 2000);
+  assert.deepEqual(resized.map(c => c.pt.join('x')).sort(), ['375x812', '393x852', '430x932']);
+  assert.ok(resized.every(c => c.native === false));
+  assert.equal(resized.find(c => c.pt[0] === 430).px_per_pt, 2.147);
+  assert.deepEqual(sizes(1080, 2400), [], 'an Android screen is not matched to an iPhone');
+  assert.deepEqual(sizes(1000, 1000), []);
+});
+
 const manifest = (over = {}, shotOver = {}) => ({
   app: 'ios-camera', kind: 'reference', source: 'user-capture', platform: 'iOS 26 Camera', captured: '2026-11-13',
   viewport_pt: [430, 932], viewport_basis: 'iPhone 15 Pro Max, stated by the owner',
@@ -94,6 +200,10 @@ test('fe-inspect manifest: unlabelled screenshots are refused', () => {
   assert.ok(problems(manifest({}, { sha256: 'abc' })).some(p => p.includes('.sha256')));
   assert.ok(problems(manifest({}, { regions: [] })).some(p => p.includes('.regions')));
   assert.ok(problems(manifest({ shots: [] })).some(p => p.startsWith('shots')));
+  const picked = (pick) => manifest({}, { regions: [{ name: 'shutter', search: [10, 10, 100, 100], pick }] });
+  assert.deepEqual(problems(picked('largest')), []);
+  assert.deepEqual(problems(picked('all')), []);
+  assert.ok(problems(picked('biggest')).some(p => p.includes('pick')));
 });
 
 test('fe-inspect manifest: the product being redesigned cannot be its own reference', () => {
@@ -117,10 +227,19 @@ test('fe-inspect measure: calibration reproduces known geometry within tolerance
     assert.equal(result.pass, true, JSON.stringify(result.cases));
     assert.equal(TOLERANCE_PX, 2);
     assert.ok(result.max_error_px <= TOLERANCE_PX);
-    assert.deepEqual(result.cases.map(c => c.id), ['png-native', 'jpeg-native', 'jpeg-downscaled']);
+    assert.deepEqual(result.cases.map(c => c.id), ['png-native', 'jpeg-native', 'jpeg-downscaled', 'android-1080-jpeg', 'light-393-downscaled']);
     assert.equal(result.cases[0].max_error_px, 0, 'a lossless image is measured exactly');
     assert.deepEqual(result.cases[2].image, [923, 2000], 'calibrated at the size of a phone upload');
-    assert.ok(result.cases.every(c => c.shapes.length >= 4));
+    assert.deepEqual(result.cases[3].image, [1080, 2400], 'calibrated on an Android-sized screen');
+    assert.ok(result.max_radius_error_px <= TOLERANCE_PX, 'corner radii are calibrated too');
+    for (const c of result.cases) {
+      assert.deepEqual(c.shapes.map(s => s.name), ['pill', 'circle', 'chip', 'chip.largest', 'card', 'cell.match']);
+      const by = Object.fromEntries(c.shapes.map(s => [s.name, s]));
+      assert.deepEqual(by['chip.largest'].measured, by.chip.measured, `${c.id}: "largest" ignores the speck beside the chip`);
+      assert.ok(by.card.radius_measured <= 1.5, `${c.id}: a square card reports no rounding`);
+      assert.ok(Math.abs(by.pill.radius_measured - by.pill.radius_expected) <= TOLERANCE_PX, `${c.id}: capsule radius`);
+      assert.equal(by['cell.match'].radius_measured, null, `${c.id}: match mode reports no radius`);
+    }
   } finally {
     await browser.close();
   }
@@ -136,7 +255,12 @@ const SCREEN = `<!doctype html><meta charset="utf-8"><style>
   #c1 { left: 16px; width: 100px; } #c2 { left: 124px; width: 60px; } #c3 { left: 192px; width: 80px; }
   #red { left: 200px; top: 400px; width: 64px; height: 80px; background: #ef6b6b; }
   #blue { left: 264px; top: 400px; width: 64px; height: 80px; background: #3d94c1; }
-</style><div id="shutter"></div><div id="pill"></div><div id="c1" class="chip"></div><div id="c2" class="chip"></div><div id="c3" class="chip"></div><div id="red"></div><div id="blue"></div>`;
+  /* A speck beside the shutter, and a card with a wide frame 2px away on every side: used by the stability refusals. */
+  #speck { left: 118px; top: 730px; width: 4px; height: 4px; background: #fff; }
+  #frame { left: 4px; top: 500px; width: 132px; height: 100px; background: #fff; }
+  #moat { left: 26px; top: 526px; width: 88px; height: 48px; background: #1c1c1e; }
+  #hemmed { left: 28px; top: 528px; width: 84px; height: 44px; background: #fff; }
+</style><div id="speck"></div><div id="frame"></div><div id="moat"></div><div id="hemmed"></div><div id="shutter"></div><div id="pill"></div><div id="c1" class="chip"></div><div id="c2" class="chip"></div><div id="c3" class="chip"></div><div id="red"></div><div id="blue"></div>`;
 
 async function capture(dir, name, type) {
   const browser = await chromium.launch();
@@ -179,7 +303,16 @@ test('fe-inspect measure: end to end on a screenshot with known geometry', { tim
         token.measured_from.box.forEach((n, i) => assert.ok(Math.abs(n - expected[i]) <= slack, `${type} ${token.name}: got ${token.measured_from.box}, expected ${expected} within ${slack}px`));
         assert.equal(token.measured_from.sha256, doc.shots[0].sha256);
         assert.equal(token.pt.px_per_pt, 2);
+        assert.equal(token.stability.variants, 20, `${token.name}: re-measured under every perturbation`);
+        assert.ok(token.stability.agreed_moved_or_grown >= 1 && token.stability.max_delta_px <= TOLERANCE_PX);
       }
+      // Corner radii match the CSS: a 70px circle, a 22px capsule, 6px chips; none claimed in match mode.
+      const named = Object.fromEntries(tokens.tokens.map(t => [t.name, t]));
+      assert.deepEqual([named.shutter.corner, named.pill.corner, named.chips.corner, named['cell.red'].corner], ['circle', 'capsule', 'rounded', null]);
+      for (const [name, css] of [['shutter', 35], ['pill', 22], ['chips', 6]]) assert.ok(Math.abs(named[name].pt.radius - css) <= 1, `${type} ${name}: radius ${named[name].pt.radius} pt, CSS says ${css}`);
+      assert.equal('radius' in named['cell.red'].px, false);
+      assert.ok(tokens.calibration.max_radius_error_px <= TOLERANCE_PX);
+      assert.deepEqual(tokens.stability.shifts, [6, 12]);
       const shutter = tokens.tokens.find(t => t.name === 'shutter');
       assert.ok(Math.abs(shutter.pt.w - 70) <= slack / 2 && Math.abs(shutter.pt.bottom - 74) <= slack / 2, 'points match the CSS size');
       const chips = tokens.tokens.find(t => t.name === 'chips').items;
@@ -223,13 +356,25 @@ test('fe-inspect measure: refusals write no tokens', { timeout: 120_000 }, async
     await refused(make({ app: 'TODO' }), 'kael', /app: name the reference app/);
     await refused(make({}, regions[0], 'f'.repeat(64)), 'kael', /replaced after it was labelled/);
     await refused(make({}, { name: 'shutter', search: [260, 1340, 140, 260], mode: 'brighter', threshold: 200 }), 'kael', /touches the right edge/);
-    await refused(make({}, { name: 'nothing', search: [20, 1000, 300, 200] }), 'kael', /screen\/nothing/);
+    await refused(make({}, { name: 'nothing', search: [20, 1220, 300, 100] }), 'kael', /screen\/nothing/);
+    // The first measurement of each of these looks fine; only re-measuring shows it cannot be trusted.
+    const beside = { name: 'shutter', search: [250, 1340, 270, 260], mode: 'brighter', threshold: 200 };
+    await refused(make({}, beside), 'kael', /screen\/shutter: not stable\. Measured 140x140 at 320,1400, but search grown by 16 px -> 224x140 at 236,1400.*"pick": "largest"/);
+    await refused(make({}, { name: 'hemmed', search: [54, 1054, 172, 92], mode: 'brighter', threshold: 128 }), 'kael', /screen\/hemmed: could not be confirmed/);
+    await refused(make({}, { ...beside, pick: 'biggest' }), 'kael', /pick/);
 
     const cli = await spawnBounded(process.execPath, [script, '--manifest', make({ kind: 'own' }), '--project', 'kael', '--out', out], { cwd: dir, timeoutMs: 30_000 });
     assert.equal(cli.code, 1);
     assert.match(cli.stderr, /REFUSED: 1 problem\(s\)\. No tokens were written\./);
     const hashed = await spawnBounded(process.execPath, [script, '--hash', join(dir, 'IMG_0001.png')], { cwd: dir, timeoutMs: 30_000 });
     assert.equal(hashed.stdout.trim(), hash);
+
+    // "largest" is the fix the message names: the speck is a separate shape.
+    const fixed = await measureManifest(make({}, { ...beside, pick: 'largest' }), { project: 'kael', out: join(dir, 'fixed') });
+    assert.equal(fixed.ok, true, JSON.stringify(fixed.problems));
+    const fixedToken = JSON.parse(readFileSync(fixed.target, 'utf8')).tokens[0];
+    assert.deepEqual(fixedToken.measured_from.box, [320, 1400, 140, 140]);
+    assert.equal(fixedToken.method.pick, 'largest');
 
     // With the device unknown, a valid run reports ratios and no points.
     const ok = await measureManifest(make(), { project: 'kael', out });

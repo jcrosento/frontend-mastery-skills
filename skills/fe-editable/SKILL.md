@@ -1,6 +1,6 @@
 ---
 name: fe-editable
-description: Make built sites as easy to manage as a page builder: content as structured data, component slots and variants, visual editing (Astro content collections + Keystatic/Decap, Cursor Design Mode, Bricks dynamic data), safe editing boundaries and documentation for non-developers. Use when the user wants to edit like a builder, hand off to a client, manage content, or avoid touching code for copy and images.
+description: "Make built sites as easy to manage as a page builder: content as structured data, component slots and variants, visual editing (Astro content collections + Keystatic/Decap, Cursor Design Mode, Bricks dynamic data), safe editing boundaries and documentation for non-developers. Use when the user wants to edit like a builder, hand off to a client, manage content, or avoid touching code for copy and images."
 license: MIT
 metadata:
   author: jcrosento

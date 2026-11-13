@@ -5,7 +5,7 @@ license: MIT
 compatibility: Node 18+, Playwright with Chromium (npx playwright install chromium), gremlins.js (npm i gremlins.js), optional PSI_API_KEY for PageSpeed Insights (25k req/day free) and CRUX_API_KEY for field data. Scripts in scripts/.
 metadata:
   author: jcrosento
-  version: "0.1.0"
+  version: "0.2.0"
 ---
 
 # fe-scan
@@ -47,6 +47,21 @@ One URL in, one graded report out. The agent must run the scripts, read the arti
 node scripts/deep-scan.mjs https://example.com --pages 10 --devices all --monkey 60
 node scripts/psi.mjs https://example.com/page --strategy mobile   # needs PSI_API_KEY
 ```
+
+## Apps behind a login: the screen map
+A signed-in app has no sitemap.xml and the scanner cannot log in. Its screens are read from the source instead. This reads files only; it runs nothing and changes nothing.
+
+```bash
+node scripts/app-map.mjs --root <app folder> --declared docs/sitemap.md --out /tmp/app-map.json
+node scripts/app-map.mjs --root <app folder> --strict     # exit 1 on a link or redirect to a missing screen
+```
+It reads `<Route path>` elements (wouter, react-router, nested routes joined to their parent), react-router route objects, and file-based routes (Next.js `app/` and `pages/`, Astro `src/pages/`). Per screen it reports the file that renders it, what wraps it (a guard or layout), where it redirects, and which files link to it. It also lists:
+- `dead_links` and `broken_redirects`: a written link or redirect whose target is not a screen. Reliable when the map says `complete`; when some routes could not be read, dead links are listed but not failed.
+- `no_written_link`: screens no file links to in plain text. A lead, not proof: links built by a function at run time cannot be read, and the report says how many of those there are (`computed_links`).
+- `navigation_files`: files that link to three or more screens, which is where the menus live.
+- `declared`: with `--declared <file>`, the paths written in backticks in a sitemap document against the code, in both directions.
+
+Read the map before proposing any change to an app's navigation, and again after. It does not know which role sees which screen, how many taps a screen is from home, or what a screen looks like. Other routers (Vue, Svelte, Remix, TanStack file routes) are not read; the script exits 2 with "no routes found" rather than reporting an empty app.
 
 ## Hand-offs
 - Spacing/type findings -> fe-consistency and fe-extract.

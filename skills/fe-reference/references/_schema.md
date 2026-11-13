@@ -20,7 +20,7 @@ A folder with only `patterns.md` is a candidate. Its patterns are descriptions, 
 ```
 
 ## Token format (`tokens.json`)
-Top level: `app`, `kind: "reference"`, `source`, `platform`, `captured`, `viewport_pt` (`[w, h]` or `null`), `viewport_basis`, `tolerance_px`, `calibration`, `tokens`.
+Top level: `app`, `kind: "reference"`, `source`, `platform`, `captured`, `viewport_pt` (`[w, h]` or `null`), `viewport_basis`, `tolerance_px`, `calibration` (box and corner-radius error per image profile), `stability` (the perturbations every token was re-measured under), `tokens`.
 
 Each token:
 ```json
@@ -28,12 +28,19 @@ Each token:
   "name": "shutter.disc",
   "measured_from": { "shot": "cam-photo", "sha256": "<64 hex>", "screen": "Photo mode viewfinder", "box": [389, 1597, 145, 145], "image": [923, 2000] },
   "method": { "mode": "brighter", "threshold": 200, "search": [340, 1545, 245, 245] },
-  "px": { "x": 389, "y": 1597, "w": 145, "h": 145, "right": 389, "bottom": 258 },
+  "stability": { "variants": 20, "agreed": 20, "agreed_moved_or_grown": 18, "refused": 0, "max_delta_px": 0 },
+  "fill": 0.785,
+  "corner": "circle",
+  "px": { "x": 389, "y": 1597, "w": 145, "h": 145, "right": 389, "bottom": 258, "radius": 72 },
   "ratio": { "w": 0.1571, "h": 0.0725 },
-  "pt": { "w": 67.6, "h": 67.6 }
+  "pt": { "w": 67.6, "h": 67.6, "radius": 33.5 }
 }
 ```
 `px` are screenshot pixels. `ratio` is the fraction of the screenshot's width or height and is the value to trust when the device is uncertain. `pt` is logical points and is `null` when `viewport_pt` is `null`.
+
+`stability` records the 20 re-runs with the search box moved and grown and the threshold nudged: `agreed` returned the same box, `refused` were cut off or found nothing, and none may disagree. `agreed_moved_or_grown` must be at least 1. A token without a passing record fails gate G2 and has to be measured again with the current tool.
+
+`radius` and `corner` (`square`, `rounded`, `capsule`, `circle`) are present only for filled shapes measured by contrast or brightness. They are absent for outlines, text and `match`-mode shapes. For a row of items the radius is that of the row's outer corners. On a resized upload a radius is good to about 1 pt.
 
 ## Rules
 - Pattern ids are stable and prefixed per app (`cs-`, `cam-`, `fb-`, `gc-`...). Briefs cite them; renaming breaks briefs.

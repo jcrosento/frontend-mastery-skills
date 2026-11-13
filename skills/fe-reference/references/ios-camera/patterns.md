@@ -12,7 +12,7 @@ Measured 2026-11-13 from five owner-supplied screenshots (iOS 26, 923x2000 px). 
 
 ### cam-02  mode-strip
 - where: horizontally scrolling labels under the viewfinder; current mode highlighted
-- measured: strip 48 pt tall, 34 pt above the screen bottom, width wraps its labels (176 pt for two) [mode-strip]; selected mode pill 103 x 48 pt, full strip height [mode-pill.selected]; flanked by two 48 pt round buttons 34 pt from each side edge [thumb-well, flip-button]. Label type size not measured.
+- measured: strip 48 pt tall, 34 pt above the screen bottom, width wraps its labels (175 pt for two), ends fully rounded (a capsule: corner radius 24 pt, half its height) [mode-strip]; selected mode pill 103 x 48 pt, full strip height, also a capsule [mode-pill.selected]; flanked by two 48 pt round buttons 34 pt from each side edge [thumb-well, flip-button]. Label type size not measured.
 - job: switch between a small set of top-level states with one swipe, always knowing which state you are in
 - maps_to: seatours/tours (Island hopping, Expedition, Private, Transfer); ledgera/disbursement (Request, Release, Reconcile)
 
@@ -30,7 +30,7 @@ Measured 2026-11-13 from five owner-supplied screenshots (iOS 26, 923x2000 px). 
 
 ### cam-05  options-sheet-large-targets
 - where: sheet that rises from the bottom edge when the options control is tapped (Flash, Exposure); the viewfinder stays visible above it
-- measured: sheet 414 x 163 pt, inset 8 pt from the sides and bottom, 17.5% of screen height [sheet]; two round targets 68 pt across, 130 pt centre to centre, each with a text label beneath [sheet.target-1, sheet.target-2]. The related settings panel at the top is 414 x 84 pt with the same 8 pt side inset [panel].
+- measured: sheet 414 x 163 pt, inset 8 pt from the sides and bottom, 17.5% of screen height, corner radius 56 pt [sheet]; two round targets 68 pt across, 130 pt centre to centre, each with a text label beneath [sheet.target-1, sheet.target-2]. The related settings panel at the top is 414 x 84 pt with the same 8 pt side inset and a 20 pt corner radius [panel].
 - job: rarely used settings appear on demand as a few large labelled targets in thumb reach, without leaving the task or covering it
 - maps_to: ledgera/send-money (attach, note, split - options that are not needed on every request); seatours/booking (add-ons, guest count)
 

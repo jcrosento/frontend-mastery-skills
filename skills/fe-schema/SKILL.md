@@ -1,6 +1,6 @@
 ---
 name: fe-schema
-description: Expert structured data (schema.org JSON-LD) for websites: Organization, LocalBusiness and its subtypes, TouristTrip, TouristAttraction, LodgingBusiness/Hotel, Product/Offer, Service, FAQPage, BreadcrumbList, Article, Event, Review rules, WebSite/SearchAction, sitelinks and speakable, plus validation and Search Console monitoring. Use when the user asks for schema, structured data, rich results, JSON-LD, local SEO markup or SEO readiness.
+description: "Expert structured data (schema.org JSON-LD) for websites: Organization, LocalBusiness and its subtypes, TouristTrip, TouristAttraction, LodgingBusiness/Hotel, Product/Offer, Service, FAQPage, BreadcrumbList, Article, Event, Review rules, WebSite/SearchAction, sitelinks and speakable, plus validation and Search Console monitoring. Use when the user asks for schema, structured data, rich results, JSON-LD, local SEO markup or SEO readiness."
 license: MIT
 metadata:
   author: jcrosento
