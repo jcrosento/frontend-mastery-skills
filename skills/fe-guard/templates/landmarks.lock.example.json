@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "mode": "presence-order-label",
+  "attribute": "data-testid",
+  "states": [
+    {
+      "id": "home-phone",
+      "description": "Home on a phone. Rendered by the app's own test with its standard fixture.",
+      "max_interactive": 12,
+      "landmarks": [
+        { "id": "action-capture", "label": "Capture" },
+        { "id": "action-send", "label": "Send" },
+        { "id": "action-record", "label": "Record payment" },
+        { "id": "home-balance", "order": false },
+        { "id": "status-pill-", "match": "prefix", "labels": ["Waiting", "Sent", "Received"], "optional": true, "order": false }
+      ],
+      "absent": ["admin-totals"]
+    }
+  ]
+}

@@ -21,6 +21,9 @@ Classify the request and pick the path:
 | New site or page with references | full loop: LEARN -> THINK -> SYSTEM -> BUILD -> GATE -> REFLECT |
 | Improve an existing site | fe-inspect (own site) -> fe-judge baseline -> fe-perf + fe-responsive fixes -> fe-concept if score < 7 -> rebuild sections -> GATE |
 | Quick tweak | fe-build with DESIGN.md loaded -> fe-responsive on the touched section |
+| Change the UI of an existing app (SaaS, dashboard, internal tool) | fe-guard (UI-only contract and landmark lock, set up first) -> fe-reference (which familiar app to learn from) -> fe-inspect (measure its screenshots) -> fe-variants (2-3 working options behind a switch) -> fe-responsive -> fe-regress. Backend, schema, auth and network calls do not change on this path |
+
+Two profiles. **Site** (marketing, content, booking pages): the full loop, SEO and performance gates apply. **App** (a working product with a backend): the app row above; fe-keywords, fe-schema and fe-wp-audit do not apply, and fe-concept's five directions are replaced by fe-variants, because an app's users have already learned the current screens.
 
 ## Learning-how-to-learn protocol
 1. Before any work, read `design/knowledge/INDEX.md` and `design/LESSONS.md` (create if missing).

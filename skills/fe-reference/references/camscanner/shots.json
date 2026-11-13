@@ -1,0 +1,47 @@
+{
+  "app": "camscanner",
+  "kind": "reference",
+  "source": "user-capture",
+  "platform": "CamScanner for iOS, dark theme (app version not recorded)",
+  "captured": "2026-11-13",
+  "viewport_pt": [430, 932],
+  "viewport_basis": "Same device and capture session as the ios-camera set, where the viewport was inferred from the Dynamic Island cutout. Not confirmed by the device owner.",
+  "shots": [
+    {
+      "id": "cs-files-swiped",
+      "file": "IMG_7037.jpeg",
+      "sha256": "1788f6d793ace8fe726a91fbb987cb52c09471c72a3e8700e55bee93da78d52a",
+      "screen": "Files tab, one row swiped fully left showing four actions",
+      "regions": [
+        { "name": "tiles", "search": [15, 240, 893, 222], "threshold": 8, "split": "x", "join": 2 },
+        { "name": "chips", "search": [20, 570, 686, 80], "threshold": 9, "split": "x", "join": 4 },
+        { "name": "folder-row", "search": [15, 655, 893, 160], "threshold": 12 },
+        { "name": "swipe.cell-1", "search": [350, 958, 200, 192], "mode": "match", "sample": [395, 988], "threshold": 18 },
+        { "name": "swipe.cell-2", "search": [490, 958, 180, 192], "mode": "match", "sample": [529, 988], "threshold": 18 },
+        { "name": "swipe.cell-3", "search": [628, 958, 180, 192], "mode": "match", "sample": [667, 988], "threshold": 18 },
+        { "name": "row.thumb-1", "search": [15, 1140, 180, 165], "mode": "brighter", "threshold": 120 },
+        { "name": "row.thumb-2", "search": [15, 1312, 180, 165], "mode": "brighter", "threshold": 120 },
+        { "name": "fab", "search": [370, 1760, 185, 170], "mode": "match", "sample": [414, 1845], "threshold": 18 }
+      ]
+    },
+    {
+      "id": "cs-scan",
+      "file": "IMG_7039.jpeg",
+      "sha256": "e6cdb689903df3a54deabe777a2632bded93087a8af6b963173b3c51b3ee121e",
+      "screen": "Capture screen, Scan mode, Batch selected",
+      "regions": [
+        { "name": "shutter.outer", "search": [340, 1590, 245, 225], "mode": "brighter", "threshold": 60 },
+        { "name": "shutter.disc", "search": [340, 1590, 245, 225], "mode": "brighter", "threshold": 215 }
+      ]
+    },
+    {
+      "id": "cs-sign",
+      "file": "IMG_7040.jpeg",
+      "sha256": "2293acced053ef6fa8b9dd53d4a31aa73b8095ccead8e7a6b474e3fc00e21df5",
+      "screen": "Capture screen, Sign mode, intro card with one filled button",
+      "regions": [
+        { "name": "cta", "search": [40, 1300, 843, 150], "mode": "match", "sample": [200, 1377], "threshold": 18 }
+      ]
+    }
+  ]
+}

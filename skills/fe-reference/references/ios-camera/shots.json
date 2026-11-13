@@ -1,0 +1,69 @@
+{
+  "app": "ios-camera",
+  "kind": "reference",
+  "source": "user-capture",
+  "platform": "iOS 26 Camera (Liquid Glass controls)",
+  "captured": "2026-11-13",
+  "viewport_pt": [430, 932],
+  "shots": [
+    {
+      "id": "cam-photo",
+      "file": "IMG_7031.jpeg",
+      "sha256": "8f46037eccc9507864f0c6bf792d7692eb4c0f0ff074026fdfbcb2e41fe959ce",
+      "screen": "Photo mode viewfinder, default state",
+      "regions": [
+        { "name": "island", "search": [290, 5, 350, 130], "mode": "darker", "threshold": 7, "note": "System Dynamic Island cutout as drawn in the screenshot. Used only to infer the viewport; not a pattern." },
+        { "name": "shutter.disc", "search": [340, 1545, 245, 245], "mode": "brighter", "threshold": 200 },
+        { "name": "zoom.selected", "search": [405, 1418, 112, 112], "threshold": 12 },
+        { "name": "zoom.labels", "search": [350, 1455, 300, 34], "mode": "brighter", "threshold": 150, "split": "x", "join": 12 },
+        { "name": "mode-strip", "search": [240, 1800, 440, 150], "threshold": 10 },
+        { "name": "thumb-well", "search": [50, 1800, 150, 150], "threshold": 10 },
+        { "name": "flip-button", "search": [725, 1800, 150, 150], "threshold": 10 },
+        { "name": "cluster.icons", "search": [590, 195, 300, 56], "mode": "brighter", "threshold": 150, "split": "x", "join": 10 }
+      ]
+    },
+    {
+      "id": "cam-slomo",
+      "file": "IMG_7032.jpeg",
+      "sha256": "9fa75fbada0075035347719fbe2546255a15f81bd738e902d27b352be55db148",
+      "screen": "Slo-mo mode viewfinder, mode strip mid-scroll",
+      "regions": [
+        { "name": "mode-pill.selected", "search": [340, 1805, 250, 140], "threshold": 10 }
+      ]
+    },
+    {
+      "id": "cam-options",
+      "file": "IMG_7033.jpeg",
+      "sha256": "64f83fc7a03a7c7b6767df4a6890b5da6e2296ca0870263057481cfe3b4f8464",
+      "screen": "Options sheet open over the viewfinder (Flash, Exposure)",
+      "regions": [
+        { "name": "sheet", "search": [5, 1600, 913, 395], "threshold": 35, "mode": "brighter", "min_run": 12 },
+        { "name": "sheet.target-1", "search": [225, 1690, 195, 180], "threshold": 10 },
+        { "name": "sheet.target-2", "search": [505, 1690, 195, 180], "threshold": 10 }
+      ]
+    },
+    {
+      "id": "cam-panel",
+      "file": "IMG_7034.jpeg",
+      "sha256": "f8b05a98c918f0c022f47500f4c159985056ff0acec03d62a95a9cd8ebb0aac0",
+      "screen": "Slo-mo mode with resolution and frame-rate panel open",
+      "regions": [
+        { "name": "panel", "search": [5, 160, 913, 240], "threshold": 35, "mode": "brighter", "min_run": 12 },
+        { "name": "shutter.outer", "search": [340, 1545, 245, 245], "mode": "brighter", "threshold": 40 },
+        { "name": "thumb-well", "search": [50, 1800, 135, 150], "threshold": 10 },
+        { "name": "flip-button", "search": [735, 1800, 140, 150], "threshold": 10 }
+      ]
+    },
+    {
+      "id": "cam-gallery-empty",
+      "file": "IMG_7035.jpeg",
+      "sha256": "7c8bcbbb8f5f32bace6d857e334e0657db483ee956c97261d0edb0d5a9984411",
+      "screen": "Empty gallery reached from the thumbnail well",
+      "regions": [
+        { "name": "nav-button.back", "search": [20, 105, 140, 140], "threshold": 8 },
+        { "name": "nav-button.library", "search": [765, 105, 140, 140], "threshold": 8 }
+      ]
+    }
+  ],
+  "viewport_basis": "Inferred, not confirmed by the device owner. The 923:2000 image aspect fits only the 393x852 and 430x932 pt iPhones. The Dynamic Island cutout in cam-photo measures 269x79 px, which is its commonly documented 126x37 pt size only at 430 pt wide (it would be 115x34 pt at 393)."
+}

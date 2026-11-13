@@ -1,6 +1,6 @@
 {
   "name": "frontend-mastery-skills",
-  "version": "0.2.0",
+  "version": "0.4.0",
   "private": true,
   "type": "module",
   "description": "Master front-end agent skills: scan, audit, build, gate, learn.",
@@ -15,11 +15,15 @@
     "scan:psi": "node skills/fe-scan/scripts/psi.mjs",
     "compare": "node skills/fe-scan/scripts/compare.mjs",
     "gate": "node skills/fe-perf/scripts/lighthouse-gate.mjs",
+    "guard": "node skills/fe-guard/scripts/guard.mjs",
+    "lock": "node skills/fe-guard/scripts/lock-check.mjs",
+    "measure": "node skills/fe-inspect/scripts/measure-shot.mjs",
+    "reference:gates": "node skills/fe-reference/scripts/gates.mjs",
     "test": "node --test",
     "verify": "node scripts/verify.mjs",
     "check:public-artifacts": "node scripts/check-public-artifacts.mjs",
     "check": "npm run check:syntax && npm run check:selftest",
-    "check:syntax": "for f in skills/fe-scan/scripts/*.mjs scripts/*.mjs; do node --check \"$f\" || exit 1; done",
+    "check:syntax": "for f in skills/fe-scan/scripts/*.mjs skills/fe-guard/scripts/*.mjs skills/fe-inspect/scripts/*.mjs skills/fe-reference/scripts/*.mjs scripts/*.mjs; do node --check \"$f\" || exit 1; done",
     "check:selftest": "node skills/fe-scan/scripts/compare.mjs --selftest && node skills/fe-scan/scripts/crawlers.mjs --selftest && node skills/fe-scan/scripts/run-all.mjs https://example.invalid --dry-run"
   },
   "devDependencies": {
