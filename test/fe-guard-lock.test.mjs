@@ -4,8 +4,9 @@ import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { checkLock, validateLock } from '../skills/fe-guard/scripts/lock-core.mjs';
-import { censusFromHtml } from '../skills/fe-guard/scripts/lock-check.mjs';
+import vm from 'node:vm';
+import { censusFromDocument, checkLock, INTERACTIVE_SELECTOR, validateLock } from '../skills/fe-guard/scripts/lock-core.mjs';
+import { censusFromHtml, INTERACTIVE_SELECTOR as CLI_SELECTOR } from '../skills/fe-guard/scripts/lock-check.mjs';
 import { spawnBounded } from '../scripts/run-bounded.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
@@ -80,6 +81,50 @@ test('fe-guard lock: census reads visible tagged elements and counts enabled con
   assert.deepEqual(result.landmarks, [{ id: 'balance', label: 'PHP 12,000' }, { id: 'link-upload', label: 'Upload receipt' }, { id: 'link-send', label: 'Send money' }]);
   assert.equal(result.interactive, 3, 'two links and one enabled button; hidden and disabled controls do not count');
   assert.equal(checkLock(lock, 'home', result).ok, true);
+});
+
+// A stand-in for a DOM: just enough for the census, so the test needs no browser and no extra package.
+function fakeRoot(elements) {
+  const make = (e) => ({
+    disabled: Boolean(e.disabled),
+    textContent: e.text ?? '',
+    getAttribute: (name) => (name in (e.attrs ?? {}) ? e.attrs[name] : null),
+    closest: () => (e.hidden ? {} : null)
+  });
+  return {
+    querySelectorAll(selector) {
+      const tagged = /^\[([a-z][a-z0-9-]*)\]$/.exec(selector);
+      return elements.filter(e => (tagged ? e.attrs && tagged[1] in e.attrs : e.control)).map(make);
+    }
+  };
+}
+
+test('fe-guard lock: an app test can take the census itself, with the same rules as the browser check', () => {
+  assert.equal(CLI_SELECTOR, INTERACTIVE_SELECTOR, 'one selector for both paths');
+  const screen = [
+    { attrs: { 'data-testid': 'balance' }, text: ' PHP   12,000 ' },
+    { attrs: { 'data-testid': 'link-upload', 'aria-label': 'Upload receipt' }, text: 'icon', control: true },
+    { attrs: { 'data-testid': 'link-send' }, text: 'Send money', control: true },
+    { text: 'Help', control: true },
+    { text: 'Later', control: true, disabled: true },
+    { text: 'Soon', control: true, attrs: { 'aria-disabled': 'true' } },
+    { attrs: { 'data-testid': 'owner-totals' }, text: 'Totals', control: true, hidden: true }
+  ];
+  const result = censusFromDocument(fakeRoot(screen), { attribute: 'data-testid', selector: INTERACTIVE_SELECTOR });
+  assert.deepEqual(result.landmarks, [{ id: 'balance', label: 'PHP 12,000' }, { id: 'link-upload', label: 'Upload receipt' }, { id: 'link-send', label: 'Send money' }]);
+  assert.equal(result.interactive, 3, 'hidden, disabled and aria-disabled controls do not count');
+  assert.equal(checkLock(lock, 'home', result).ok, true);
+  const relabelled = structuredClone(screen); relabelled[2].text = 'Pay';
+  assert.deepEqual(kinds(checkLock(lock, 'home', censusFromDocument(fakeRoot(relabelled), { selector: INTERACTIVE_SELECTOR }))), ['label']);
+  const extra = [...screen, { text: 'New', control: true }, { text: 'Newer', control: true }];
+  assert.deepEqual(kinds(checkLock(lock, 'home', censusFromDocument(fakeRoot(extra), { selector: INTERACTIVE_SELECTOR }))), ['interactive']);
+  assert.throws(() => censusFromDocument(fakeRoot(screen), {}), /selector/);
+  assert.throws(() => censusFromDocument(fakeRoot(screen), { attribute: 'x] , [y', selector: 'a' }), /attribute/);
+
+  // It is sent to a browser page as text, so it may use nothing from outside its own body.
+  const context = vm.createContext({ Array, Error });
+  const isolated = vm.runInContext(`(${censusFromDocument.toString()})`, context);
+  assert.deepEqual(isolated(fakeRoot(screen), { selector: INTERACTIVE_SELECTOR }).interactive, 3);
 });
 
 test('fe-guard lock: command line passes a kept screen and fails a broken one', { timeout: 90_000 }, async () => {

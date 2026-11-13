@@ -2,6 +2,31 @@
 // Pure functions, no I/O, no dependencies, so an app's own test runner can import this file.
 //
 // census = { landmarks: [{ id, label }], interactive: <count> } in document order.
+// In an app test: checkLock(lock, state, censusFromDocument(document, { attribute, selector: INTERACTIVE_SELECTOR })).
+
+/** What counts as a control a person can use. One list for the browser check and for an app's own tests. */
+export const INTERACTIVE_SELECTOR = [
+  'a[href]', 'button', 'input:not([type="hidden"])', 'select', 'textarea', 'summary',
+  '[role="button"]', '[role="link"]', '[role="tab"]', '[role="menuitem"]', '[role="checkbox"]', '[role="switch"]', '[role="radio"]',
+  '[tabindex]:not([tabindex="-1"])'
+].join(',');
+
+/**
+ * Count the tagged landmarks and the usable controls under `root` (a document or an element).
+ * Self-contained on purpose: it uses nothing outside its own body, so it can run inside a
+ * browser page as well as in jsdom or happy-dom. Hidden, inert and disabled elements do not count.
+ */
+export function censusFromDocument(root, options) {
+  const attribute = (options && options.attribute) || 'data-testid';
+  const selector = options && options.selector;
+  if (!selector) throw new Error('censusFromDocument: pass { selector: INTERACTIVE_SELECTOR }');
+  if (!/^[a-z][a-z0-9-]*$/.test(attribute)) throw new Error('censusFromDocument: attribute must be an HTML attribute name');
+  const visible = (el) => !el.closest('[hidden], [aria-hidden="true"], [inert]') && (typeof el.checkVisibility !== 'function' || el.checkVisibility({ checkOpacity: false, checkVisibilityCSS: true }));
+  const text = (el) => (el.getAttribute('aria-label') || el.textContent || '').replace(/\s+/g, ' ').trim();
+  const landmarks = Array.from(root.querySelectorAll('[' + attribute + ']')).filter(visible).map(el => ({ id: el.getAttribute(attribute), label: text(el) }));
+  const interactive = Array.from(root.querySelectorAll(selector)).filter(el => visible(el) && !el.disabled && el.getAttribute('aria-disabled') !== 'true').length;
+  return { landmarks, interactive };
+}
 
 const GEOMETRY_KEYS = ['x', 'y', 'width', 'height', 'top', 'left', 'right', 'bottom', 'box', 'position', 'px', 'offset'];
 const clean = (text) => String(text ?? '').replace(/\s+/g, ' ').trim();

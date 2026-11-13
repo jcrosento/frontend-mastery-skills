@@ -36,10 +36,12 @@ npx skills add bradautomates/claude-video -g --skill watch           # video lea
 ### Use it in Cursor
 Cursor reads skills from `~/.agents/skills/` (global) and `.agents/skills/` (project). Open the app's folder, open Agent chat, type `/` and pick `fe-master`, then say what you want. The agent also picks a skill up on its own when the request matches its description.
 
+Cursor Cloud Agents (the ones you start from a phone or the web) run on a fresh machine each time. They do not get the global install from your computer, and a global install made inside one cloud chat is gone in the next. For those, use the per-project install once, in its own pull request; after it is merged every new chat lists the skills under `/`. A chat that was already open keeps the list it started with.
+
 ```text
 /fe-master App profile. Simplify the Send Money screen. UI only: do not touch the server, schema, auth or any network call. Read the screen map first, then show me what you will change before you change it.
 /fe-master Site profile. Audit https://example.com and give me the top 10 fixes with evidence.
-/fe-guard Set up the UI-only contract for this app in its own pull request. Change nothing else.
+/fe-guard Set up the UI-only contract for this app in its own pull request. Change nothing else. Run guard.mjs --audit and paste its output.
 ```
 Scripts run from where the skills were installed, for example from an app folder:
 ```bash
@@ -73,7 +75,7 @@ In Cursor you can also run `/add-plugin figma`. For WordPress sites install the 
 | Build | `fe-build` | Slop-free Astro / React / Bricks implementation |
 | Build | `fe-editable` | Builder-like editability: content schemas, slots, visual-edit friendly structure |
 | Build | `fe-motion` | 60fps, reduced-motion-safe animation that tells a story |
-| Gate | `fe-guard` | UI-only contract for existing apps: fails a change that touches backend files, alters a network call, or drops, relabels or reorders a locked control |
+| Gate | `fe-guard` | UI-only contract for existing apps: fails a change that touches backend files, alters a network call or a call to one of the app's data functions (found from the code, not typed by hand), or drops, relabels or reorders a locked control. `--audit` checks the contract itself for holes |
 | Gate | `fe-responsive` | Viewport sweep 320 -> 1920, zoom, touch, overflow |
 | Gate | `fe-perf` | Core Web Vitals budgets with a failing CI gate |
 | Gate | `fe-judge` | Awwwards-style 40/30/20/10 rubric + a11y + dev gates |
@@ -96,7 +98,8 @@ REFLECT-> fe-master writes what worked into design/knowledge/ so the next site s
 ```bash
 node skills/fe-scan/scripts/app-map.mjs --root . --declared docs/sitemap.md --strict    # read the screens and links first
 # once per app, in its own pull request: design/guard.json + design/landmarks.lock.json
-node skills/fe-guard/scripts/guard.mjs --base origin/main            # paths + network lines
+node skills/fe-guard/scripts/guard.mjs --audit                       # is the config itself safe: no routes, data or untested lock inside the UI list
+node skills/fe-guard/scripts/guard.mjs --base origin/main            # paths + network lines + the app's own data functions, found from the code
 node skills/fe-guard/scripts/lock-check.mjs --lock design/landmarks.lock.json --state home --html rendered.html
 node skills/fe-inspect/scripts/measure-shot.mjs --manifest design/reference/ios-camera/shots.json --project <product> --overlay
 node skills/fe-reference/scripts/gates.mjs --matrix matrix.json --tokens tokens.json --brief borrow-tweak-elevate.md --counts counts.json

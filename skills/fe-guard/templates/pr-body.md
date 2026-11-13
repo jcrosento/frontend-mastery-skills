@@ -4,6 +4,7 @@
 ## UI-only proof
 - [ ] `node <skills>/fe-guard/scripts/guard.mjs --base origin/<default-branch> --final` output pasted below (PASS)
 - [ ] Landmarks lock test output pasted below (PASS for every state)
+- [ ] Setup pull request only: `guard.mjs --audit` output pasted below (PASS, no holes) and the "check by hand" files read
 - [ ] The app's own type check and test suite (PASS, with counts)
 
 ```

@@ -11,13 +11,9 @@ import { chromium } from 'playwright';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { checkLock, validateLock } from './lock-core.mjs';
+import { censusFromDocument, checkLock, INTERACTIVE_SELECTOR, validateLock } from './lock-core.mjs';
 
-export const INTERACTIVE_SELECTOR = [
-  'a[href]', 'button', 'input:not([type="hidden"])', 'select', 'textarea', 'summary',
-  '[role="button"]', '[role="link"]', '[role="tab"]', '[role="menuitem"]', '[role="checkbox"]', '[role="switch"]', '[role="radio"]',
-  '[tabindex]:not([tabindex="-1"])'
-].join(',');
+export { INTERACTIVE_SELECTOR };
 
 export async function censusFromHtml(html, { attribute = 'data-testid' } = {}) {
   const browser = await chromium.launch();
@@ -26,13 +22,8 @@ export async function censusFromHtml(html, { attribute = 'data-testid' } = {}) {
     await context.route('**/*', route => route.abort());
     const page = await context.newPage();
     await page.setContent(html, { waitUntil: 'domcontentloaded' });
-    return await page.evaluate(({ attribute, selector }) => {
-      const visible = (el) => !el.closest('[hidden], [aria-hidden="true"], [inert]') && (typeof el.checkVisibility !== 'function' || el.checkVisibility({ checkOpacity: false, checkVisibilityCSS: true }));
-      const text = (el) => (el.getAttribute('aria-label') || el.textContent || '').replace(/\s+/g, ' ').trim();
-      const landmarks = [...document.querySelectorAll(`[${attribute}]`)].filter(visible).map(el => ({ id: el.getAttribute(attribute), label: text(el) }));
-      const interactive = [...document.querySelectorAll(selector)].filter(el => visible(el) && !el.disabled && el.getAttribute('aria-disabled') !== 'true').length;
-      return { landmarks, interactive };
-    }, { attribute, selector: INTERACTIVE_SELECTOR });
+    // The same function an app's own test calls, sent to the page as text so both paths count alike.
+    return await page.evaluate(`(${censusFromDocument.toString()})(document, ${JSON.stringify({ attribute, selector: INTERACTIVE_SELECTOR })})`);
   } finally {
     await browser.close();
   }
