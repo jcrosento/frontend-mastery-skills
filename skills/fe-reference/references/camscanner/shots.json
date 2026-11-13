@@ -5,7 +5,7 @@
   "platform": "CamScanner for iOS, dark theme (app version not recorded)",
   "captured": "2026-11-13",
   "viewport_pt": [430, 932],
-  "viewport_basis": "Same device and capture session as the ios-camera set, where the viewport was inferred from the Dynamic Island cutout. Not confirmed by the device owner.",
+  "viewport_basis": "iPhone 14 Pro Max, stated by the device owner on 2026-11-13 (430x932 pt logical screen, 1290x2796 px at 3x). Same device and capture session as the ios-camera set. The uploads are downscaled to 923 px wide, so one point is 2.147 image pixels.",
   "shots": [
     {
       "id": "cs-files-swiped",

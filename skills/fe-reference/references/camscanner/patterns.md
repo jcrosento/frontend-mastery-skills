@@ -2,7 +2,7 @@
 
 Studied: Files tab with a row swiped open, capture screen in Scan and Sign modes. Category: document capture and filing. Why it matters: capture -> review -> file is the same loop as receipt -> approve -> ledger.
 
-Measured 2026-11-13 from three owner-supplied screenshots (dark theme, 923x2000 px; a fourth screenshot was supplied and not used). Sizes are logical points at a 430x932 pt viewport, inferred from the same capture session as the ios-camera set and not yet confirmed by the device owner; `tokens.json` also gives every size as a fraction of screen width. Names in brackets are tokens in `tokens.json`. Tolerance +/-2 px, about 1 pt. The Home tab was not supplied, so Home patterns stay unmeasured.
+Measured 2026-11-13 from three owner-supplied screenshots (dark theme, 923x2000 px; a fourth screenshot was supplied and not used). Device: iPhone 14 Pro Max, confirmed by the owner, so sizes are logical points on its 430x932 pt screen; `tokens.json` also gives every size as a fraction of screen width. Names in brackets are tokens in `tokens.json`. Tolerance +/-2 px, about 1 pt. The Home tab was not supplied, so Home patterns stay unmeasured.
 
 ### cs-01  swipe-row-actions
 - where: Files list; left swipe on any row

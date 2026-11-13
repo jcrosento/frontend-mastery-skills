@@ -5,6 +5,7 @@
   "platform": "iOS 26 Camera (Liquid Glass controls)",
   "captured": "2026-11-13",
   "viewport_pt": [430, 932],
+  "viewport_basis": "iPhone 14 Pro Max, stated by the device owner on 2026-11-13 (430x932 pt logical screen, 1290x2796 px at 3x). Before that it was inferred from the measurements: the 923:2000 image aspect fits only the 393x852 and 430x932 pt iPhones, and the Dynamic Island cutout in cam-photo measures 269x79 px, which is 125x37 pt at 430 pt wide. The uploads are downscaled to 923 px wide, so one point is 2.147 image pixels.",
   "shots": [
     {
       "id": "cam-photo",
@@ -64,6 +65,5 @@
         { "name": "nav-button.library", "search": [765, 105, 140, 140], "threshold": 8 }
       ]
     }
-  ],
-  "viewport_basis": "Inferred, not confirmed by the device owner. The 923:2000 image aspect fits only the 393x852 and 430x932 pt iPhones. The Dynamic Island cutout in cam-photo measures 269x79 px, which is its commonly documented 126x37 pt size only at 430 pt wide (it would be 115x34 pt at 393)."
+  ]
 }

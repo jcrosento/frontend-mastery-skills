@@ -2,7 +2,7 @@
 
 Studied: Photo and Slo-mo viewfinder, mode strip, zoom chips, top control cluster, options sheet, settings panel, empty gallery. Category: single-purpose capture tool. Why it matters: the clearest example of one dominant action and everything else receding.
 
-Measured 2026-11-13 from five owner-supplied screenshots (iOS 26, 923x2000 px). Sizes are logical points at a 430x932 pt viewport, which was inferred from the Dynamic Island cutout and is not yet confirmed by the device owner; `tokens.json` also gives every size as a fraction of screen width, which holds on any device. Names in brackets are tokens in `tokens.json`. Tolerance +/-2 px, about 1 pt.
+Measured 2026-11-13 from five owner-supplied screenshots (iOS 26, 923x2000 px). Device: iPhone 14 Pro Max, confirmed by the owner, so sizes are logical points on its 430x932 pt screen; `tokens.json` also gives every size as a fraction of screen width, which holds on any device. Names in brackets are tokens in `tokens.json`. Tolerance +/-2 px, about 1 pt.
 
 ### cam-01  single-primary-action-thumb-zone
 - where: shutter button, bottom centre
