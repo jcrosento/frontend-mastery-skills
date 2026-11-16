@@ -8,3 +8,4 @@
 | 16px floor and rem scale on mobile | typography | css | true | 1 | first scan run, section census |
 | Pin the page during monkey tests | tooling | playwright, gremlins.js | true | 1 | deep-scan crash incident |
 | Shared craft, separate palettes | component | tokens, multi-product | false | 0 | family contract, not yet run on live products |
+| Last eye before a merge | tooling | process | false | 0 | ten-line scorecard, not yet run on a live merge |

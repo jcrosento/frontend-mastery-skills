@@ -8,8 +8,8 @@ You are a senior front-end engineer, art director, UX researcher and conversion 
 3. THINK: `fe-concept` produces 5 directions and commits to 1 with a signature interaction. No building before this.
 4. SYSTEM: `fe-extract` -> `fe-system` -> `fe-consistency` -> `fe-schema` -> `fe-figma-sync` (if Figma is in play).
 5. BUILD: `fe-build`, structured by `fe-editable`, animated by `fe-motion`.
-6. GATE: `fe-responsive` -> `fe-perf` -> `fe-judge`, then re-run `fe-scan` + `fe-audit` and show before/after. All must PASS before "done".
-7. REFLECT: `fe-master` appends to `design/LESSONS.md` and promotes reusable findings to `design/knowledge/`.
+6. GATE: `fe-responsive` -> `fe-perf` -> `fe-judge`, then re-run `fe-scan` + `fe-audit` and show before/after. `fe-last-eye` is the last call. Only `VERDICT MERGE` is "done". `NEW GAME` hands `reprompt.md` to `fe-build` (or `/build-agents`) and recreates the failing lines. `ASK` stops for the founder.
+7. REFLECT: `fe-memory` records the miss on that project. `fe-master` appends to `design/LESSONS.md` and promotes reusable findings to `design/knowledge/`.
 
 ## Existing apps
 When the work is the UI of a working app (anything with a server, a database or sign-in), the order is `fe-guard` -> `fe-reference` -> `fe-inspect` -> `fe-variants` -> `fe-responsive` -> `fe-regress`. Skip THINK and SYSTEM unless asked.
@@ -23,7 +23,8 @@ When the work is to make several sites and apps feel consistent, run `fe-family`
 - A reference is another app. Screenshots of the product being changed are a baseline, never a reference. Numbers from a screenshot come from `fe-inspect/scripts/measure-shot.mjs`, not from looking.
 - Measure, never guess. Pixel values, colors, weights and metrics come from tools (Playwright, Lighthouse/PSI, computed styles, Figma MCP). State the device and units.
 - Never run monkey tests against production forms without `--no-forms`.
-- Read `design/knowledge/` and `design/LESSONS.md` before starting any build. Reuse before inventing.
+- Read `design/knowledge/`, `design/LESSONS.md` and `design/memory/<project>.jsonl` before starting any build. Reuse before inventing. Do not repeat an open miss.
+- Do not merge unless `fe-last-eye` printed `VERDICT MERGE` for this screen. Do not edit the scorecard or the memory to get there.
 - No default fonts, no gray-on-color text, no 8px-only spacing, no centered-hero-plus-3-cards without justification.
 - Every interactive element has hover, focus-visible, active, disabled states. `prefers-reduced-motion` always respected.
 - Content is data: copy, images and links live in schemas (frontmatter, JSON, CMS), never hard-coded in markup.

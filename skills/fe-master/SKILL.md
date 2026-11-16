@@ -1,10 +1,10 @@
 ---
 name: fe-master
-description: "Orchestrator for the front-end mastery pipeline. Triages any UI request, decides which fe-* skills to run and in what order, maintains the project knowledge base (design/knowledge, LESSONS.md), and compounds learning across projects. Use at the start of any website, landing page, redesign, UI or front-end task, or when the user says improve my sites, learn from this, make this world-class, or make every app and website feel consistent."
+description: "Orchestrator for the front-end mastery pipeline. Triages any UI request, decides which fe-* skills to run and in what order, maintains the project knowledge base (design/knowledge, LESSONS.md), and compounds learning across projects. Use at the start of any website, landing page, redesign, UI or front-end task, or when the user says improve my sites, learn from this, make this world-class, or make every app and website feel consistent. Before a merge, the last call is fe-last-eye."
 license: MIT
 metadata:
   author: jcrosento
-  version: "0.3.0"
+  version: "0.4.0"
 ---
 
 # fe-master
@@ -23,6 +23,7 @@ Classify the request and pick the path:
 | Quick tweak | fe-build with DESIGN.md loaded -> fe-responsive on the touched section |
 | Change the UI of an existing app (SaaS, dashboard, internal tool) | fe-scan `app-map.mjs` (read the screens, guards and links from the code first) -> fe-guard (UI-only contract and landmark lock, set up before any UI change; `guard.mjs --audit` must report no holes) -> fe-reference (which familiar app to learn from) -> fe-inspect (measure its screenshots) -> fe-variants (2-3 working options behind a switch) -> fe-responsive -> fe-regress. Backend, schema, auth and network calls do not change on this path |
 | Make every site and app feel like one company | fe-family (write the shared-craft contract; palettes stay per brand) -> fe-drift (the numbers must match) -> fe-states, fe-forms and fe-shell on what failed. Do not collapse those brands onto one palette |
+| "Should we merge" / last look / ship it | fe-memory (read this project's open misses) -> fe-last-eye. MERGE is the only yes. NEW GAME writes a reprompt and the builder recreates the failing lines. The third miss asks the founder |
 
 Two profiles. **Site** (marketing, content, booking pages): the full loop, SEO and performance gates apply. **App** (a working product with a backend): the app row above; fe-keywords, fe-schema and fe-wp-audit do not apply, and fe-concept's five directions are replaced by fe-variants, because an app's users have already learned the current screens.
 
@@ -38,7 +39,7 @@ Each skill's scripts sit in its own folder. From a project, call them by where t
 
 ## Learning-how-to-learn protocol
 This is a written notebook, not training. The agent is no smarter next time unless it reads these files, and nothing in code checks that it did. Its value depends on the entries being specific and true.
-1. Before any work, read `design/knowledge/INDEX.md` and `design/LESSONS.md` (create if missing).
+1. Before any work, read `design/knowledge/INDEX.md`, `design/LESSONS.md`, and `design/memory/<project>.jsonl` via fe-memory (create the folder if missing).
 2. For every new input (tutorial, inspiration, competitor), extract **technique cards** via fe-learn / fe-inspect: name, when to use, how to do it, code snippet, pitfalls, source.
 3. When a technique is used and passes gates, mark it `proven: true` in its card and bump `uses`.
 4. When a gate fails, write the root cause and fix to `LESSONS.md` under `## Anti-patterns`.
@@ -49,6 +50,7 @@ One input should produce ten reusable outputs. For every inspiration or tutorial
 
 ## Done criteria
 - `design/reports/responsive.md`, `perf.md`, `judge.md` all PASS and are committed.
+- `fe-last-eye` has printed `VERDICT MERGE` for this screen. A `NEW GAME` is not done; the builder gets `reprompt.md` and runs once. `ASK` stops and waits for the founder.
 - App profile instead of the line above: guard, landmark lock, `app-map.mjs --strict` and the app's own tests pass; variant code is removed (`guard.mjs --final`); a person has looked at each touched screen.
 - `LESSONS.md` has a new dated entry: what was built, score, what to reuse, what to never do again.
 - At least 3 knowledge cards were created or updated.

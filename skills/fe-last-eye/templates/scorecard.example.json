@@ -1,0 +1,68 @@
+{
+  "project": "harbor",
+  "subject": "home",
+  "date": "2026-11-17",
+  "touches_server": false,
+  "lines": [
+    {
+      "id": "consistent",
+      "score": 9,
+      "evidence": "Hero, cards and footer use the 8, 16 and 24 spacing steps and one control height.",
+      "source": "design/reports/judge.md"
+    },
+    {
+      "id": "first-place",
+      "score": 8,
+      "evidence": "Against the island page at northwind.example, the date and the price are visible without scrolling.",
+      "source": "design/reports/judge.md"
+    },
+    {
+      "id": "animation",
+      "score": 9,
+      "evidence": "The header settles in 160ms, and reduced motion is a crossfade. The fe-motion checklist passed.",
+      "source": "design/reports/motion.md"
+    },
+    {
+      "id": "performance",
+      "score": 8,
+      "evidence": "The fe-perf report is PASS. LCP and CLS are inside the budget on the mobile run.",
+      "source": "design/reports/perf.md"
+    },
+    {
+      "id": "responsive",
+      "score": 9,
+      "evidence": "The fe-responsive report is PASS at 390 and 1440. Nothing scrolls sideways.",
+      "source": "design/reports/responsive.md"
+    },
+    {
+      "id": "backend",
+      "na": true,
+      "evidence": "This change is the marketing page only. No server, booking or sign-in file is in the diff.",
+      "source": "design/reports/scope.md"
+    },
+    {
+      "id": "consistency",
+      "score": 8,
+      "evidence": "The booking page uses the same header, type and buttons. Other brands kept their own palettes.",
+      "source": "design/family/family.json"
+    },
+    {
+      "id": "clean",
+      "score": 9,
+      "evidence": "No placeholder copy, no console errors, and the focus ring is visible on the date field.",
+      "source": "design/reports/judge.md"
+    },
+    {
+      "id": "reference",
+      "score": 8,
+      "evidence": "The fold matches the approved frame: headline, date and one button, measured from the reference shot.",
+      "source": "design/reference/home/shot.json"
+    },
+    {
+      "id": "new-game",
+      "score": 8,
+      "evidence": "The project memory has no open miss. The page is an editorial offer, not a centered hero with three cards.",
+      "source": "design/memory/harbor.jsonl"
+    }
+  ]
+}
