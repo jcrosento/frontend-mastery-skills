@@ -4,7 +4,7 @@ description: Build production front-end sections and components in Astro, React 
 license: MIT
 metadata:
   author: jcrosento
-  version: "0.1.0"
+  version: "0.1.1"
 ---
 
 # fe-build
@@ -38,4 +38,4 @@ metadata:
 - Missing focus-visible, missing alt, missing empty/loading states.
 
 ## Done means
-`fe-responsive`, `fe-perf` and `fe-judge` have been run and their reports are saved under `design/reports/`.
+`fe-responsive`, `fe-perf` and `fe-judge` have been run and their reports are saved under `design/reports/`. Then `fe-last-eye` has printed `VERDICT MERGE`. Until then the page is not done, and a miss is rebuilt from `reprompt.md`, not negotiated in chat.

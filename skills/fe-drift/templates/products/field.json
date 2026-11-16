@@ -1,0 +1,20 @@
+{
+  "product": "field",
+  "kind": "app",
+  "craft": {
+    "space_steps": [4, 8, 12, 16, 24, 32, 48, 64, 96],
+    "control_heights": [44, 52],
+    "radius": [8, 16, 999],
+    "icon_px": [20, 24],
+    "motion_ms": [120, 280, 640],
+    "focus_ring_px": 2,
+    "tap_min_px": 44,
+    "body_min_px": 16,
+    "type_ratio": 1.25
+  },
+  "states": ["loading", "empty", "error", "success", "offline", "denied"],
+  "brand": {
+    "palette": ["#5C2E8A", "#E07A3D"],
+    "font_families": ["Inter"]
+  }
+}

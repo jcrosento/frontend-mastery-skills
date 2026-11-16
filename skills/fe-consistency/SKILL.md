@@ -1,10 +1,10 @@
 ---
 name: fe-consistency
-description: "Enforce design and content consistency across every page and every site: one color palette, one typography system, one icon set, one spacing scale, one header/footer, consistent buttons, cards, forms, image treatment, naming and SEO patterns. Produces a consistency score and an auto-fix plan for Elementor, Bricks, Astro or React. Use when the user says things look inconsistent, wants to unify multiple sites, or after fe-wp-audit / fe-extract."
+description: "Enforce one palette, one type system, one icon set, one spacing scale, one header and one footer across every page of a single brand, including the same brand on more than one domain. Produces a consistency score and an auto-fix plan for Elementor, Bricks, Astro or React. Use when one site looks inconsistent. Different brands that should only share craft go to fe-family."
 license: MIT
 metadata:
   author: jcrosento
-  version: "0.1.0"
+  version: "0.2.0"
 ---
 
 # fe-consistency
@@ -38,7 +38,9 @@ Consistency is a system property, not a style choice. The rule: every visible va
 6. Re-run the census and record before/after in `design/reports/consistency.md`.
 
 ## Multi-site mode
-When the user has several sites, produce one `design/brand-system.md` and a per-site delta table (what each site must change to match). Keep site-specific accents as a single `accent` token override, never a new palette.
+When several sites are the **same brand** (one palette, one logo, several domains), produce one `design/brand-system.md` and a per-site delta table. Keep a site-specific accent as a single `accent` token override, never a second palette.
+
+When the products are **different brands** that should only share craft, stop. That job is fe-family and fe-drift. Forcing those products onto one palette is a brand change, not a consistency fix.
 
 ## Guardrails
 - Never change a value on a page without recording the mapping.

@@ -4,7 +4,7 @@ description: Score a page like an Awwwards / CSS Design Awards jury — Design 4
 license: MIT
 metadata:
   author: jcrosento
-  version: "0.1.0"
+  version: "0.1.1"
 ---
 
 # fe-judge
@@ -32,3 +32,5 @@ Add two gates that must pass regardless of score:
 
 ## Output
 `design/reports/judge.md` with the rubric table, blocking issues, upgrades and final score. End with a one-line verdict: SHIP / FIX THEN SHIP / REDESIGN.
+
+This verdict is the jury. It is not the merge call. `fe-last-eye` is the last eye, and only its MERGE may be merged.

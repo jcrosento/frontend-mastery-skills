@@ -2,6 +2,14 @@
 
 Format: date · context · what happened · root cause · fix · rule going forward. Business and analytics figures stay in private baseline folders, not here.
 
+## 2026-11-17 · the last call before a merge
+
+- **A jury score is not a merge.** Root cause: fe-judge can say SHIP while animation, the reference, or the backend was never the last word, and the same miss comes back in the next chat because nothing was written on that project. Fix: fe-last-eye scores ten lines and allows a merge only when every line is 8 or higher. A miss is logged by fe-memory on that project and handed back to the builder as a reprompt. The same finding is not logged twice. The third distinct miss stops and asks. Rule: do not merge on a jury line. Do not start a second build on a finding the memory already has.
+
+## 2026-11-17 · consistency across a company's products
+
+- **One palette is the wrong fix for a family of brands.** Root cause: fe-consistency's multi-site mode told the agent to collapse every site onto one accent. That makes a booking site, a finance app and an ops tool look like copies, and it is a brand change. Fix: fe-family splits shared craft (spacing, controls, focus, type ratio, icons, motion, the six states, form grammar, signed-in frame) from per-product palette and voice. fe-drift fails if the numbers diverge or two brands share a brand color. Rule: same brand, several domains, stays in fe-consistency. Different brands share craft only.
+
 ## 2026-11-08 · first real run of the scan pipeline (vibe-coded travel site)
 
 ### Tooling

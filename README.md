@@ -26,7 +26,7 @@ npx skills add jcrosento/frontend-mastery-skills -g -a cursor -y --skill fe-mast
 # update later
 npx skills update -g
 ```
-A full install is 25 skills; `npx skills list -g` should show all of them. Companion skills, all optional:
+A full install is 32 skills; `npx skills list -g` should show all of them. Companion skills, all optional:
 ```bash
 npx skills add pbakaus/impeccable -g -a cursor -y                    # design vocabulary and interface audits
 npx skills add emilkowalski/skills -g -a cursor -y                   # interaction and motion craft (app profile)
@@ -69,7 +69,12 @@ In Cursor you can also run `/add-plugin figma`. For WordPress sites install the 
 | Think | `fe-variants` | 2-3 working versions of one app screen behind a switch in one branch, compared on the same data; losers deleted before merge |
 | System | `fe-extract` | Tokens + DESIGN.md from inspections or code |
 | System | `fe-system` | Tokens -> CSS vars / Tailwind / ACSS / Figma variables + component schema |
-| System | `fe-consistency` | Enforces one palette, one type system, one icon set, one header/footer, one spacing scale across every page and site; auto-fix plans for Elementor and Bricks |
+| Family | `fe-family` | The contract for a group of products: one shared craft, a separate palette and voice per brand |
+| Family | `fe-drift` | Fails when a product leaves the shared craft numbers, or two brands share a brand color |
+| Family | `fe-states` | The six screens every product handles the same way: loading, empty, error, success, offline, not allowed |
+| Family | `fe-forms` | One form grammar for booking pages and signed-in apps |
+| Family | `fe-shell` | One signed-in frame: navigation, title, primary action, account menu |
+| System | `fe-consistency` | Inside one brand: one palette, one type system, one icon set, one header/footer, one spacing scale; auto-fix plans for Elementor and Bricks |
 | System | `fe-schema` | Top-notch JSON-LD: Organization, LocalBusiness subtypes, TouristTrip, Product, FAQ, Breadcrumb, Article; validation loop |
 | System | `fe-figma-sync` | Existing site -> Figma (html.to.design) and tokens <-> Figma variables via MCP |
 | Build | `fe-build` | Slop-free Astro / React / Bricks implementation |
@@ -78,7 +83,9 @@ In Cursor you can also run `/add-plugin figma`. For WordPress sites install the 
 | Gate | `fe-guard` | UI-only contract for existing apps: fails a change that touches backend files, alters a network call or a call to one of the app's data functions (found from the code, not typed by hand), or drops, relabels or reorders a locked control. `--audit` checks the contract itself for holes |
 | Gate | `fe-responsive` | Viewport sweep 320 -> 1920, zoom, touch, overflow |
 | Gate | `fe-perf` | Core Web Vitals budgets with a failing CI gate |
-| Gate | `fe-judge` | Awwwards-style 40/30/20/10 rubric + a11y + dev gates |
+| Gate | `fe-judge` | Awwwards-style 40/30/20/10 rubric + a11y + dev gates. The jury, not the merge |
+| Gate | `fe-last-eye` | The last call before a merge. Ten lines, all at 8 or better, or the work goes back to the builder |
+| Gate | `fe-memory` | The memory of one project, so the next build does not repeat a miss |
 | Gate | `fe-regress` | Measured baseline, re-scan after every change, two-try rule before acting on a regression, revision log with before/after evidence |
 | Specialist | `fe-legend` | Pixel-level analysis of a poster or map legend, rebuilt as editable SVG/CSS tokens |
 
@@ -89,8 +96,26 @@ LEARN  -> fe-learn (tutorials) + fe-scan + fe-audit (own/any live site) + fe-ins
 THINK  -> fe-concept picks a point of view and signature move
 SYSTEM -> fe-extract -> fe-system -> fe-consistency -> fe-schema -> fe-figma-sync
 BUILD  -> fe-build + fe-editable + fe-motion
-GATE   -> fe-responsive -> fe-perf -> fe-judge (fe-scan + fe-audit re-run as the final proof)
-REFLECT-> fe-master writes what worked into design/knowledge/ so the next site starts smarter
+GATE   -> fe-responsive -> fe-perf -> fe-judge -> fe-last-eye (the only merge call)
+REFLECT-> fe-memory logs this project's misses; fe-master writes what worked into design/knowledge/
+FAMILY (several products) -> fe-family -> fe-drift, then fe-states / fe-forms / fe-shell on what failed
+```
+
+## The last eye
+
+`fe-judge` scores the page. It does not merge it. `fe-last-eye` is the last call: consistent, worth first place, animation, performance, responsive, backend, consistency across the product, clean, faithful to the reference, and a new game rather than the last attempt. Every line needs 8 or better. One miss writes `reprompt.md` and a line in that project's memory, and the builder (`fe-build`, or `/build-agents` when that is how the project builds) recreates those lines. The same finding is not sent around again. The third distinct miss stops and asks.
+
+```bash
+node skills/fe-memory/scripts/memory.mjs --project harbor --dir design/memory --subject home
+node skills/fe-last-eye/scripts/last-eye.mjs --card design/reports/last-eye/harbor/2026-11-17/scorecard.json --memory design/memory/harbor.jsonl --write
+```
+
+## One company, many products
+
+`fe-consistency` keeps one brand tidy, including the same brand on more than one domain. It is the wrong tool when the products are different brands that should only feel related. That job is `fe-family`: shared spacing, controls, focus, type ratio, icons, motion and the six states; each product keeps its own palette, logo and voice. `fe-drift` checks the numbers and fails if two brands share a brand color.
+
+```bash
+node skills/fe-drift/scripts/drift.mjs --family design/family/family.json --products design/family/products
 ```
 
 ## Change an app's UI without touching its backend
@@ -133,6 +158,7 @@ design/
   components/     component schemas
   schema/         JSON-LD templates per page type
   reports/        scan / audit / responsive / perf / judge / consistency outputs
+  memory/         fe-memory and fe-last-eye, one <project>.jsonl per product
   LESSONS.md      fe-master retrospective log
 ```
 
