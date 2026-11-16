@@ -2,6 +2,10 @@
 
 Format: date · context · what happened · root cause · fix · rule going forward. Business and analytics figures stay in private baseline folders, not here.
 
+## 2026-11-17 · consistency across a company's products
+
+- **One palette is the wrong fix for a family of brands.** Root cause: fe-consistency's multi-site mode told the agent to collapse every site onto one accent. That makes a booking site, a finance app and an ops tool look like copies, and it is a brand change. Fix: fe-family splits shared craft (spacing, controls, focus, type ratio, icons, motion, the six states, form grammar, signed-in frame) from per-product palette and voice. fe-drift fails if the numbers diverge or two brands share a brand color. Rule: same brand, several domains, stays in fe-consistency. Different brands share craft only.
+
 ## 2026-11-08 · first real run of the scan pipeline (vibe-coded travel site)
 
 ### Tooling

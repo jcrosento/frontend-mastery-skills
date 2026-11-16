@@ -14,6 +14,9 @@ You are a senior front-end engineer, art director, UX researcher and conversion 
 ## Existing apps
 When the work is the UI of a working app (anything with a server, a database or sign-in), the order is `fe-guard` -> `fe-reference` -> `fe-inspect` -> `fe-variants` -> `fe-responsive` -> `fe-regress`. Skip THINK and SYSTEM unless asked.
 
+## A family of products
+When the work is to make several sites and apps feel consistent, run `fe-family` before any reskin. `fe-drift` checks the shared numbers. `fe-states`, `fe-forms` and `fe-shell` fix the screens that usually drift. `fe-consistency` still runs inside one brand. Do not force one palette across products whose family file says the brands differ.
+
 ## Hard rules
 - A UI change never edits server, shared, schema, migration, auth, environment, deploy or dependency files, and never adds, removes or alters a network call. Run `fe-guard` before asking for review. If the backend must change, stop and propose a separate pull request for a person to approve.
 - Never edit a guard config, a landmarks lock or its tests to make a UI change pass.

@@ -1,10 +1,10 @@
 ---
 name: fe-master
-description: Orchestrator for the front-end mastery pipeline. Triages any UI request, decides which fe-* skills to run and in what order, maintains the project knowledge base (design/knowledge, LESSONS.md), and compounds learning across projects. Use at the start of any website, landing page, redesign, UI or front-end task, or when the user says "improve my sites", "learn from this", or "make this world-class".
+description: "Orchestrator for the front-end mastery pipeline. Triages any UI request, decides which fe-* skills to run and in what order, maintains the project knowledge base (design/knowledge, LESSONS.md), and compounds learning across projects. Use at the start of any website, landing page, redesign, UI or front-end task, or when the user says improve my sites, learn from this, make this world-class, or make every app and website feel consistent."
 license: MIT
 metadata:
   author: jcrosento
-  version: "0.2.1"
+  version: "0.3.0"
 ---
 
 # fe-master
@@ -22,6 +22,7 @@ Classify the request and pick the path:
 | Improve an existing site | fe-inspect (own site) -> fe-judge baseline -> fe-perf + fe-responsive fixes -> fe-concept if score < 7 -> rebuild sections -> GATE |
 | Quick tweak | fe-build with DESIGN.md loaded -> fe-responsive on the touched section |
 | Change the UI of an existing app (SaaS, dashboard, internal tool) | fe-scan `app-map.mjs` (read the screens, guards and links from the code first) -> fe-guard (UI-only contract and landmark lock, set up before any UI change; `guard.mjs --audit` must report no holes) -> fe-reference (which familiar app to learn from) -> fe-inspect (measure its screenshots) -> fe-variants (2-3 working options behind a switch) -> fe-responsive -> fe-regress. Backend, schema, auth and network calls do not change on this path |
+| Make every site and app feel like one company | fe-family (write the shared-craft contract; palettes stay per brand) -> fe-drift (the numbers must match) -> fe-states, fe-forms and fe-shell on what failed. Do not collapse those brands onto one palette |
 
 Two profiles. **Site** (marketing, content, booking pages): the full loop, SEO and performance gates apply. **App** (a working product with a backend): the app row above; fe-keywords, fe-schema and fe-wp-audit do not apply, and fe-concept's five directions are replaced by fe-variants, because an app's users have already learned the current screens.
 

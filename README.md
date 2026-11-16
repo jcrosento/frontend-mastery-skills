@@ -26,7 +26,7 @@ npx skills add jcrosento/frontend-mastery-skills -g -a cursor -y --skill fe-mast
 # update later
 npx skills update -g
 ```
-A full install is 25 skills; `npx skills list -g` should show all of them. Companion skills, all optional:
+A full install is 30 skills; `npx skills list -g` should show all of them. Companion skills, all optional:
 ```bash
 npx skills add pbakaus/impeccable -g -a cursor -y                    # design vocabulary and interface audits
 npx skills add emilkowalski/skills -g -a cursor -y                   # interaction and motion craft (app profile)
@@ -69,7 +69,12 @@ In Cursor you can also run `/add-plugin figma`. For WordPress sites install the 
 | Think | `fe-variants` | 2-3 working versions of one app screen behind a switch in one branch, compared on the same data; losers deleted before merge |
 | System | `fe-extract` | Tokens + DESIGN.md from inspections or code |
 | System | `fe-system` | Tokens -> CSS vars / Tailwind / ACSS / Figma variables + component schema |
-| System | `fe-consistency` | Enforces one palette, one type system, one icon set, one header/footer, one spacing scale across every page and site; auto-fix plans for Elementor and Bricks |
+| Family | `fe-family` | The contract for a group of products: one shared craft, a separate palette and voice per brand |
+| Family | `fe-drift` | Fails when a product leaves the shared craft numbers, or two brands share a brand color |
+| Family | `fe-states` | The six screens every product handles the same way: loading, empty, error, success, offline, not allowed |
+| Family | `fe-forms` | One form grammar for booking pages and signed-in apps |
+| Family | `fe-shell` | One signed-in frame: navigation, title, primary action, account menu |
+| System | `fe-consistency` | Inside one brand: one palette, one type system, one icon set, one header/footer, one spacing scale; auto-fix plans for Elementor and Bricks |
 | System | `fe-schema` | Top-notch JSON-LD: Organization, LocalBusiness subtypes, TouristTrip, Product, FAQ, Breadcrumb, Article; validation loop |
 | System | `fe-figma-sync` | Existing site -> Figma (html.to.design) and tokens <-> Figma variables via MCP |
 | Build | `fe-build` | Slop-free Astro / React / Bricks implementation |
@@ -91,6 +96,15 @@ SYSTEM -> fe-extract -> fe-system -> fe-consistency -> fe-schema -> fe-figma-syn
 BUILD  -> fe-build + fe-editable + fe-motion
 GATE   -> fe-responsive -> fe-perf -> fe-judge (fe-scan + fe-audit re-run as the final proof)
 REFLECT-> fe-master writes what worked into design/knowledge/ so the next site starts smarter
+FAMILY (several products) -> fe-family -> fe-drift, then fe-states / fe-forms / fe-shell on what failed
+```
+
+## One company, many products
+
+`fe-consistency` keeps one brand tidy, including the same brand on more than one domain. It is the wrong tool when the products are different brands that should only feel related. That job is `fe-family`: shared spacing, controls, focus, type ratio, icons, motion and the six states; each product keeps its own palette, logo and voice. `fe-drift` checks the numbers and fails if two brands share a brand color.
+
+```bash
+node skills/fe-drift/scripts/drift.mjs --family design/family/family.json --products design/family/products
 ```
 
 ## Change an app's UI without touching its backend
