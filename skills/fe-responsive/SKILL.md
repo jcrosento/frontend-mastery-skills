@@ -1,6 +1,6 @@
 ---
 name: fe-responsive
-description: Multi-device responsiveness audit and fix — viewport sweep at 320/390/768/1024/1280/1920, 200% zoom, landscape, touch targets, horizontal overflow, fluid type, container queries. Use when the user asks to check mobile, make responsive, test devices, or before shipping any page.
+description: "Multi-device responsiveness check and fix: viewport sweep at 320, 390, 768, 1024, 1280 and 1920, 200% zoom, landscape, touch targets, horizontal overflow, fluid type and container queries. Use when the user asks to check mobile, make something responsive or test devices, or before shipping a page. Not for speed; use fe-perf."
 license: MIT
 compatibility: Uses Playwright (MCP or node) for screenshots and DOM checks.
 metadata:

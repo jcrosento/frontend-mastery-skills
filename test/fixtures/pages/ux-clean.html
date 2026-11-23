@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Send money</title>
+<style>
+  body { font: 16px/1.5 system-ui, sans-serif; margin: 0; padding: 16px; color: #111; background: #fff; }
+  label { display: block; margin: 16px 0 4px; }
+  input { font: inherit; padding: 12px; width: 100%; box-sizing: border-box; min-height: 48px; border: 1px solid #555; }
+  button, .next { display: block; min-height: 48px; width: 100%; margin-top: 16px; font: inherit; color: #fff; background: #0b3d91; border: 0; text-align: center; line-height: 48px; text-decoration: none; }
+</style>
+</head>
+<body>
+<main>
+<h1>Send money</h1>
+<p>Balance ₱12,400</p>
+<form action="/send" method="get">
+<label for="amount">Amount</label>
+<input id="amount" name="amount" inputmode="decimal" autocomplete="off">
+<button type="submit">Review transfer</button>
+</form>
+<a class="next" href="/history">See past transfers</a>
+</main>
+</body>
+</html>

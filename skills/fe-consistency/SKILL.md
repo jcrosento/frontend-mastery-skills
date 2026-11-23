@@ -1,6 +1,6 @@
 ---
 name: fe-consistency
-description: "Enforce one palette, one type system, one icon set, one spacing scale, one header and one footer across every page of a single brand, including the same brand on more than one domain. Produces a consistency score and an auto-fix plan for Elementor, Bricks, Astro or React. Use when one site looks inconsistent. Different brands that should only share craft go to fe-family."
+description: "Enforce one palette, type system, icon set, spacing scale, header and footer across every page of a single brand, including that brand on more than one domain. Writes a consistency score and a fix plan for Elementor, Bricks, Astro or React. Use when one site looks inconsistent. Not for different brands that should only share craft; use fe-family."
 license: MIT
 metadata:
   author: jcrosento

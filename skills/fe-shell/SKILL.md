@@ -1,6 +1,6 @@
 ---
 name: fe-shell
-description: "One signed-in frame for every app: where navigation sits, where the page title and the one primary action sit, and where settings and the account menu live. Use when building or aligning a SaaS shell, a dashboard frame, or logged-in navigation across products."
+description: "One signed-in frame for every app: where navigation sits, where the page title and the one primary action sit, and where settings and the account menu live. Use when building or aligning a SaaS shell, a dashboard frame or logged-in navigation across products. Not for marketing site headers and footers; use fe-consistency."
 license: MIT
 metadata:
   author: jcrosento
@@ -31,6 +31,9 @@ On a phone the navigation becomes a list the person opens. The title and the pri
 2. Move pages into the frame without adding or removing a route. On an existing app, fe-guard runs first. Navigation rules and who may open a page are not UI.
 3. Check 390, 768 and 1440. At 390 the open navigation covers the work and closes on the same control that opened it. Nothing scrolls sideways.
 4. Confirm loading, empty, error, denied and offline from fe-states render inside the content region, with the frame still visible, so the person can leave.
+
+## What you write
+The frame, and `design/reports/shell.md`: the five regions, which routes moved into the frame, and the result of the 390, 768 and 1440 check.
 
 ## Hand-offs
 fe-family holds the sizes. fe-forms holds anything the primary action submits. fe-consistency holds the public header and footer of a `site`. A `site` with a small signed-in area uses this frame only behind sign-in.

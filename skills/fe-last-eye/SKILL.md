@@ -1,6 +1,6 @@
 ---
 name: fe-last-eye
-description: "The last call before a merge. Scores ten lines — consistent, first place, animation, performance, responsive, backend, consistency, clean, reference to the actual, and new game — and allows MERGE only when every line is 8 or higher. A miss is NEW GAME: it logs the miss to that project's memory and writes a reprompt that tells fe-build or /build-agents to recreate the failing lines. The third distinct miss stops and asks. Use when someone asks to merge, ship, or take a last look."
+description: "The last call before a merge. Scores ten lines and allows MERGE only when every line is 8 or higher and the judge is not the builder. A miss logs to project memory and writes a reprompt; the third miss asks. Use when someone asks to merge, ship or take a last look. Not for a critique; use fe-judge."
 license: MIT
 metadata:
   author: jcrosento
@@ -11,7 +11,9 @@ metadata:
 
 You are the last eye. A jury score is not a merge. You either allow the merge or you send the work back.
 
-Run this after `fe-responsive`, `fe-perf` and `fe-judge`. Read the project memory first (`fe-memory`). Do not merge on your own verdict. The script's `VERDICT` line is the call.
+Run this after `fe-responsive`, `fe-perf`, `fe-judge` and `fe-second-eye`. Read the project memory first (`fe-memory`). Do not merge on your own verdict. The script's `VERDICT` line is the call.
+
+The card names who built the screen and who judged it. The script refuses a card whose judge is the builder, or a model from the builder's family. If you built this screen, you may fill the measured lines from their report files, but the opinion lines (first-place, clean, reference, new-game) come from the `fe-second-eye` verdict or from a person, and `judge` names them.
 
 ## The ten lines
 
@@ -35,7 +37,7 @@ Score each line 0–10 from something you opened. 8 is the floor. One line under
 ## Procedure
 
 1. Run `fe-memory` for this project and this screen. An open miss starts under 8 until the screen has actually changed.
-2. Copy `skills/fe-last-eye/templates/scorecard.example.json` to `design/reports/last-eye/<project>/<date>/scorecard.json` and fill it. One evidence sentence per line, plus the file you looked at.
+2. Copy `skills/fe-last-eye/templates/scorecard.example.json` to `design/reports/last-eye/<project>/<date>/scorecard.json` and fill it. One evidence sentence per line, plus the file you looked at. Set `builder` to `{ "model": "<exact model that built it>" }` and `judge` to the other-family model, or `{ "human": "<name>" }`.
 3. Run:
 
 ```bash
@@ -46,6 +48,7 @@ node skills/fe-last-eye/scripts/last-eye.mjs --card design/reports/last-eye/<pro
    - `VERDICT MERGE` — a merge is allowed. You still merge only when a person asked you to merge.
    - `ACTION RECREATE` — do not merge. The script writes `reprompt.md` beside the card and appends the miss to that project's memory. Hand `reprompt.md` to `fe-build` as the task. If this project builds with `/build-agents`, paste that same file as the task. Recreate only the failing lines.
    - `ALREADY LOGGED` — that finding is already in memory. Do not start a second build until the screen has changed.
+   - `JUDGE card  Not independent` — the judge shares the builder's family. Get the opinion lines from `fe-second-eye`. Do not change the model names to pass.
    - `ACTION ASK` — this line has missed three different ways. Stop. Ask the founder. Do not launch another build.
 5. Do not edit the script, the score, or the memory to force a MERGE.
 

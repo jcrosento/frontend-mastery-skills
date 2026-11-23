@@ -1,6 +1,6 @@
 ---
 name: fe-regress
-description: Baseline, regression testing, revision discipline and the feedback loop for websites. Establish a measured baseline, re-scan after every change, apply the two-try rule (confirm any regression with a second run before acting), log revisions with before/after evidence, and keep a closed loop from user signals to the next revision. Use when the user asks about baselines, regression, before/after, revisions, QA gates, release checks, or how the site keeps improving.
+description: "Baseline, regression testing and revision discipline for websites: measure a baseline, re-scan after every change, confirm a regression with a second run before acting, and log revisions with before and after evidence. Use when the user asks about baselines, regression, before and after, QA gates or release checks. Not for the merge call; use fe-last-eye."
 license: MIT
 compatibility: Uses fe-scan scripts (run-all, compare), Search Console / GA4 / Clarity connectors when available, and git tags for revision history.
 metadata:

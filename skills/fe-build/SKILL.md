@@ -1,6 +1,6 @@
 ---
 name: fe-build
-description: Build production front-end sections and components in Astro, React (or Astro + React islands) or Bricks Builder that are distinctive, accessible and slop-free, using the project's tokens and DESIGN.md. Use when the user asks to build, code, implement, redesign or vibe-code a page, landing page, hero, section or component.
+description: "Build production sections and components in Astro, React or Bricks Builder that are distinctive, accessible and free of template slop, using the project's tokens and DESIGN.md. Use when the user asks to build, code, implement or redesign a page, hero, section or component. Not for changing the UI of a working app; start with fe-guard."
 license: MIT
 metadata:
   author: jcrosento

@@ -1,6 +1,6 @@
 ---
 name: fe-extract
-description: Turn an inspection report, screenshot or existing codebase into a design token set and DESIGN.md (colors, type scale, spacing, radius, shadow, motion, grid, voice). Use after fe-inspect, when the user asks for a design system, style guide, tokens, or wants a consistent look across pages or sites.
+description: "Turn an inspection report, screenshot or existing codebase into a design token set and DESIGN.md: colors, type scale, spacing, radius, shadow, motion, grid and voice. Use after fe-inspect, or when the user asks for a design system, style guide or tokens. Not for compiling tokens into Tailwind, CSS or Figma variables; use fe-system."
 license: MIT
 metadata:
   author: jcrosento

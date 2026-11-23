@@ -1,6 +1,6 @@
 ---
 name: fe-concept
-description: Out-of-the-box creative direction for websites. Generates 5 distinct concept directions from the brief, knowledge base and competitor gaps, scores them, commits to one, and defines a signature interaction and visual system seed. Use when the user wants something unique, "out of this world", award-level, differentiated, or before building any hero or homepage.
+description: "Creative direction for websites. Writes 5 distinct concept directions from the brief, knowledge base and competitor gaps, scores them, commits to one, and defines a signature interaction and a visual system seed. Use when the user wants something unique or award-level, or before building a hero or homepage. Not for working versions of an existing app screen; use fe-variants."
 license: MIT
 metadata:
   author: jcrosento

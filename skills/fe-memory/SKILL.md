@@ -1,6 +1,6 @@
 ---
 name: fe-memory
-description: "Reads and writes the memory of one specific project so the next build does not repeat a miss. Use before building or rebuilding a named site or app, and whenever a lesson belongs to that project rather than to the shared lesson file."
+description: "Reads and writes the memory of one project so the next build does not repeat a miss. Use before building or rebuilding a named site or app, and whenever a lesson belongs to that project. Not for lessons every project should reuse; those go to design/LESSONS.md through fe-master."
 license: MIT
 metadata:
   author: jcrosento

@@ -1,6 +1,6 @@
 ---
 name: fe-drift
-description: "Check that every product in a family still uses the same craft numbers, and that distinct brands do not share a brand color. Fails when spacing, control height, radius, focus ring, type ratio, icon size, motion duration, tap size or a required state drifts. Use after fe-family, and whenever tokens change in one app or website."
+description: "Check that every product in a family still uses the same craft numbers and that distinct brands do not share a brand color. Fails when spacing, control height, radius, focus ring, type ratio, icon size, motion duration, tap size or a required state drifts. Use after fe-family and whenever tokens change. Not for consistency inside one brand; use fe-consistency."
 license: MIT
 metadata:
   author: jcrosento

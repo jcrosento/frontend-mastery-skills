@@ -1,6 +1,6 @@
 ---
 name: fe-family
-description: "Write the family contract for products that should feel related without becoming the same brand. Separates shared craft (spacing, controls, focus, type ratio, icons, motion, states) from each product's palette, logo and voice. Use when every SaaS, app and website should feel consistent, or when products look unrelated or like copies of each other."
+description: "Write the family contract for products that should feel related without becoming the same brand. Separates shared craft (spacing, controls, focus, type ratio, icons, motion, states) from each product's palette, logo and voice. Use when several apps and websites should feel consistent, or look unrelated or like copies. Not for checking the numbers afterwards; use fe-drift."
 license: MIT
 metadata:
   author: jcrosento

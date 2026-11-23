@@ -1,6 +1,6 @@
 ---
 name: fe-wp-audit
-description: Deeply audit a WordPress site built with Elementor or Bricks Builder. Connects via the WordPress MCP Adapter, WordPress.com MCP, REST API, or an exported Elementor Website Kit / Bricks Global Export ZIP, then inventories global colors and fonts, theme styles, templates, headers/footers, library components, icons, media (size, format, alt text, naming), titles and meta descriptions, heading structure and plugins. Use when the user asks to analyze, audit, inspect or clean up a WordPress, Elementor or Bricks site, or asks what is in the builder or library.
+description: "Audit a WordPress site built with Elementor or Bricks through the WordPress MCP Adapter, REST API or an exported kit: global colors and fonts, templates, headers and footers, library components, media, titles and meta, headings and plugins. Use when the user asks to analyze, audit or clean up a WordPress, Elementor or Bricks site. Not for other sites; use fe-scan."
 license: MIT
 compatibility: WordPress 6.9+ with MCP Adapter plugin (HTTP at /wp-json/mcp/mcp-adapter-default-server, auth via Application Password) or WordPress.com/Jetpack MCP at https://public-api.wordpress.com/wpcom/v2/mcp/v1. Offline mode parses Elementor kit ZIP or Bricks export ZIP with scripts/wp-export-audit.mjs. Live DOM checks use Playwright.
 metadata:

@@ -1,6 +1,6 @@
 ---
 name: fe-master
-description: "Orchestrator for the front-end mastery pipeline. Triages any UI request, decides which fe-* skills to run and in what order, maintains the project knowledge base (design/knowledge, LESSONS.md), and compounds learning across projects. Use at the start of any website, landing page, redesign, UI or front-end task, or when the user says improve my sites, learn from this, make this world-class, or make every app and website feel consistent. Before a merge, the last call is fe-last-eye."
+description: "Orchestrator for the front-end skills. Triages a UI request, decides which fe-* skills run and in what order, and keeps the project knowledge base and lessons. Use at the start of any website, landing page, redesign or app UI task, or when the user says improve my site. Not for a single named job that one skill already covers."
 license: MIT
 metadata:
   author: jcrosento
@@ -23,7 +23,12 @@ Classify the request and pick the path:
 | Quick tweak | fe-build with DESIGN.md loaded -> fe-responsive on the touched section |
 | Change the UI of an existing app (SaaS, dashboard, internal tool) | fe-scan `app-map.mjs` (read the screens, guards and links from the code first) -> fe-guard (UI-only contract and landmark lock, set up before any UI change; `guard.mjs --audit` must report no holes) -> fe-reference (which familiar app to learn from) -> fe-inspect (measure its screenshots) -> fe-variants (2-3 working options behind a switch) -> fe-responsive -> fe-regress. Backend, schema, auth and network calls do not change on this path |
 | Make every site and app feel like one company | fe-family (write the shared-craft contract; palettes stay per brand) -> fe-drift (the numbers must match) -> fe-states, fe-forms and fe-shell on what failed. Do not collapse those brands onto one palette |
-| "Should we merge" / last look / ship it | fe-memory (read this project's open misses) -> fe-last-eye. MERGE is the only yes. NEW GAME writes a reprompt and the builder recreates the failing lines. The third miss asks the founder |
+| UX or accessibility audit of a screen, flow or app | fe-ux-audit (script first, then the ten heuristics by hand) -> fe-second-eye for a second evaluator |
+| SEO audit, not indexed, not ranking | fe-seo (reach, then signals, then speed) -> fe-schema and fe-keywords for the fixes. Site profile only |
+| Generate or replace an image | fe-imagery. Never as a screen mockup; options for a screen are fe-variants |
+| Copy a poster or map legend | fe-legend |
+| "Can we trust this score" / second opinion | fe-second-eye (blind before and after, a judge from another model family, both orders) |
+| "Should we merge" / last look / ship it | fe-memory (read this project's open misses) -> fe-second-eye (the builder does not grade its own screen) -> fe-last-eye. MERGE is the only yes. NEW GAME writes a reprompt and the builder recreates the failing lines. The third miss asks the founder |
 
 Two profiles. **Site** (marketing, content, booking pages): the full loop, SEO and performance gates apply. **App** (a working product with a backend): the app row above; fe-keywords, fe-schema and fe-wp-audit do not apply, and fe-concept's five directions are replaced by fe-variants, because an app's users have already learned the current screens.
 
@@ -50,10 +55,11 @@ One input should produce ten reusable outputs. For every inspiration or tutorial
 
 ## Done criteria
 - `design/reports/responsive.md`, `perf.md`, `judge.md` all PASS and are committed.
+- The opinion lines were judged by `fe-second-eye` (another model family, or a person), not by the model that built the screen. If that was not possible, the run log says "self-graded".
 - `fe-last-eye` has printed `VERDICT MERGE` for this screen. A `NEW GAME` is not done; the builder gets `reprompt.md` and runs once. `ASK` stops and waits for the founder.
 - App profile instead of the line above: guard, landmark lock, `app-map.mjs --strict` and the app's own tests pass; variant code is removed (`guard.mjs --final`); a person has looked at each touched screen.
 - `LESSONS.md` has a new dated entry: what was built, score, what to reuse, what to never do again.
 - At least 3 knowledge cards were created or updated.
 
 ## Output of a run
-A short run log in chat: path chosen, skills run, gates status, judge score, 3 lessons.
+A short run log in chat: path chosen, skills run, gates status, who built and who judged, judge score, 3 lessons.

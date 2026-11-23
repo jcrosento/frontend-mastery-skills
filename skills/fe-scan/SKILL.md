@@ -1,6 +1,6 @@
 ---
 name: fe-scan
-description: Deep automated scan of a live URL. Visits every page on real device profiles, screenshots section by section, measures every section's box model (padding, margin, gap, height, type sizes), walks the user flows (nav, CTA, forms, booking/checkout), runs monkey/fuzz testing with gremlins.js, records console/network errors, generates predicted attention + click heatmaps, captures a performance trace to find the real bottleneck (long tasks, render-blocking, LCP chain, third parties), and pulls PageSpeed Insights lab + CrUX field data. Outputs a graded scan report. Use when the user pastes a URL and asks to test, scan, grade, find bottlenecks, check speed, try the flow, or see how it behaves on devices.
+description: "Automated scan of a live URL: visits pages on real device profiles, measures every section, walks nav, CTA and form flows, runs monkey testing, records console and network errors, traces the performance bottleneck and pulls PageSpeed data into a graded report. Use when the user pastes a URL to test, scan or grade. Not for a designer's reading; use fe-audit."
 license: MIT
 compatibility: Node 18+, Playwright with Chromium (npx playwright install chromium), gremlins.js (npm i gremlins.js), optional PSI_API_KEY for PageSpeed Insights (25k req/day free) and CRUX_API_KEY for field data. Scripts in scripts/.
 metadata:
@@ -32,6 +32,8 @@ One URL in, one graded report out. The agent must run the scripts, read the arti
 | Robustness | 10 | monkey test: 0 uncaught errors, 0 failed requests, no layout collapse |
 | Attention design | 15 | primary CTA inside top-3 predicted attention zones on mobile and desktop; one dominant focal point per fold |
 | Spacing system | 10 | >= 90% of paddings/gaps on the 4px scale; <= 3 section padding presets |
+
+The grade is computed from measurements, so `fe-second-eye` and `fe-last-eye` may cite it as a measured line. The attention heatmap is predicted, not measured; a model's opinion of the page is not part of this grade.
 
 ## Output
 `design/reports/scan/<site>/<date>/`:

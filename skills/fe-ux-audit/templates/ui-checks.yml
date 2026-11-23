@@ -1,0 +1,47 @@
+# Copy to .github/workflows/ui-checks.yml in its own pull request.
+# It reads the app and changes nothing. It adds no dependency to the app: the checks are installed beside it.
+# Not yet run on a live repository. Treat the first run as the test: read its log before trusting a green tick.
+name: UI checks
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  ux-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      # EDIT 1: the command that starts the app with fake sign-in and seed data. Never real credentials.
+      START: npm run dev
+      # EDIT 2: where the app answers once it is up.
+      BASE: http://127.0.0.1:5000
+      # EDIT 3: the screens to check, separated by spaces.
+      SCREENS: "/ /requests /record"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: jcrosento/frontend-mastery-skills
+          path: .fe-checks
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci
+      - name: Install the checks beside the app
+        working-directory: .fe-checks
+        run: npm ci && npx playwright install --with-deps chromium
+      - name: Start the app
+        run: |
+          $START > app.log 2>&1 &
+          for i in $(seq 1 60); do curl -sf -o /dev/null "$BASE" && exit 0; sleep 2; done
+          cat app.log; exit 1
+      - name: Audit each screen on a phone
+        run: |
+          fail=0
+          for path in $SCREENS; do
+            node .fe-checks/skills/fe-ux-audit/scripts/ux-audit.mjs "$BASE$path" --device mobile --allow-loopback-fixture || fail=1
+          done
+          exit $fail

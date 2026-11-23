@@ -165,3 +165,26 @@ test('fe-last-eye: the command writes one memory line and a reprompt, and a seco
   assert.match(second.stdout, /ALREADY LOGGED performance/);
   assert.equal(readFileSync(memoryFile, 'utf8').trim().split('\n').length, 1);
 });
+
+test('fe-last-eye: a card judged by the builder, or by a model of the builder\'s family, is refused', () => {
+  const same = { ...example(), judge: { model: 'claude-opus-5.5' } };
+  const family = { ...example(), judge: { model: 'claude-fable-5.2' } };
+  for (const card of [same, family]) {
+    const result = evaluateCard(card, []);
+    assert.equal(result.status, 2, 'a self-graded card must not reach a verdict');
+    assert.equal(result.verdict, null);
+    assert.match(formatReport(card, result), /JUDGE/);
+    assert.doesNotMatch(formatReport(card, result), /VERDICT MERGE/);
+  }
+});
+
+test('fe-last-eye: a card with no builder or no judge is refused, and a person may judge any model', () => {
+  const { builder, ...noBuilder } = example();
+  const { judge, ...noJudge } = example();
+  assert.equal(evaluateCard(noBuilder, []).status, 2);
+  assert.equal(evaluateCard(noJudge, []).status, 2);
+  const human = { ...example(), judge: { human: 'Rhea' } };
+  assert.equal(evaluateCard(human, []).verdict, 'MERGE');
+  const claimed = { ...example(), judge: { model: 'claude-sonnet-5.5', family: 'openai' } };
+  assert.equal(evaluateCard(claimed, []).status, 2, 'a claimed family must not override the model name');
+});
