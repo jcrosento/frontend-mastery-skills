@@ -3,6 +3,8 @@
   "subject": "home",
   "date": "2026-11-17",
   "touches_server": false,
+  "builder": { "model": "claude-opus-5.5" },
+  "judge": { "model": "gpt-6.2-sol" },
   "lines": [
     {
       "id": "consistent",

@@ -1,6 +1,6 @@
 ---
 name: fe-learn
-description: Learn from tutorials, courses, articles, docs and videos and convert them into reusable technique cards for front-end, Figma, Astro, React, Bricks, animation and performance. Uses the /watch skill (claude-video) or transcripts for video. Use when the user shares a YouTube link, course, tutorial, article or says "learn this", "study this", "how did they do that".
+description: "Learn from tutorials, courses, articles, docs and videos and turn them into reusable technique cards for front-end, Figma, Astro, React, Bricks, animation and performance. Use when the user shares a YouTube link, course or article, or says learn this, study this, or how did they do that. Not for measuring a reference design; use fe-inspect."
 license: MIT
 compatibility: Best with bradautomates/claude-video (/watch) for video, fetch/browse tools for articles, Figma MCP for Figma files.
 metadata:

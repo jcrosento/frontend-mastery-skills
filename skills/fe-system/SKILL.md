@@ -1,6 +1,6 @@
 ---
 name: fe-system
-description: Compile design/tokens.json into target design-system schemas — CSS custom properties, Tailwind v4 @theme, Automatic.css settings for Bricks Builder, Figma variables via Figma MCP — and generate the component schema (props, variants, states). Use when the user mentions design system, tokens to code, Tailwind theme, ACSS, Bricks global styles, Figma variables, or component API.
+description: "Compile design/tokens.json into design-system targets: CSS custom properties, Tailwind v4 @theme, Automatic.css settings for Bricks, Figma variables, and a component schema of props, variants and states. Use when the user mentions tokens to code, Tailwind theme, ACSS, Bricks global styles or component API. Not for deriving tokens from a design; use fe-extract."
 license: MIT
 metadata:
   author: jcrosento

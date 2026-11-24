@@ -1,6 +1,6 @@
 ---
 name: fe-audit
-description: Audit a website the way a senior designer, UX researcher and conversion strategist would, by hand, screen by screen. Inspects typography (families, weights, sizes, line-height, tracking, hierarchy), color and contrast, corners, shadows, spacing, hover/focus/active states, buttons, tap padding, vh/vw and viewport bugs, consistency; walks every CTA and documents what happens after the click; finds the conversion bottleneck; rates simplicity and efficiency; checks headings, copy, trust, policies and legal pages; assesses readiness to connect to backend, CRM and booking systems; reviews schema, sitemap, robots, character encoding, title and meta lengths, and long-tail keyword opportunities from Google Suggest; and designs the user feedback loop. Use when the user asks for an audit, review, critique, UX teardown, why a site is not converting, or to improve an existing site.
+description: "Hand audit of a live website as a senior designer and conversion strategist would: type, color, spacing, states, every CTA and what follows the click, trust, legal pages and SEO hygiene, with a score card and ranked fixes. Use when the user asks for a site audit or why a site is not converting. Not for app screens; use fe-ux-audit."
 license: MIT
 compatibility: Uses fe-scan scripts (deep-scan, elements, trace, psi, seo-hygiene) for evidence; Search Console / Analytics / Clarity connectors when available; Playwright for manual-style walkthroughs.
 metadata:
@@ -81,6 +81,7 @@ For each primary CTA on each key page:
 `design/reports/audit/<site>/<date>/audit.md`:
 1. Executive verdict (3 sentences) + score card (Visual craft, Interaction, Consistency, Conversion, Simplicity, Trust/Legal, Backend readiness, SEO hygiene, each /10).
 2. The conversion bottleneck (one paragraph, with numbers).
+   The score card is your opinion. On a site you built or changed, it is self-graded: say so, and send the before and after to `fe-second-eye` before anyone cites it as an improvement.
 3. Top 10 fixes ranked by impact/effort, each with screenshot reference and exact change.
 4. Section-by-section findings with measurements.
 5. Backend/CRM readiness table and event plan.

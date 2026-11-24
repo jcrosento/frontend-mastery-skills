@@ -1,6 +1,6 @@
 ---
 name: fe-variants
-description: Build two or three real, working versions of one screen behind a switch in a single branch, compare them on the same data, pick one and delete the rest. Use when the user wants to see design options for an existing app screen, asks for concepts or alternatives, or when a redesign direction is uncertain. Replaces one-branch-per-concept and generated mockup images.
+description: "Build two or three real, working versions of one screen behind a switch in a single branch, compare them on the same data, pick one and delete the rest. Use when the user wants design options for an existing app screen or a redesign direction is uncertain. Not for concept directions before anything is built; use fe-concept."
 license: MIT
 compatibility: Any component framework. The picker template is TypeScript for Vite; adapt the environment check for other bundlers. Depends on fe-guard for the UI-only and landmark checks.
 metadata:

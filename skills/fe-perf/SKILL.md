@@ -1,6 +1,6 @@
 ---
 name: fe-perf
-description: Core Web Vitals and front-end performance gate — Lighthouse mobile ≥ 90, LCP < 2.5s, INP < 200ms, CLS < 0.1, bundle and image budgets, font loading, third-party control. Use when the user asks for speed, performance, PageSpeed, Lighthouse, Core Web Vitals, SEO readiness, or before shipping.
+description: "Core Web Vitals and performance gate: Lighthouse mobile 90 or higher, LCP under 2.5s, INP under 200ms, CLS under 0.1, bundle and image budgets, font loading and third-party control. Use when the user asks about speed, PageSpeed, Lighthouse or Core Web Vitals, or before shipping. Not for tracing which request is the bottleneck on a live URL; use fe-scan."
 license: MIT
 compatibility: Uses Lighthouse CLI (npx lighthouse) or PageSpeed Insights API; node 18+.
 metadata:

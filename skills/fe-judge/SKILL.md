@@ -1,6 +1,6 @@
 ---
 name: fe-judge
-description: Score a page like an Awwwards / CSS Design Awards jury — Design 40%, Usability 30%, Creativity 20%, Content 10% — plus accessibility and development quality, with blocking issues and concrete fixes. Use when the user asks for a critique, review, audit, rating, "would this win", or as the final gate before launch.
+description: "Score a page like an Awwwards jury: Design 40%, Usability 30%, Creativity 20%, Content 10%, plus accessibility and development gates, with blocking issues and fixes. Use when the user asks for a critique, a rating, or whether a page would win. Not for the merge decision (fe-last-eye), and not for judging a screen you built yourself (fe-second-eye)."
 license: MIT
 metadata:
   author: jcrosento
@@ -32,5 +32,7 @@ Add two gates that must pass regardless of score:
 
 ## Output
 `design/reports/judge.md` with the rubric table, blocking issues, upgrades and final score. End with a one-line verdict: SHIP / FIX THEN SHIP / REDESIGN.
+
+If you built or changed this page, this score is self-graded. Write "self-graded" beside it and hand the before and after to `fe-second-eye`; only that verdict may be cited as proof the page got better.
 
 This verdict is the jury. It is not the merge call. `fe-last-eye` is the last eye, and only its MERGE may be merged.

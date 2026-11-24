@@ -1,6 +1,8 @@
 // Scorecard rules for the last eye. Pure: no files, no network.
 // A merge is allowed only when every scored line is 8 or higher.
 // One miss is a new game: hand that line back to the builder.
+// The card is refused when the judge is the builder, or a model from the builder's family.
+import { familyOf, independence } from '../../fe-second-eye/scripts/second-eye-core.mjs';
 
 export const LINE_IDS = [
   'consistent',
@@ -19,7 +21,7 @@ export const FLOOR = 8;
 // Two logged misses may be rebuilt. The third distinct miss stops and asks.
 export const ASK_AT = 3;
 
-const CARD_KEYS = new Set(['project', 'subject', 'date', 'touches_server', 'lines']);
+const CARD_KEYS = new Set(['project', 'subject', 'date', 'touches_server', 'builder', 'judge', 'lines']);
 const LINE_KEYS = new Set(['id', 'score', 'na', 'evidence', 'source', 'do_not_repeat']);
 const BANNED = new Set(['pass', 'ok', 'lgtm', 'looks good', 'todo', 'tbd', 'n/a', 'na', 'yes', 'fine', 'good', 'ship it']);
 
@@ -91,6 +93,8 @@ function shapeOf(card) {
   if (!slug(card.subject, 40)) failures.push({ code: 'shape', id: null, message: 'subject must be a short lowercase slug.' });
   if (!realDate(card.date)) failures.push({ code: 'shape', id: null, message: 'date must be a real YYYY-MM-DD day.' });
   if (typeof card.touches_server !== 'boolean') failures.push({ code: 'shape', id: null, message: 'touches_server must be true or false.' });
+  const conflict = independence(card.builder, card.judge);
+  if (conflict) failures.push({ code: 'judge', id: null, message: `Not independent: ${conflict}` });
   if (!Array.isArray(card.lines) || card.lines.length !== LINE_IDS.length) {
     failures.push({ code: 'shape', id: null, message: `lines must be the ten lines, in order: ${LINE_IDS.join(', ')}.` });
     return failures;
@@ -218,9 +222,9 @@ function label(id) {
 
 export function formatReport(card, result) {
   if (result.status === 2) {
-    return ['LAST EYE  card refused', ...result.failures.map(item => `SHAPE ${item.id || 'card'}  ${item.message}`)].join('\n');
+    return ['LAST EYE  card refused', ...result.failures.map(item => `${item.code === 'judge' ? 'JUDGE' : 'SHAPE'} ${item.id || 'card'}  ${item.message}`)].join('\n');
   }
-  const lines = [`LAST EYE  ${card.project}  ${card.subject}  ${card.date}`];
+  const lines = [`LAST EYE  ${card.project}  ${card.subject}  ${card.date}`, `JUDGE built by ${familyOf(card.builder)}, judged by ${familyOf(card.judge)}`];
   for (const id of result.already) lines.push(`ALREADY LOGGED ${id}`);
   const byId = new Map(result.misses.map(item => [item.id, item]));
   for (const line of card.lines) {

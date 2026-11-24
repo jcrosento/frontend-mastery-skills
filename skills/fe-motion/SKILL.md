@@ -1,6 +1,6 @@
 ---
 name: fe-motion
-description: Design and implement top-tier web animation — scroll choreography, hero reveals, hover micro-interactions, page transitions, smooth scroll, WebGL/3D accents — at 60fps with reduced-motion fallbacks, using CSS, Motion (framer-motion) or GSAP + ScrollTrigger. Use when the user asks for animations, motion, interactions, parallax, "out of this world", Awwwards-style or immersive effects.
+description: "Design and implement web animation at 60fps with reduced-motion fallbacks: scroll choreography, hero reveals, hover micro-interactions, page transitions and WebGL accents, using CSS, Motion or GSAP with ScrollTrigger. Use when the user asks for animation, motion, interactions, parallax or immersive effects. Not for fixing slow load or layout shift; use fe-perf."
 license: MIT
 metadata:
   author: jcrosento

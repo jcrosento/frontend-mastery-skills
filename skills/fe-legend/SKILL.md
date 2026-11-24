@@ -1,6 +1,6 @@
 ---
 name: fe-legend
-description: Pixel-level analysis of a reference poster or map legend (race route posters, infographics, wayfinding). Crops the legend/badge/stats regions, extracts palette, tile sizes, row pitch, icon shapes and label typography into a legend-spec JSON, then proposes improvements and rebuilds the legend as editable SVG/CSS tokens. Use when the user says "copy this legend", "match this poster", or supplies a reference image plus route data (GPX/TCX).
+description: "Pixel-level analysis of a reference poster or map legend: crops the legend, badge and stats regions, extracts palette, tile sizes, row pitch, icon shapes and label type into a legend spec, then rebuilds it as editable SVG and CSS tokens. Use when the user says copy this legend or match this poster. Not for app or website screens; use fe-inspect."
 license: MIT
 metadata:
   author: jcrosento

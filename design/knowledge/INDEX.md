@@ -9,3 +9,5 @@
 | Pin the page during monkey tests | tooling | playwright, gremlins.js | true | 1 | deep-scan crash incident |
 | Shared craft, separate palettes | component | tokens, multi-product | false | 0 | family contract, not yet run on live products |
 | Last eye before a merge | tooling | process | false | 0 | ten-line scorecard, not yet run on a live merge |
+| The builder is not the judge | tooling | process, models | false | 0 | fe-second-eye, research on model self-preference |
+| Sources, tools and datasets | tooling | reference | false | 0 | checked 2026-11-23 |

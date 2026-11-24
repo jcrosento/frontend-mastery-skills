@@ -15,7 +15,7 @@ The installer needs Node 22.20 or newer (`node -v`). On an older Node it stops b
 ```bash
 # recommended on your own machine: once, for every project, nothing added to any app repository
 npx skills add jcrosento/frontend-mastery-skills -g -a cursor -y
-npm i --prefix ~/.agents playwright gremlins.js && ~/.agents/node_modules/.bin/playwright install chromium   # browser for the scripts
+npm i --prefix ~/.agents playwright gremlins.js axe-core && ~/.agents/node_modules/.bin/playwright install chromium   # browser for the scripts
 
 # or per project, when teammates or cloud agents need the same skills (adds .agents/skills/ and skills-lock.json)
 npx skills add jcrosento/frontend-mastery-skills -a cursor -y
@@ -26,7 +26,7 @@ npx skills add jcrosento/frontend-mastery-skills -g -a cursor -y --skill fe-mast
 # update later
 npx skills update -g
 ```
-A full install is 32 skills; `npx skills list -g` should show all of them. Companion skills, all optional:
+A full install is 36 skills; `npx skills list -g` should show all of them. Companion skills, all optional:
 ```bash
 npx skills add pbakaus/impeccable -g -a cursor -y                    # design vocabulary and interface audits
 npx skills add emilkowalski/skills -g -a cursor -y                   # interaction and motion craft (app profile)
@@ -38,11 +38,21 @@ Cursor reads skills from `~/.agents/skills/` (global) and `.agents/skills/` (pro
 
 Cursor Cloud Agents (the ones you start from a phone or the web) run on a fresh machine each time. They do not get the global install from your computer, and a global install made inside one cloud chat is gone in the next. For those, use the per-project install once, in its own pull request; after it is merged every new chat lists the skills under `/`. A chat that was already open keeps the list it started with.
 
+How Cursor decides what to load: the one-line description of every installed skill is in every chat, and the body of a skill is read only when the request matches it or you type `/` and its name. That is why each description here is 60 words or fewer and says when to use it and what it is not for. `npm run grade` checks this.
+
 ```text
 /fe-master App profile. Simplify the Send Money screen. UI only: do not touch the server, schema, auth or any network call. Read the screen map first, then show me what you will change before you change it.
 /fe-master Site profile. Audit https://example.com and give me the top 10 fixes with evidence.
 /fe-guard Set up the UI-only contract for this app in its own pull request. Change nothing else. Run guard.mjs --audit and paste its output.
+/fe-ux-audit Audit the Send Money screen on a phone. Run the script first and paste its output, then do the by-hand list.
+/fe-second-eye Judge the before and after of this screen. You did not build it. Open only the packet folder.
 ```
+
+**The builder is not the judge.** A model prefers its own work, and the work of models from its own company. So the chat that built a screen does not score it. Two ways to get a second eye in Cursor:
+- Start a new chat, pick a model from a different company in the model picker, and run `/fe-second-eye` there. This works on a phone and in Cloud Agents.
+- Or copy `skills/fe-second-eye/templates/second-eye.agent.md` to `.cursor/agents/second-eye.md` in the app. Cursor then offers a read-only "second-eye" subagent that always runs on the model named in that file.
+
+`fe-last-eye` refuses a scorecard whose judge is the builder or a model of the builder's family. A person can always be the judge.
 Scripts run from where the skills were installed, for example from an app folder:
 ```bash
 node ~/.agents/skills/fe-scan/scripts/app-map.mjs --root . --declared docs/sitemap.md     # screens, guards and links of an app behind a login
@@ -60,6 +70,8 @@ In Cursor you can also run `/add-plugin figma`. For WordPress sites install the 
 | Learn | `fe-learn` | Turns tutorials, courses, articles and videos into reusable technique cards |
 | Observe | `fe-scan` | Automated evidence: 5 device profiles, section screenshots + box-model, flow walk, monkey test (`--no-forms` safe mode), heatmaps, element census, throttled CDP trace -> bottleneck, SEO hygiene, PSI + CrUX; for apps behind a login, a screen map read from the source (routes, guards, redirects, dead links) |
 | Observe | `fe-audit` | Human-designer audit on top of the evidence: typography, color, corners, states, tap padding, vh/vw, consistency, after-the-click, conversion bottleneck, simplicity, trust/legal, CRM/booking readiness, schema/sitemap/characters/long-tail, feedback loop |
+| Observe | `fe-ux-audit` | A UX auditor's checklist. A script runs the accessibility rules (axe), tap sizes, small text, sideways scroll, dead controls, leaked text and console errors on one screen; the rest is done by hand against ten heuristics, with a severity for each finding |
+| Observe | `fe-seo` | An SEO auditor's checklist in the order problems block each other: can it be reached, can it be read, is it fast, is it understood; mapped to the scan scripts and one outside checker |
 | Observe | `fe-inspect` | Pixel / element / device teardown of any URL or Figma frame; calibrated measurement of app screenshots (position, size, corner radius), each box re-measured 20 times and refused if it moves, labelled by source app, with the product's own screenshots refused as references |
 | Observe | `fe-competitor` | Deep competitor analysis: UX flows, conversion patterns, SEO, speed, gaps to exploit |
 | Observe | `fe-wp-audit` | Connects to WordPress (MCP Adapter / REST / export ZIP) and audits Elementor + Bricks globals, templates, media, meta, icons, headers |
@@ -79,12 +91,14 @@ In Cursor you can also run `/add-plugin figma`. For WordPress sites install the 
 | System | `fe-figma-sync` | Existing site -> Figma (html.to.design) and tokens <-> Figma variables via MCP |
 | Build | `fe-build` | Slop-free Astro / React / Bricks implementation |
 | Build | `fe-editable` | Builder-like editability: content schemas, slots, visual-edit friendly structure |
+| Build | `fe-imagery` | Text to image for hero art, illustrations, empty states, icons and social cards: prompt recipe, model choice, export sizes, and a record of how each image was made. Never a screen mockup |
 | Build | `fe-motion` | 60fps, reduced-motion-safe animation that tells a story |
 | Gate | `fe-guard` | UI-only contract for existing apps: fails a change that touches backend files, alters a network call or a call to one of the app's data functions (found from the code, not typed by hand), or drops, relabels or reorders a locked control. `--audit` checks the contract itself for holes |
 | Gate | `fe-responsive` | Viewport sweep 320 -> 1920, zoom, touch, overflow |
 | Gate | `fe-perf` | Core Web Vitals budgets with a failing CI gate |
 | Gate | `fe-judge` | Awwwards-style 40/30/20/10 rubric + a11y + dev gates. The jury, not the merge |
-| Gate | `fe-last-eye` | The last call before a merge. Ten lines, all at 8 or better, or the work goes back to the builder |
+| Gate | `fe-second-eye` | Independent judging: a blind before and after, judged by a model from another family in both orders, or by a person. A choice that flips with the order does not count |
+| Gate | `fe-last-eye` | The last call before a merge. Ten lines, all at 8 or better, judged by someone other than the builder, or the work goes back |
 | Gate | `fe-memory` | The memory of one project, so the next build does not repeat a miss |
 | Gate | `fe-regress` | Measured baseline, re-scan after every change, two-try rule before acting on a regression, revision log with before/after evidence |
 | Specialist | `fe-legend` | Pixel-level analysis of a poster or map legend, rebuilt as editable SVG/CSS tokens |
@@ -92,18 +106,28 @@ In Cursor you can also run `/add-plugin figma`. For WordPress sites install the 
 ## The loop
 
 ```
-LEARN  -> fe-learn (tutorials) + fe-scan + fe-audit (own/any live site) + fe-inspect (inspirations) + fe-competitor (market) + fe-wp-audit (WordPress) + fe-keywords (demand)
+LEARN  -> fe-learn (tutorials) + fe-scan + fe-audit (own/any live site) + fe-ux-audit (screens) + fe-seo (search) + fe-inspect (inspirations) + fe-competitor (market) + fe-wp-audit (WordPress) + fe-keywords (demand)
 THINK  -> fe-concept picks a point of view and signature move
 SYSTEM -> fe-extract -> fe-system -> fe-consistency -> fe-schema -> fe-figma-sync
-BUILD  -> fe-build + fe-editable + fe-motion
-GATE   -> fe-responsive -> fe-perf -> fe-judge -> fe-last-eye (the only merge call)
+BUILD  -> fe-build + fe-editable + fe-motion + fe-imagery
+GATE   -> fe-responsive -> fe-perf -> fe-judge -> fe-second-eye (not the builder) -> fe-last-eye (the only merge call)
 REFLECT-> fe-memory logs this project's misses; fe-master writes what worked into design/knowledge/
 FAMILY (several products) -> fe-family -> fe-drift, then fe-states / fe-forms / fe-shell on what failed
 ```
 
+## Grade the skills
+
+```bash
+npm run grade            # every skill, out of 100, with the reason for each lost point
+npm run grade -- --strict   # exit 1 unless every skill is 100; part of `npm run verify`
+```
+The grade is about packaging: does the skill install, is its description short and does it say when to use it and what it is not for, do the files it names exist, do its scripts parse, does something route to it, does it say what it writes, and does a skill that scores work send that score to `fe-second-eye`. It does not grade the design a skill produces. That is measured on real screens, by `fe-ux-audit` and by a `fe-second-eye` verdict.
+
+Where the tools, models and datasets behind these skills come from: `design/knowledge/tooling/sources-and-datasets.md`.
+
 ## The last eye
 
-`fe-judge` scores the page. It does not merge it. `fe-last-eye` is the last call: consistent, worth first place, animation, performance, responsive, backend, consistency across the product, clean, faithful to the reference, and a new game rather than the last attempt. Every line needs 8 or better. One miss writes `reprompt.md` and a line in that project's memory, and the builder (`fe-build`, or `/build-agents` when that is how the project builds) recreates those lines. The same finding is not sent around again. The third distinct miss stops and asks.
+`fe-judge` scores the page. It does not merge it. `fe-last-eye` is the last call: consistent, worth first place, animation, performance, responsive, backend, consistency across the product, clean, faithful to the reference, and a new game rather than the last attempt. Every line needs 8 or better, and the card names who built the screen and who judged it; the judge may not be the builder or a model of the builder's family. One miss writes `reprompt.md` and a line in that project's memory, and the builder (`fe-build`, or `/build-agents` when that is how the project builds) recreates those lines. The same finding is not sent around again. The third distinct miss stops and asks.
 
 ```bash
 node skills/fe-memory/scripts/memory.mjs --project harbor --dir design/memory --subject home

@@ -1,6 +1,6 @@
 ---
 name: fe-states
-description: "Design the six screens every product must share: loading, empty, error, success, offline and not allowed. Covers what the person sees, the one next action, and the sentence shape. Use when a screen is blank, a list can be empty, a save can fail, or products handle those moments differently."
+description: "Design the six screens every product must share: loading, empty, error, success, offline and not allowed. Covers what the person sees, the one next action and the sentence shape. Use when a screen is blank, a list can be empty, a save can fail, or products handle those moments differently. Not for field-level validation; use fe-forms."
 license: MIT
 metadata:
   author: jcrosento

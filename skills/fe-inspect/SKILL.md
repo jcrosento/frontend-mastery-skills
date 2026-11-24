@@ -1,6 +1,6 @@
 ---
 name: fe-inspect
-description: Pixel-by-pixel, element-by-element, device-by-device inspection of a reference website, screenshot, photo or Figma frame. Use when the user shares an inspiration link or image, says "make it look like this", asks to study, measure, tear down or clone a site's UI, or before any front-end build that has a reference.
+description: "Measured inspection of a reference website, screenshot, photo or Figma frame, element by element and device by device. Use when the user shares an inspiration link or image, says make it look like this, asks to measure or clone a UI, or before a build that has a reference. Not for grading the user's own live site; use fe-scan."
 license: MIT
 compatibility: Best with Playwright MCP or a browser tool for live URLs; image analysis for photos/screenshots; Figma MCP for Figma links.
 metadata:

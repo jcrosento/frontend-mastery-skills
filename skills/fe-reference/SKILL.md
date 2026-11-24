@@ -1,6 +1,6 @@
 ---
 name: fe-reference
-description: "Decide which widely-used app a venture flow should borrow its interaction grammar from, then produce a measured, provenance-tagged brief that build skills consume. Familiar-first, refined-second: structure and sequence are borrowed, chrome is subtracted, finish is elevated. Use when the user asks which app to copy, wants inspiration for a flow, or asks whether a design is familiar, fast and minimal enough."
+description: "Decide which widely used app a flow should borrow its interaction grammar from, then write a measured, provenance-tagged brief that build skills consume. Structure is borrowed, chrome is subtracted, finish is elevated. Use when the user asks which app to copy, wants inspiration for a flow, or asks if a design is familiar enough. Not for market comparison; use fe-competitor."
 license: MIT
 compatibility: Node 18+. Reads skills/fe-reference/references/*. Uses fe-inspect for screenshot measurement, fe-guard for the landmark lock and element count, and scripts/gates.mjs to enforce the gates. Screenshots stay in the venture's private design folder; only measurements enter this repo.
 metadata:
@@ -24,7 +24,7 @@ Users judge every new screen against mental templates built in the apps they use
 | Minimalism headroom | 15 | Share of visible chrome removable without breaking the mental model (fe-scan element census) |
 | Aesthetic ceiling | 10 | Type, spacing, motion quality; lowest weight because this layer is replaced, not borrowed |
 
-Scores are 1-5. Every score carries a `source`. Weights are fixed by `templates/matrix.schema.json`; change them by PR, never per run. `gates.mjs --matrix` recomputes the totals and fails if the recorded winner is not the one the numbers select, or if the top two tie.
+Scores are 1-5. Every score carries a `source`. Weights are fixed by `templates/matrix.schema.json`; change them by PR, never per run. `gates.mjs --matrix` recomputes the totals and fails if the recorded winner is not the one the numbers select, or if the top two tie. The matrix is scored by whoever runs this skill. When the winner will steer a redesign, show the top two to the user, or to `fe-second-eye`, before the brief is written.
 
 ## Library
 | Folder | Status | Shape of the app |

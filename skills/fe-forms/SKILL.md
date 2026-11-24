@@ -1,6 +1,6 @@
 ---
 name: fe-forms
-description: "One form grammar for websites and signed-in apps. Label above the field, error under the field, validate on blur, one primary action, money and date inputs that do not zoom the phone. Use when building or fixing a booking form, checkout, settings form, or any screen where a person types."
+description: "One form grammar for websites and signed-in apps: label above the field, error under it, validate on blur, one primary action, and money and date inputs that do not zoom the phone. Use when building or fixing a booking form, checkout, settings form or any screen where a person types. Not for loading, empty or error screens; use fe-states."
 license: MIT
 metadata:
   author: jcrosento
@@ -40,6 +40,9 @@ The grammar is the same. A website form lives in the page. An app form lives in 
 2. Build the six surrounding states with fe-states for the submit action (loading, error, success, offline at minimum).
 3. Check at 390 and 1440: nothing covered, nothing cut off, the primary action visible without hunting.
 4. On an existing app, run fe-guard. The form may change markup and styles. It may not change the request, the field names the server already accepts, or the price.
+
+## What you write
+The form, and `design/reports/forms.md`: one row per field (label, required, keyboard, error sentence) and the result of the 390 and 1440 check.
 
 ## Hand-offs
 Field errors are this skill. The whole-page failure is fe-states. Token sizes are fe-family and fe-drift. Backend and payment logic stay out of the UI change.

@@ -1,6 +1,6 @@
 ---
 name: fe-guard
-description: UI-only contract for changing the interface of an existing app without touching its backend. Fails a change that edits server, shared, schema, migration, auth, environment or dependency files, alters a network call, or breaks a locked landmark. Use before and after any redesign, reskin or UX change to a working SaaS or web app, when the user says "don't break the backend", "UI only", "keep the logic", or asks whether a redesign is safe to merge.
+description: "UI-only contract for changing the interface of a working app without touching its backend. Fails a change that edits server, shared, schema, migration, auth, environment or dependency files, alters a network call, or breaks a locked landmark. Use before and after any redesign of a SaaS or web app. Not for marketing sites with no server."
 license: MIT
 compatibility: Node 18+ and git. guard.mjs and lock-core.mjs have no dependencies. lock-check.mjs needs Playwright (offline, scripts disabled).
 metadata:
