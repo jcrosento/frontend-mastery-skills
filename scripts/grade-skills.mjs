@@ -1,5 +1,6 @@
 #!/usr/bin/env node
-// Usage: node scripts/grade-skills.mjs [--strict] [--json] [--skill fe-x]
+// Usage: node scripts/grade-skills.mjs [--strict] [--json] [--skill fe-x] [--dir <a skills folder>]
+// --dir grades any project's skills folder (for example an app's .cursor/skills) and writes nothing.
 // Grades how each skill is packaged, out of 100. Every point comes from a check a machine can repeat.
 // It does not grade the design a skill produces. That is fe-second-eye's job, on real screens.
 // --strict exits 1 when any skill is under 100.
@@ -37,7 +38,7 @@ export function words(text) {
   return String(text).trim().split(/\s+/).filter(Boolean).length;
 }
 
-export function gradeSkill(folder, { skillsDir = join(root, 'skills'), routing = '' } = {}) {
+export function gradeSkill(folder, { skillsDir = join(root, 'skills'), routing = '', outside = false } = {}) {
   const dir = join(skillsDir, folder);
   const file = join(dir, 'SKILL.md');
   const got = Object.fromEntries(CHECKS.map(([id]) => [id, 0]));
@@ -60,7 +61,9 @@ export function gradeSkill(folder, { skillsDir = join(root, 'skills'), routing =
   if (text.length <= 10_000) got.body = 10; else notes.push(`SKILL.md is ${text.length} characters; the limit is 10,000`);
 
   const missing = new Set();
-  for (const [, path] of text.matchAll(/\bskills\/(fe-[a-z-]+\/[\w./-]+\.[a-z]{2,5})\b/g)) {
+  for (const [, path] of text.matchAll(/\bskills\/([a-z0-9]+(?:-[a-z0-9]+)*\/[\w./-]+\.[a-z]{2,5})\b/g)) {
+    // Only a skill that is installed here can be checked; a path into somebody else's skill pack is not ours to fail.
+    if (!existsSync(join(skillsDir, path.split('/')[0]))) continue;
     if (!existsSync(join(skillsDir, path))) missing.add(`skills/${path}`);
   }
   for (const [, path] of text.matchAll(/(?:^|[\s`(])((?:scripts|templates|references|examples)\/[\w./-]+\.[a-z]{2,5})\b/g)) {
@@ -74,37 +77,63 @@ export function gradeSkill(folder, { skillsDir = join(root, 'skills'), routing =
     .filter(path => spawnSync(process.execPath, ['--check', path]).status !== 0);
   if (!broken.length) got.scripts = 10; else notes.push(`does not parse: ${broken.map(path => path.slice(dir.length + 1)).join(', ')}`);
 
-  if (new RegExp(`\\b${folder}\\b`).test(routing)) got.routed = 10; else notes.push('neither AGENTS.md nor fe-master names it');
+  if (new RegExp(`\\b${folder}\\b`).test(routing)) got.routed = 10;
+  else notes.push(outside ? 'no AGENTS.md, rule or other skill names it; it loads only when its description matches' : 'neither AGENTS.md nor fe-master names it');
   if (/^#+ *(Output|What you write|Deliver|Report)/im.test(body) || /design\/[\w<>./-]+/.test(body)) got.output = 5;
   else notes.push('does not say what it writes');
 
   const judges = (body.match(/\b(scores?|scored|verdict|rubric)\b/gi) || []).length >= 3;
-  if (!judges || folder === 'fe-second-eye' || /\bfe-second-eye\b/.test(body)) got.independent = 5;
-  else notes.push('scores work but does not send the score to fe-second-eye');
+  // In another project the second eye may go by another name, as long as the scorer is not the builder.
+  const elsewhere = outside && /\b(second[- ]eye|another model|different model|independent (judge|review|reviewer)|a person (scores|judges|reviews))\b/i.test(body);
+  if (!judges || folder === 'fe-second-eye' || /\bfe-second-eye\b/.test(body) || elsewhere) got.independent = 5;
+  else notes.push(outside ? 'scores work and nothing says someone other than the builder checks the score' : 'scores work but does not send the score to fe-second-eye');
 
   const score = Object.values(got).reduce((sum, value) => sum + value, 0);
   return { skill: folder, score, got, notes };
 }
 
-export function gradeAll({ skillsDir = join(root, 'skills') } = {}) {
-  const folders = readdirSync(skillsDir).filter(name => statSync(join(skillsDir, name)).isDirectory()).sort();
-  const master = join(skillsDir, 'fe-master', 'SKILL.md');
-  const agents = join(root, 'AGENTS.md');
-  const base = (existsSync(agents) ? readFileSync(agents, 'utf8') : '');
-  const masterBody = existsSync(master) ? readFileSync(master, 'utf8').replace(/^---[\s\S]*?---/, '') : '';
-  const rows = folders.map(folder => gradeSkill(folder, { skillsDir, routing: folder === 'fe-master' ? base : `${base}\n${masterBody}` }));
+const frontmatterless = text => text.replace(/^---[\s\S]*?---/, '');
+const readIf = path => (existsSync(path) && statSync(path).isFile() ? readFileSync(path, 'utf8') : '');
+
+// For a folder outside this repo: what could send an agent to a skill there. The project's AGENTS.md and
+// Cursor rules, found by walking up to the repository root, plus the bodies of the other skills beside it.
+export function projectRouting(skillsDir) {
+  let dir = resolve(skillsDir); const parts = [];
+  for (let depth = 0; depth < 6; depth++) {
+    for (const name of ['AGENTS.md', 'CLAUDE.md', '.cursorrules']) parts.push(readIf(join(dir, name)));
+    const rules = join(dir, '.cursor', 'rules');
+    if (existsSync(rules) && statSync(rules).isDirectory()) parts.push(...walk(rules).filter(path => /\.(mdc|md)$/.test(path)).map(readIf));
+    if (existsSync(join(dir, '.git')) || dirname(dir) === dir) break;
+    dir = dirname(dir);
+  }
+  return parts.join('\n');
+}
+
+export function gradeAll({ skillsDir = join(root, 'skills'), outside = false } = {}) {
+  const folders = readdirSync(skillsDir).filter(name => statSync(join(skillsDir, name)).isDirectory() && existsSync(join(skillsDir, name, 'SKILL.md'))).sort();
+  const bodies = Object.fromEntries(folders.map(folder => [folder, frontmatterless(readFileSync(join(skillsDir, folder, 'SKILL.md'), 'utf8'))]));
+  const base = outside ? projectRouting(skillsDir) : readIf(join(root, 'AGENTS.md'));
+  const routingFor = folder => {
+    if (outside) return `${base}\n${folders.filter(other => other !== folder).map(other => bodies[other]).join('\n')}`;
+    return folder === 'fe-master' ? base : `${base}\n${bodies['fe-master'] || ''}`;
+  };
+  const rows = folders.map(folder => gradeSkill(folder, { skillsDir, routing: routingFor(folder), outside }));
   const total = rows.reduce((sum, row) => sum + row.score, 0);
   const descriptionWords = folders.reduce((sum, folder) => {
     const text = readFileSync(join(skillsDir, folder, 'SKILL.md'), 'utf8');
     const match = text.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n/);
     try { return sum + words(parse(match[1]).description); } catch { return sum; }
   }, 0);
+  if (!rows.length) return { rows, mean: 0, lowest: 0, descriptionWords: 0 };
   return { rows, mean: Math.round((total / rows.length) * 10) / 10, lowest: Math.min(...rows.map(row => row.score)), descriptionWords };
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   const only = process.argv.includes('--skill') ? process.argv[process.argv.indexOf('--skill') + 1] : null;
-  const result = gradeAll();
+  const dirFlag = process.argv.includes('--dir') ? process.argv[process.argv.indexOf('--dir') + 1] : null;
+  if (dirFlag && !(existsSync(dirFlag) && statSync(dirFlag).isDirectory())) { console.error(`Not a folder: ${dirFlag}`); process.exit(2); }
+  const result = dirFlag ? gradeAll({ skillsDir: resolve(dirFlag), outside: true }) : gradeAll();
+  if (!result.rows.length) { console.error(`No skills found in ${dirFlag || 'skills/'}: a skill is a folder with a SKILL.md.`); process.exit(2); }
   const rows = only ? result.rows.filter(row => row.skill === only) : result.rows;
   if (process.argv.includes('--json')) console.log(JSON.stringify({ ...result, rows }, null, 2));
   else {

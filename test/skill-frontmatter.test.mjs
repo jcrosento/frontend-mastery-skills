@@ -17,7 +17,7 @@ function frontmatter(folder) {
 }
 
 test('skills: every skill installs - frontmatter is valid YAML with a matching name and a usable description', () => {
-  assert.equal(folders.length, 36);
+  assert.equal(folders.length, 37);
   for (const folder of folders) {
     assert.ok(existsSync(join(skillsDir, folder, 'SKILL.md')), `${folder}: no SKILL.md`);
     let data;

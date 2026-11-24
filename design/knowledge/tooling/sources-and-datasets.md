@@ -20,6 +20,7 @@ Where to look when a skill needs a better tool, a better model or data to test a
 | Visual change | Percy, Chromatic, Playwright screenshots | `fe-regress`, `compare.mjs` |
 | Behaviour | Hotjar, Microsoft Clarity, GA4 funnels | not automated; `fe-audit` asks for it. A real person on the real screen is the only source |
 | Design file | Figma, Dev Mode | `fe-figma-sync`, `fe-inspect` |
+| Moodboard to style guide | Pinterest, Figma moodboards, Coolors, Adobe Color | `fe-pinterest`. The user saves the pins; the palette is measured from the files. Pinterest's terms forbid collecting content by automated means without permission (https://policy.pinterest.com/en-gb/terms-of-service); its API v5 lists pins only on the account's own boards (https://developers.pinterest.com/docs/api/v5/) |
 | SEO | Screaming Frog, Search Console, Ahrefs or Semrush | `fe-seo`, `fe-keywords`, and the open checker `@seomator/seo-audit` (https://github.com/seo-skills/seo-audit-skill) |
 
 ## Skill collections worth reading before writing a new skill

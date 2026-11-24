@@ -26,7 +26,7 @@ npx skills add jcrosento/frontend-mastery-skills -g -a cursor -y --skill fe-mast
 # update later
 npx skills update -g
 ```
-A full install is 36 skills; `npx skills list -g` should show all of them. Companion skills, all optional:
+A full install is 37 skills; `npx skills list -g` should show all of them. Companion skills, all optional:
 ```bash
 npx skills add pbakaus/impeccable -g -a cursor -y                    # design vocabulary and interface audits
 npx skills add emilkowalski/skills -g -a cursor -y                   # interaction and motion craft (app profile)
@@ -34,9 +34,45 @@ npx skills add bradautomates/claude-video -g --skill watch           # video lea
 ```
 
 ### Use it in Cursor
-Cursor reads skills from `~/.agents/skills/` (global) and `.agents/skills/` (project). Open the app's folder, open Agent chat, type `/` and pick `fe-master`, then say what you want. The agent also picks a skill up on its own when the request matches its description.
+Cursor reads skills from `.agents/skills/` and `.cursor/skills/` in a project, and from `~/.agents/skills/` and `~/.cursor/skills/` on your computer ([Cursor docs](https://cursor.com/docs/skills)). Open the app's folder, open Agent chat, type `/` and pick `fe-master`, then say what you want. The agent also picks a skill up on its own when the request matches its description.
 
-Cursor Cloud Agents (the ones you start from a phone or the web) run on a fresh machine each time. They do not get the global install from your computer, and a global install made inside one cloud chat is gone in the next. For those, use the per-project install once, in its own pull request; after it is merged every new chat lists the skills under `/`. A chat that was already open keeps the list it started with.
+Which install reaches which agent:
+
+| Where the skills are | Chat on your computer | Cloud Agent (phone, web) | Automation |
+|----------------------|-----------------------|--------------------------|------------|
+| In the project (`.agents/skills/`, the per-project install above) | Yes | Yes | Yes |
+| `~/.agents/skills/` (the `-g` install above) | Yes | No | No |
+| `~/.cursor/skills/` with Settings -> Agents -> "Sync Skills for Cloud Agents" switched on | Yes | Yes | No |
+| As a Cursor plugin (below) | Yes | Yes, when installed for the account | Not tested |
+
+If you build from a phone, use the per-project install, once per app, in its own pull request. After it is merged every new chat lists the skills under `/`. A chat that was already open keeps the list it started with. Install one way per project: a project install plus a plugin shows every skill twice.
+
+**As a Cursor plugin (experimental).** This repository carries `.cursor-plugin/plugin.json` and `.cursor-plugin/marketplace.json`, checked against Cursor's published schemas. In Cursor: Customize -> Plugins -> import "From GitHub Repository" and give `jcrosento/frontend-mastery-skills`. It ships skills only: no rule, hook or server is added to your chats. It has not yet been installed in a real Cursor account from this repository, so the first import is the test. The scripts that open a browser look for `playwright` and `axe-core` next to the skills, and a plugin install does not put them there; until that is solved, a plugin install gives you the procedures and the Node-only scripts, and the per-project install gives you everything.
+
+### Cursor's own skills, and how these pair with them
+
+Cursor ships its own skills; type `/` to see them ([list](https://cursor.com/docs/skills)). They are about running Cursor, not about design, so they do not overlap with these. The useful pairs:
+
+| Cursor's | Use it with | For |
+|----------|-------------|-----|
+| `/review`, `/review-bugbot`, `/review-security` | `fe-guard`, `fe-second-eye` | A reviewer that did not write the change. It reads code; it does not judge how a screen looks |
+| `/create-subagent` | `fe-second-eye` | Make the read-only second-eye judge on another model (`skills/fe-second-eye/templates/second-eye.agent.md`) |
+| `/create-hook` | `fe-guard` | Run `guard.mjs` after an edit, so a UI change that touches the server is caught at once |
+| `/split-to-prs` | `fe-guard` | Separate a change that mixed UI and backend into two pull requests |
+| `/loop`, `/automate` | `fe-scan`, `fe-ux-audit`, `fe-drift` | Re-run a scan or an audit on a schedule or until it passes |
+| `/create-rule` | `AGENTS.md` | Keep the hard rules in the project, where every agent reads them |
+| `/create-skill`, `/migrate-to-skills` | `npm run grade -- --dir` | Write a project's own skill, then grade how it is packaged |
+| `/canvas` | `fe-pinterest`, `fe-variants` | Lay swatches or options side by side to choose from |
+
+### Audit the skills a project already has
+
+A project often has its own skills in `.cursor/skills/`. Grade them with the same ruler, from a clone of this repository. It reads and writes nothing:
+
+```bash
+npm run grade -- --dir /path/to/app/.cursor/skills
+```
+
+It flags a description too long to be loaded cheaply, a skill that never says when to use it, a file it names that is not there, and a skill that scores its own work with nobody else checking the score.
 
 How Cursor decides what to load: the one-line description of every installed skill is in every chat, and the body of a skill is read only when the request matches it or you type `/` and its name. That is why each description here is 60 words or fewer and says when to use it and what it is not for. `npm run grade` checks this.
 
@@ -46,6 +82,7 @@ How Cursor decides what to load: the one-line description of every installed ski
 /fe-guard Set up the UI-only contract for this app in its own pull request. Change nothing else. Run guard.mjs --audit and paste its output.
 /fe-ux-audit Audit the Send Money screen on a phone. Run the script first and paste its output, then do the by-hand list.
 /fe-second-eye Judge the before and after of this screen. You did not build it. Open only the packet folder.
+/fe-pinterest My saved pins are in ~/boards/warm-studio. Make a style guide. Change nothing in the app yet.
 ```
 
 **The builder is not the judge.** A model prefers its own work, and the work of models from its own company. So the chat that built a screen does not score it. Two ways to get a second eye in Cursor:
@@ -91,6 +128,7 @@ In Cursor you can also run `/add-plugin figma`. For WordPress sites install the 
 | System | `fe-figma-sync` | Existing site -> Figma (html.to.design) and tokens <-> Figma variables via MCP |
 | Build | `fe-build` | Slop-free Astro / React / Bricks implementation |
 | Build | `fe-editable` | Builder-like editability: content schemas, slots, visual-edit friendly structure |
+| Learn | `fe-pinterest` | A Pinterest board or a folder of saved pins becomes a style guide: a measured palette with contrast checked, plus type, shape, imagery and mood, and proposed tokens. Never opens Pinterest by script and never copies a pin into the project |
 | Build | `fe-imagery` | Text to image for hero art, illustrations, empty states, icons and social cards: prompt recipe, model choice, export sizes, and a record of how each image was made. Never a screen mockup |
 | Build | `fe-motion` | 60fps, reduced-motion-safe animation that tells a story |
 | Gate | `fe-guard` | UI-only contract for existing apps: fails a change that touches backend files, alters a network call or a call to one of the app's data functions (found from the code, not typed by hand), or drops, relabels or reorders a locked control. `--audit` checks the contract itself for holes |
@@ -106,7 +144,7 @@ In Cursor you can also run `/add-plugin figma`. For WordPress sites install the 
 ## The loop
 
 ```
-LEARN  -> fe-learn (tutorials) + fe-scan + fe-audit (own/any live site) + fe-ux-audit (screens) + fe-seo (search) + fe-inspect (inspirations) + fe-competitor (market) + fe-wp-audit (WordPress) + fe-keywords (demand)
+LEARN  -> fe-learn (tutorials) + fe-scan + fe-audit (own/any live site) + fe-ux-audit (screens) + fe-seo (search) + fe-inspect (inspirations) + fe-pinterest (moodboards) + fe-competitor (market) + fe-wp-audit (WordPress) + fe-keywords (demand)
 THINK  -> fe-concept picks a point of view and signature move
 SYSTEM -> fe-extract -> fe-system -> fe-consistency -> fe-schema -> fe-figma-sync
 BUILD  -> fe-build + fe-editable + fe-motion + fe-imagery

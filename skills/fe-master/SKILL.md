@@ -25,6 +25,7 @@ Classify the request and pick the path:
 | Make every site and app feel like one company | fe-family (write the shared-craft contract; palettes stay per brand) -> fe-drift (the numbers must match) -> fe-states, fe-forms and fe-shell on what failed. Do not collapse those brands onto one palette |
 | UX or accessibility audit of a screen, flow or app | fe-ux-audit (script first, then the ten heuristics by hand) -> fe-second-eye for a second evaluator |
 | SEO audit, not indexed, not ranking | fe-seo (reach, then signals, then speed) -> fe-schema and fe-keywords for the fixes. Site profile only |
+| A Pinterest board, saved pins or a moodboard to turn into a style guide | fe-pinterest (the user saves the pins; the script measures the palette and checks contrast; type, shape and imagery by eye) -> the user approves -> fe-system. On an app it changes the skin only; fe-guard still runs |
 | Generate or replace an image | fe-imagery. Never as a screen mockup; options for a screen are fe-variants |
 | Copy a poster or map legend | fe-legend |
 | "Can we trust this score" / second opinion | fe-second-eye (blind before and after, a judge from another model family, both orders) |
