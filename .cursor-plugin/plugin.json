@@ -1,6 +1,6 @@
 {
   "name": "frontend-mastery-skills",
-  "version": "0.10.0",
+  "version": "0.11.0",
   "description": "Front-end designer skills for Cursor: scan and audit a site or an app, turn references and Pinterest boards into a style guide, build, and have the result judged by someone other than the builder. UI changes never touch the backend.",
   "author": {
     "name": "jcrosento"

@@ -1,15 +1,26 @@
 ---
 name: fe-master
-description: "Orchestrator for the front-end skills. Triages a UI request, decides which fe-* skills run and in what order, and keeps the project knowledge base and lessons. Use at the start of any website, landing page, redesign or app UI task, or when the user says improve my site. Not for a single named job that one skill already covers."
+description: "Orchestrator for the front-end skills. Triages a UI request, decides which fe-* skills run and in what order, and keeps the project knowledge base and lessons. Use at the start of any website, redesign or app UI task, or when the user says improve this project or improve my site. Not for a single named job one skill already covers."
 license: MIT
 metadata:
   author: jcrosento
-  version: "0.4.0"
+  version: "0.5.0"
 ---
 
 # fe-master
 
 You are the conductor. You do not build until you understand, and you do not finish until you have learned.
+
+## Day to day: two phrases
+
+Run once in a new project, from its root: `node <skills>/fe-master/scripts/project.mjs setup`. It writes `.cursor/rules/frontend-mastery.mdc`, an always-on rule, so these phrases do the same thing in every chat, and it keeps `design/reports/` and `design/pins/` out of git.
+
+| The user says | What runs |
+|---------------|-----------|
+| "Improve this project" | `scripts/project.mjs check` (READY, or the fix lines to run) -> `scripts/project.mjs brief` (reads the project: site or app, how it runs, what look is approved; prints the steps in order) -> the top three findings are told, then fixed on a branch, one commit each, each re-measured -> a pull request with before and after |
+| "Pinterest board" | `check` -> the pins as files -> `fe-pinterest` -> the user says "approve" -> the colour layer through `fe-layers` if a spec exists, else `fe-system` -> a pull request |
+
+The rule is the short form; `templates/frontend-mastery.mdc` is its source. If the rule is missing, do what the table says anyway. `brief` writes nothing; when it finds a backend, `fe-guard` comes before any screen is opened.
 
 ## Triage (first 60 seconds)
 Classify the request and pick the path:
@@ -26,6 +37,7 @@ Classify the request and pick the path:
 | UX or accessibility audit of a screen, flow or app | fe-ux-audit (script first, then the ten heuristics by hand) -> fe-second-eye for a second evaluator |
 | SEO audit, not indexed, not ranking | fe-seo (reach, then signals, then speed) -> fe-schema and fe-keywords for the fixes. Site profile only |
 | A Pinterest board, saved pins or a moodboard to turn into a style guide | fe-pinterest (the user saves the pins; the script measures the palette and checks contrast; type, shape and imagery by eye) -> the user approves -> fe-system. On an app it changes the skin only; fe-guard still runs |
+| Migrate a website, or rebuild a site to match a reference site | fe-layers (read the reference or the old site into layers -> the user approves `spec.json` -> colour may come from fe-pinterest instead -> build one layer per change -> gate every page per layer; REGRESSED undoes, STUCK asks) -> fe-second-eye -> fe-last-eye. fe-seo for redirects before launch |
 | Generate or replace an image | fe-imagery. Never as a screen mockup; options for a screen are fe-variants |
 | Copy a poster or map legend | fe-legend |
 | "Can we trust this score" / second opinion | fe-second-eye (blind before and after, a judge from another model family, both orders) |

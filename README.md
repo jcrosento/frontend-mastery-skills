@@ -8,6 +8,34 @@ Two profiles:
 - **Site** - marketing, content and booking pages. The full loop below, with SEO and performance gates.
 - **App** - the UI of a working product with a backend. `fe-guard` -> `fe-reference` -> `fe-inspect` -> `fe-variants` -> `fe-responsive` -> `fe-regress`. The backend, schema, auth and every network call stay as they are, and a script fails the change if they do not.
 
+## Start a new Cursor project
+
+Open the project in Cursor and paste this into the first chat, once. It works in a chat on your computer and in a Cloud Agent started from a phone.
+
+```text
+Set up the front-end skills in this project. Run these in order, from the project root, and paste the last lines each one prints. Change nothing else in the project.
+
+1. node -v   (needs 22.20 or newer; if it is older, stop and tell me)
+2. npx skills add jcrosento/frontend-mastery-skills -a cursor -y
+3. npm i --prefix .agents playwright axe-core && .agents/node_modules/.bin/playwright install chromium
+4. node .agents/skills/fe-master/scripts/project.mjs setup
+5. node .agents/skills/fe-master/scripts/project.mjs check   (it must end with READY; on NOT READY run the lines it prints, then check again)
+6. On a branch named setup/frontend-skills, commit .agents/skills, .agents/package.json, .agents/package-lock.json, skills-lock.json, .cursor/rules/frontend-mastery.mdc and .gitignore, then open a pull request. If the project has no remote yet, commit and tell me.
+
+Finish by telling me in two lines what READY means I can now say.
+```
+
+After that pull request is merged, two phrases work in every new chat of that project:
+
+| Say | What happens |
+|-----|--------------|
+| `Improve this project` | The agent checks the tools, reads the project (site or app, how it runs, which look is approved), measures it on a phone-sized screen, tells you the three findings that matter most, fixes those three on a branch with one commit each, measures again, and opens a pull request with before and after. Say it again for the next three. |
+| `Pinterest board` | The agent takes the pins you saved (a folder you name, `design/pins/<board>/`, or images attached to the chat), measures the palette, writes a style guide and stops. Reply `approve` and it applies the colours on a branch and opens a pull request. |
+
+How it holds together: step 4 writes `.cursor/rules/frontend-mastery.mdc`, a rule Cursor adds to every chat in the project ([Cursor rules](https://cursor.com/docs/rules)), so the phrases do not depend on the agent choosing the right skill. Both phrases start with `check`, which prints the exact line to run when something is missing, so a Cloud Agent on a fresh machine repairs itself. `brief` prints the steps in a fixed order from the project's own files; when it finds a backend, `fe-guard` comes first and the change stays UI only.
+
+What a new project should expect: an empty folder has nothing to measure, so the first `Improve this project` says so and asks what to build. `fe-seo` and `fe-perf` need the deployed address, not the dev server. The scripts measure; they do not judge taste. That is `fe-second-eye`, run by a different model or by you.
+
 ## Install
 
 The installer needs Node 22.20 or newer (`node -v`). On an older Node it stops before installing anything.
@@ -26,7 +54,7 @@ npx skills add jcrosento/frontend-mastery-skills -g -a cursor -y --skill fe-mast
 # update later
 npx skills update -g
 ```
-A full install is 37 skills; `npx skills list -g` should show all of them. Companion skills, all optional:
+A full install is 38 skills; `npx skills list -g` should show all of them. Companion skills, all optional:
 ```bash
 npx skills add pbakaus/impeccable -g -a cursor -y                    # design vocabulary and interface audits
 npx skills add emilkowalski/skills -g -a cursor -y                   # interaction and motion craft (app profile)
@@ -83,6 +111,8 @@ How Cursor decides what to load: the one-line description of every installed ski
 /fe-ux-audit Audit the Send Money screen on a phone. Run the script first and paste its output, then do the by-hand list.
 /fe-second-eye Judge the before and after of this screen. You did not build it. Open only the packet folder.
 /fe-pinterest My saved pins are in ~/boards/warm-studio. Make a style guide. Change nothing in the app yet.
+/fe-layers Read https://reference.example into layers and show me the draft spec in plain words. Build nothing yet.
+/fe-layers Gate the dev server against design/layers/site/spec.json. Fix only the layer it names, one layer per commit, and stop if it says STUCK.
 ```
 
 **The builder is not the judge.** A model prefers its own work, and the work of models from its own company. So the chat that built a screen does not score it. Two ways to get a second eye in Cursor:
@@ -129,6 +159,7 @@ In Cursor you can also run `/add-plugin figma`. For WordPress sites install the 
 | Build | `fe-build` | Slop-free Astro / React / Bricks implementation |
 | Build | `fe-editable` | Builder-like editability: content schemas, slots, visual-edit friendly structure |
 | Learn | `fe-pinterest` | A Pinterest board or a folder of saved pins becomes a style guide: a measured palette with contrast checked, plus type, shape, imagery and mood, and proposed tokens. Never opens Pinterest by script and never copies a pin into the project |
+| Build | `fe-layers` | A site rebuilt or migrated one layer at a time, like layers in a photo editor: pages, structure, colour, type, space, shape, depth, motion, interaction. Reads a reference site into a spec a person approves, writes it as CSS variables, then gates every page on a phone and a wide screen per layer. A passed layer is locked; three tries without a gain stops and asks |
 | Build | `fe-imagery` | Text to image for hero art, illustrations, empty states, icons and social cards: prompt recipe, model choice, export sizes, and a record of how each image was made. Never a screen mockup |
 | Build | `fe-motion` | 60fps, reduced-motion-safe animation that tells a story |
 | Gate | `fe-guard` | UI-only contract for existing apps: fails a change that touches backend files, alters a network call or a call to one of the app's data functions (found from the code, not typed by hand), or drops, relabels or reorders a locked control. `--audit` checks the contract itself for holes |
@@ -144,10 +175,10 @@ In Cursor you can also run `/add-plugin figma`. For WordPress sites install the 
 ## The loop
 
 ```
-LEARN  -> fe-learn (tutorials) + fe-scan + fe-audit (own/any live site) + fe-ux-audit (screens) + fe-seo (search) + fe-inspect (inspirations) + fe-pinterest (moodboards) + fe-competitor (market) + fe-wp-audit (WordPress) + fe-keywords (demand)
+LEARN  -> fe-learn (tutorials) + fe-scan + fe-audit (own/any live site) + fe-ux-audit (screens) + fe-seo (search) + fe-inspect (inspirations) + fe-pinterest (moodboards) + fe-layers read (a reference site, layer by layer) + fe-competitor (market) + fe-wp-audit (WordPress) + fe-keywords (demand)
 THINK  -> fe-concept picks a point of view and signature move
 SYSTEM -> fe-extract -> fe-system -> fe-consistency -> fe-schema -> fe-figma-sync
-BUILD  -> fe-build + fe-editable + fe-motion + fe-imagery
+BUILD  -> fe-build + fe-editable + fe-motion + fe-imagery (a whole-site rebuild or migration: fe-layers, one layer per change, gated per layer)
 GATE   -> fe-responsive -> fe-perf -> fe-judge -> fe-second-eye (not the builder) -> fe-last-eye (the only merge call)
 REFLECT-> fe-memory logs this project's misses; fe-master writes what worked into design/knowledge/
 FAMILY (several products) -> fe-family -> fe-drift, then fe-states / fe-forms / fe-shell on what failed
