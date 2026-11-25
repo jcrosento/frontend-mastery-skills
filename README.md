@@ -8,6 +8,34 @@ Two profiles:
 - **Site** - marketing, content and booking pages. The full loop below, with SEO and performance gates.
 - **App** - the UI of a working product with a backend. `fe-guard` -> `fe-reference` -> `fe-inspect` -> `fe-variants` -> `fe-responsive` -> `fe-regress`. The backend, schema, auth and every network call stay as they are, and a script fails the change if they do not.
 
+## Start a new Cursor project
+
+Open the project in Cursor and paste this into the first chat, once. It works in a chat on your computer and in a Cloud Agent started from a phone.
+
+```text
+Set up the front-end skills in this project. Run these in order, from the project root, and paste the last lines each one prints. Change nothing else in the project.
+
+1. node -v   (needs 22.20 or newer; if it is older, stop and tell me)
+2. npx skills add jcrosento/frontend-mastery-skills -a cursor -y
+3. npm i --prefix .agents playwright axe-core && .agents/node_modules/.bin/playwright install chromium
+4. node .agents/skills/fe-master/scripts/project.mjs setup
+5. node .agents/skills/fe-master/scripts/project.mjs check   (it must end with READY; on NOT READY run the lines it prints, then check again)
+6. On a branch named setup/frontend-skills, commit .agents/skills, .agents/package.json, .agents/package-lock.json, skills-lock.json, .cursor/rules/frontend-mastery.mdc and .gitignore, then open a pull request. If the project has no remote yet, commit and tell me.
+
+Finish by telling me in two lines what READY means I can now say.
+```
+
+After that pull request is merged, two phrases work in every new chat of that project:
+
+| Say | What happens |
+|-----|--------------|
+| `Improve this project` | The agent checks the tools, reads the project (site or app, how it runs, which look is approved), measures it on a phone-sized screen, tells you the three findings that matter most, fixes those three on a branch with one commit each, measures again, and opens a pull request with before and after. Say it again for the next three. |
+| `Pinterest board` | The agent takes the pins you saved (a folder you name, `design/pins/<board>/`, or images attached to the chat), measures the palette, writes a style guide and stops. Reply `approve` and it applies the colours on a branch and opens a pull request. |
+
+How it holds together: step 4 writes `.cursor/rules/frontend-mastery.mdc`, a rule Cursor adds to every chat in the project ([Cursor rules](https://cursor.com/docs/rules)), so the phrases do not depend on the agent choosing the right skill. Both phrases start with `check`, which prints the exact line to run when something is missing, so a Cloud Agent on a fresh machine repairs itself. `brief` prints the steps in a fixed order from the project's own files; when it finds a backend, `fe-guard` comes first and the change stays UI only.
+
+What a new project should expect: an empty folder has nothing to measure, so the first `Improve this project` says so and asks what to build. `fe-seo` and `fe-perf` need the deployed address, not the dev server. The scripts measure; they do not judge taste. That is `fe-second-eye`, run by a different model or by you.
+
 ## Install
 
 The installer needs Node 22.20 or newer (`node -v`). On an older Node it stops before installing anything.

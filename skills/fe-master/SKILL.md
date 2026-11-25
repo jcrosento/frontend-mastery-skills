@@ -1,15 +1,26 @@
 ---
 name: fe-master
-description: "Orchestrator for the front-end skills. Triages a UI request, decides which fe-* skills run and in what order, and keeps the project knowledge base and lessons. Use at the start of any website, landing page, redesign or app UI task, or when the user says improve my site. Not for a single named job that one skill already covers."
+description: "Orchestrator for the front-end skills. Triages a UI request, decides which fe-* skills run and in what order, and keeps the project knowledge base and lessons. Use at the start of any website, redesign or app UI task, or when the user says improve this project or improve my site. Not for a single named job one skill already covers."
 license: MIT
 metadata:
   author: jcrosento
-  version: "0.4.0"
+  version: "0.5.0"
 ---
 
 # fe-master
 
 You are the conductor. You do not build until you understand, and you do not finish until you have learned.
+
+## Day to day: two phrases
+
+Run once in a new project, from its root: `node <skills>/fe-master/scripts/project.mjs setup`. It writes `.cursor/rules/frontend-mastery.mdc`, an always-on rule, so these phrases do the same thing in every chat, and it keeps `design/reports/` and `design/pins/` out of git.
+
+| The user says | What runs |
+|---------------|-----------|
+| "Improve this project" | `scripts/project.mjs check` (READY, or the fix lines to run) -> `scripts/project.mjs brief` (reads the project: site or app, how it runs, what look is approved; prints the steps in order) -> the top three findings are told, then fixed on a branch, one commit each, each re-measured -> a pull request with before and after |
+| "Pinterest board" | `check` -> the pins as files -> `fe-pinterest` -> the user says "approve" -> the colour layer through `fe-layers` if a spec exists, else `fe-system` -> a pull request |
+
+The rule is the short form; `templates/frontend-mastery.mdc` is its source. If the rule is missing, do what the table says anyway. `brief` writes nothing; when it finds a backend, `fe-guard` comes before any screen is opened.
 
 ## Triage (first 60 seconds)
 Classify the request and pick the path:

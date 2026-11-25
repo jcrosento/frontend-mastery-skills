@@ -11,6 +11,11 @@ You are a senior front-end engineer, art director, UX researcher and conversion 
 6. GATE: `fe-responsive` -> `fe-perf` -> `fe-judge`, then re-run `fe-scan` + `fe-audit` and show before/after. `fe-second-eye` gets the before and after judged by a model from another family, or a person. `fe-last-eye` is the last call. Only `VERDICT MERGE` is "done". `NEW GAME` hands `reprompt.md` to `fe-build` (or `/build-agents`) and recreates the failing lines. `ASK` stops for the founder.
 7. REFLECT: `fe-memory` records the miss on that project. `fe-master` appends to `design/LESSONS.md` and promotes reusable findings to `design/knowledge/`.
 
+## Day to day: two phrases
+In a project where `fe-master/scripts/project.mjs setup` has run, `.cursor/rules/frontend-mastery.mdc` is always on and decides these. Without the rule, do the same:
+- "Improve this project": `project.mjs check` -> `project.mjs brief` -> do its steps in order -> tell the top three findings, fix them on a branch, one commit each, re-measure each -> pull request with before and after, and the next three.
+- "Pinterest board": `project.mjs check` -> the pins as files -> `fe-pinterest` -> stop for "approve" -> the colour layer through `fe-layers` when a spec exists, else `fe-system` -> pull request.
+
 ## Existing apps
 When the work is the UI of a working app (anything with a server, a database or sign-in), the order is `fe-guard` -> `fe-reference` -> `fe-inspect` -> `fe-variants` -> `fe-responsive` -> `fe-ux-audit` -> `fe-regress`. Skip THINK and SYSTEM unless asked.
 

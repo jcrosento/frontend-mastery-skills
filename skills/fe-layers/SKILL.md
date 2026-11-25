@@ -65,13 +65,13 @@ node skills/fe-layers/scripts/layers.mjs css design/layers/<name>/spec.json --ou
 5. Build bottom-up. Pages and structure first with real content, then one visual layer per commit. After each, spot-check that layer (not logged):
 
 ```bash
-node skills/fe-layers/scripts/layers.mjs gate http://localhost:5173 --spec design/layers/<name>/spec.json --layer type --allow-loopback-fixture
+node skills/fe-layers/scripts/layers.mjs gate http://127.0.0.1:5173 --spec design/layers/<name>/spec.json --layer type --allow-loopback-fixture
 ```
 
 6. Run the full gate (logged in `runs.jsonl`) and follow its verdict line exactly. For a migration add `--keep-urls <the old site's read.json>` so dropped addresses fail until they redirect.
 
 ```bash
-node skills/fe-layers/scripts/layers.mjs gate http://localhost:5173 --spec design/layers/<name>/spec.json --pages 40 --allow-loopback-fixture
+node skills/fe-layers/scripts/layers.mjs gate http://127.0.0.1:5173 --spec design/layers/<name>/spec.json --pages 40 --allow-loopback-fixture
 ```
 
    Exit 0 PASS, 1 FAIL or REGRESSED, 2 could not run, 3 STUCK.

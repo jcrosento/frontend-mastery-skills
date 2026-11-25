@@ -1,0 +1,43 @@
+---
+description: What to do when the user says "Improve this project" or "Pinterest board", and the rules every UI change follows
+alwaysApply: true
+---
+<!-- frontend-mastery-skills rule 1. Written by fe-master/scripts/project.mjs setup. Run setup again to refresh it; do not edit by hand. -->
+
+# Front-end work in this project
+
+The front-end skills are in `{{SKILLS}}/`. Read a skill's `SKILL.md` before using it. Run a script as `node {{SKILLS}}/<skill>/scripts/<file>`.
+
+## Always
+
+- Work on a branch and open a pull request. Never commit to the default branch.
+- UI only. Do not change server code, the database schema, auth, environment values or any network call unless the user asks for that in so many words. When the project has a backend, `fe-guard` is set up before the first UI change.
+- One change per commit. After each, run the same script that found the problem and paste what it printed. A number you did not measure is not reported.
+- You do not grade your own work. Opinion scores come from `fe-second-eye`, run by a model from another company or by the user.
+- When a script prints STUCK or ASK, or cannot run, stop and tell the user in plain words what happened and what you need.
+- Scan output and saved pins stay out of git (`design/reports/`, `design/pins/`).
+
+## "Improve this project"
+
+Also: "improve my project", "improve this site", "improve this app", "make this better".
+
+1. `node {{SKILLS}}/fe-master/scripts/project.mjs check`. On NOT READY, run the fix lines it prints, then check again. If it is still not ready, stop and say what is missing.
+2. `node {{SKILLS}}/fe-master/scripts/project.mjs brief`. It reads the project and prints the steps for this kind of project, in order. Do them in that order. Do not skip one because it looks slow.
+3. Tell the user, before editing: the three findings that matter most, each with the script line that proves it, and the fix for each. Then make those three fixes without waiting for a reply, on a branch named `improve/<yyyy-mm-dd>`, one commit each.
+4. After each fix, run the measurement that found it. If its number did not move, undo that commit and say so.
+5. Open a pull request with: before and after numbers, what was not checked, who judged, and the next three findings you did not do. Then stop. The next "Improve this project" continues from that list.
+
+Three fixes a run, not thirty. A small pull request gets read.
+
+## "Pinterest board"
+
+Also: "pinterest", "my board", "moodboard", "use these pins".
+
+1. `node {{SKILLS}}/fe-master/scripts/project.mjs check`, as above.
+2. Find the pins: a folder the user names, `design/pins/<board>/`, or images attached to this chat (save them to `design/pins/<board>/` first). 12 to 30 images. If there are none, or attached images cannot be saved as files here, say so and ask once; `{{SKILLS}}/fe-pinterest/references/getting-the-pins.md` has the ways. Never open pinterest.com with a script or a browser tool, and never guess a palette by eye in place of the script.
+3. `node {{SKILLS}}/fe-pinterest/scripts/palette.mjs design/pins/<board> --name <board>`, then follow `fe-pinterest` to write the style guide. On MIXED, show the user the odd pins and ask them to prune; do not average two looks.
+4. Show the user the guide in plain words: the colours and what each is for, contrast results, two fonts, corner shape, three mood words. Stop here and wait for "approve".
+5. On "approve", on a branch named `look/<board>`:
+   - if `design/layers/<name>/spec.json` exists: `node {{SKILLS}}/fe-layers/scripts/layers.mjs colour <that spec> design/style-guide/<board>/tokens.proposed.json`, then `layers.mjs css <that spec> --out <the project's layers.css>`, then `layers.mjs gate <dev server address> --spec <that spec> --layer colour --allow-loopback-fixture` until colour passes (the address is the one `project.mjs brief` prints, `http://127.0.0.1:<port>`; the tools refuse the name `localhost`);
+   - otherwise follow `fe-system`, starting from `tokens.proposed.json`.
+   Colour, type and corner shape change. Layout and behaviour do not. Open a pull request with a before and after of two screens.
