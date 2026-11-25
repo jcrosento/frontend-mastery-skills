@@ -1,11 +1,18 @@
 #!/usr/bin/env node
-// Usage: node capture.mjs <url> <slug>
+// Usage: node capture.mjs <url> <slug> [--allow-loopback-fixture]
+// One page at six widths: screenshots, a few type styles, request weight. For a whole site, layer by layer, use fe-layers.
+// Read-only: only GET requests to public addresses leave the browser. A dev server on this machine needs --allow-loopback-fixture.
 // Requires: npm i -D playwright && npx playwright install chromium
 import { chromium } from 'playwright';
 import { mkdirSync, writeFileSync } from 'node:fs';
 
-const [url, slug = 'reference'] = process.argv.slice(2);
+let assertRequestAllowed; let installRequestGuard;
+try { ({ assertRequestAllowed, installRequestGuard } = await import('../../fe-scan/scripts/network-policy.mjs')); } catch { console.error('It needs the fe-scan skill installed beside it (that is where the read-only network guard lives).'); process.exit(2); }
+const args = process.argv.slice(2);
+const allowLoopbackFixture = args.includes('--allow-loopback-fixture');
+const [url, slug = 'reference'] = args.filter(arg => !arg.startsWith('--'));
 if (!url) { console.error('Usage: node capture.mjs <url> <slug>'); process.exit(1); }
+try { await assertRequestAllowed(url, 'GET', { allowLoopbackFixture }); } catch (error) { console.error(`Refused: ${error.message}`); process.exit(2); }
 
 const breakpoints = [320, 390, 768, 1024, 1280, 1920];
 const out = `design/inspection/${slug}`;
@@ -16,6 +23,7 @@ const report = { url, capturedAt: new Date().toISOString(), breakpoints: {} };
 
 for (const width of breakpoints) {
   const ctx = await browser.newContext({ viewport: { width, height: 900 }, deviceScaleFactor: 2 });
+  await installRequestGuard(ctx, { allowLoopbackFixture });
   const page = await ctx.newPage();
   const requests = [];
   page.on('response', r => requests.push({ url: r.url(), type: r.request().resourceType(), size: Number(r.headers()['content-length'] || 0) }));

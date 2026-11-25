@@ -33,7 +33,9 @@ Goal: produce an **Inspection Report** so precise that a developer could rebuild
 ## Output
 Write `design/inspection/<slug>.md` using this structure: Summary → Breakpoint screenshots table → Section map → Typography table → Spacing → Color table → Components → Motion → Imagery → Responsive notes → Perf snapshot → POV. Save screenshots to `design/inspection/<slug>/`.
 
-Run `scripts/capture.mjs <url> <slug>` to automate steps 1 and 10 when Node + Playwright are available.
+Run `scripts/capture.mjs <url> <slug>` to automate steps 1 and 10 when Node + Playwright are available. It reads one page: screenshots at six widths, the styles of h1, h2, body and the first button, and request weight. Steps 2 to 9 are still done by hand from those screenshots. It sends GET requests to public addresses only; a dev server on this machine needs `--allow-loopback-fixture`.
+
+For a whole reference site (every page, every colour, size, gap, radius, shadow and timing counted, then a gate on the build), use `fe-layers`. This skill stays the one for a single screen, a screenshot or a Figma frame.
 
 ## Screenshots of apps
 Native apps have no DOM to read, so geometry comes from pixels. `scripts/measure-shot.mjs` takes a labelled manifest and writes `tokens.json`. You propose a rough search box per element; the pixels decide the final box, and the box only counts if it comes back unchanged when the search box is moved.

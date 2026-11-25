@@ -26,7 +26,7 @@ npx skills add jcrosento/frontend-mastery-skills -g -a cursor -y --skill fe-mast
 # update later
 npx skills update -g
 ```
-A full install is 37 skills; `npx skills list -g` should show all of them. Companion skills, all optional:
+A full install is 38 skills; `npx skills list -g` should show all of them. Companion skills, all optional:
 ```bash
 npx skills add pbakaus/impeccable -g -a cursor -y                    # design vocabulary and interface audits
 npx skills add emilkowalski/skills -g -a cursor -y                   # interaction and motion craft (app profile)
@@ -83,6 +83,8 @@ How Cursor decides what to load: the one-line description of every installed ski
 /fe-ux-audit Audit the Send Money screen on a phone. Run the script first and paste its output, then do the by-hand list.
 /fe-second-eye Judge the before and after of this screen. You did not build it. Open only the packet folder.
 /fe-pinterest My saved pins are in ~/boards/warm-studio. Make a style guide. Change nothing in the app yet.
+/fe-layers Read https://reference.example into layers and show me the draft spec in plain words. Build nothing yet.
+/fe-layers Gate the dev server against design/layers/site/spec.json. Fix only the layer it names, one layer per commit, and stop if it says STUCK.
 ```
 
 **The builder is not the judge.** A model prefers its own work, and the work of models from its own company. So the chat that built a screen does not score it. Two ways to get a second eye in Cursor:
@@ -129,6 +131,7 @@ In Cursor you can also run `/add-plugin figma`. For WordPress sites install the 
 | Build | `fe-build` | Slop-free Astro / React / Bricks implementation |
 | Build | `fe-editable` | Builder-like editability: content schemas, slots, visual-edit friendly structure |
 | Learn | `fe-pinterest` | A Pinterest board or a folder of saved pins becomes a style guide: a measured palette with contrast checked, plus type, shape, imagery and mood, and proposed tokens. Never opens Pinterest by script and never copies a pin into the project |
+| Build | `fe-layers` | A site rebuilt or migrated one layer at a time, like layers in a photo editor: pages, structure, colour, type, space, shape, depth, motion, interaction. Reads a reference site into a spec a person approves, writes it as CSS variables, then gates every page on a phone and a wide screen per layer. A passed layer is locked; three tries without a gain stops and asks |
 | Build | `fe-imagery` | Text to image for hero art, illustrations, empty states, icons and social cards: prompt recipe, model choice, export sizes, and a record of how each image was made. Never a screen mockup |
 | Build | `fe-motion` | 60fps, reduced-motion-safe animation that tells a story |
 | Gate | `fe-guard` | UI-only contract for existing apps: fails a change that touches backend files, alters a network call or a call to one of the app's data functions (found from the code, not typed by hand), or drops, relabels or reorders a locked control. `--audit` checks the contract itself for holes |
@@ -144,10 +147,10 @@ In Cursor you can also run `/add-plugin figma`. For WordPress sites install the 
 ## The loop
 
 ```
-LEARN  -> fe-learn (tutorials) + fe-scan + fe-audit (own/any live site) + fe-ux-audit (screens) + fe-seo (search) + fe-inspect (inspirations) + fe-pinterest (moodboards) + fe-competitor (market) + fe-wp-audit (WordPress) + fe-keywords (demand)
+LEARN  -> fe-learn (tutorials) + fe-scan + fe-audit (own/any live site) + fe-ux-audit (screens) + fe-seo (search) + fe-inspect (inspirations) + fe-pinterest (moodboards) + fe-layers read (a reference site, layer by layer) + fe-competitor (market) + fe-wp-audit (WordPress) + fe-keywords (demand)
 THINK  -> fe-concept picks a point of view and signature move
 SYSTEM -> fe-extract -> fe-system -> fe-consistency -> fe-schema -> fe-figma-sync
-BUILD  -> fe-build + fe-editable + fe-motion + fe-imagery
+BUILD  -> fe-build + fe-editable + fe-motion + fe-imagery (a whole-site rebuild or migration: fe-layers, one layer per change, gated per layer)
 GATE   -> fe-responsive -> fe-perf -> fe-judge -> fe-second-eye (not the builder) -> fe-last-eye (the only merge call)
 REFLECT-> fe-memory logs this project's misses; fe-master writes what worked into design/knowledge/
 FAMILY (several products) -> fe-family -> fe-drift, then fe-states / fe-forms / fe-shell on what failed

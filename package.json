@@ -1,6 +1,6 @@
 {
   "name": "frontend-mastery-skills",
-  "version": "0.10.0",
+  "version": "0.11.0",
   "private": true,
   "type": "module",
   "description": "Front-end designer skills for Cursor and other coding agents: scan, audit, build, judge independently, gate, learn.",
@@ -24,13 +24,14 @@
     "ux-audit": "node skills/fe-ux-audit/scripts/ux-audit.mjs",
     "second-eye": "node skills/fe-second-eye/scripts/second-eye.mjs",
     "pinterest": "node skills/fe-pinterest/scripts/palette.mjs",
+    "layers": "node skills/fe-layers/scripts/layers.mjs",
     "grade": "node scripts/grade-skills.mjs",
     "test": "node --test",
     "verify": "node scripts/verify.mjs",
     "check:public-artifacts": "node scripts/check-public-artifacts.mjs",
     "check": "npm run check:syntax && npm run check:selftest && npm run grade -- --strict",
     "check:syntax": "node scripts/check-syntax.mjs",
-    "check:selftest": "node skills/fe-scan/scripts/compare.mjs --selftest && node skills/fe-scan/scripts/crawlers.mjs --selftest && node skills/fe-scan/scripts/run-all.mjs https://example.invalid --dry-run && node skills/fe-drift/scripts/drift.mjs --selftest && node skills/fe-last-eye/scripts/last-eye.mjs --selftest && node skills/fe-memory/scripts/memory.mjs --selftest && node skills/fe-second-eye/scripts/second-eye.mjs --selftest && node skills/fe-ux-audit/scripts/ux-audit.mjs --selftest && node skills/fe-pinterest/scripts/palette.mjs --selftest"
+    "check:selftest": "node skills/fe-scan/scripts/compare.mjs --selftest && node skills/fe-scan/scripts/crawlers.mjs --selftest && node skills/fe-scan/scripts/run-all.mjs https://example.invalid --dry-run && node skills/fe-drift/scripts/drift.mjs --selftest && node skills/fe-last-eye/scripts/last-eye.mjs --selftest && node skills/fe-memory/scripts/memory.mjs --selftest && node skills/fe-second-eye/scripts/second-eye.mjs --selftest && node skills/fe-ux-audit/scripts/ux-audit.mjs --selftest && node skills/fe-pinterest/scripts/palette.mjs --selftest && node skills/fe-layers/scripts/layers.mjs --selftest"
   },
   "devDependencies": {
     "axe-core": "4.14.1",
